@@ -16,6 +16,7 @@ function calculator(page) {
 		case 4: genCasket(); break;
 		case 5: genDay(); break;
 		case 6: genGuests(); break;
+		default: console.log('No page selected');
 	}
 }
 
@@ -25,6 +26,7 @@ function genBreadcrumb() {
 
 	for (var i = 0; i < breadcrumbs.length; i++) {
 		span.innerText = breadcrumbs[i];
+		span.setAttribute('question',i+1);
 		span.setAttribute('onClick','breadClick(this)');
 		elements.breadcrumb.appendChild(span);
 		if(breadcrumbs.length-1 != i) {
@@ -94,6 +96,7 @@ function submitPage(ele) {
 
 function breadClick(ele) {
 	console.log(ele);
+	calculator(ele.getAttribute('question'));
 }
 
 function reset() {
