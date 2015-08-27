@@ -1,20 +1,16 @@
-function appendButton(ele,text,qu) {
-	if(!Array.isArray(text)) {
-		text = [text];
-	}
-
-	for (var i = 0; i < text.length; i++) {
+function appendButton(ele,qu) {
+	var choices = questions[qu].buttons;
+	for (property in choices) {
 		var button = document.createElement('BUTTON');
-		button.innerText = text[i];
-		button.value = text[i];
+		button.innerText = choices[property];
+		button.value = property;
 		button.name = qu;
 		button.setAttribute('onClick','submitPage(this);');
 		ele.appendChild(button);
-	};
+	}
 }
 
 function removeChildren(parent) {
-	console.log(parent);
 	while (parent.firstChild) {
 		parent.removeChild(parent.firstChild);
 	}

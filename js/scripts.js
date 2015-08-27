@@ -5,52 +5,50 @@ function startCalculator() {
 
 	genBreadcrumb();
 
-	calculator(1);
-}
-
-function calculator(page) {
-	if(page){
-		genContent(page);
-	}else{
-		console.log('No page selected');
-	}
+	genContent(1);
 }
 
 function genBreadcrumb() {
-	var breadcrumbs = ['Burial','Funeral','Viewing','Casket'];
-	var span = document.createElement('SPAN');
-
-	for (var i = 0; i < breadcrumbs.length; i++) {
-		span.innerText = breadcrumbs[i];
-		span.setAttribute('question',i+1);
+	for (n in questions) {
+		var span = document.createElement('SPAN');
+		span.innerText = questions[n].breadcrumb;
+		span.setAttribute('question',n);
 		span.setAttribute('onClick','breadClick(this)');
 		elements.breadcrumb.appendChild(span);
-		if(breadcrumbs.length-1 != i) {
+
+		if(Object.keys(questions).length != n) {
 			elements.breadcrumb.innerHTML += '>';
 		}
 	}
 }
 
+function progress(percent) {
+
+}
+
 function genContent(page) {
-	elements.h1.innerText = questions[page].headText;
-	elements.questions.appendChild(elements.h1);
+	if(!page){
+		alert('No question specified.');
+	}else{
+		elements.h1.innerText = questions[page].headText;
+		elements.questions.appendChild(elements.h1);
 
-	removeChildren(elements.choices);
+		removeChildren(elements.choices);
 
-	appendButton(elements.choices,questions[page].buttons,page);
+		appendButton(elements.choices,page);
 
-	elements.questions.appendChild(elements.choices);
+		elements.questions.appendChild(elements.choices);
+	}
 }
 
 function submitPage(ele) {
 	answers[ele.name] = ele.value;
 	console.log(answers);
-	calculator(parseFloat(ele.name)+1);
+	genContent(parseFloat(ele.name)+1);
 }
 
 function breadClick(ele) {
-	console.log(ele);
-	calculator(ele.getAttribute('question'));
+	genContent(ele.getAttribute('question'));
 }
 
 function reset() {

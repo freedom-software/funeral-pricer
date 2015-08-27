@@ -15,9 +15,10 @@
 	<script type="text/javascript" src="js/questions.js"></script>
 	<script type="text/javascript" src="js/values.js"></script>
 	<script type="text/javascript">
+	var page;
 	var elements = {};
 	var answers = {};
-	var getElems = ['header','breadcrumb','questions'];
+	var getElems = ['header','breadcrumb','questions','footer'];
 	var createElems = {h1:'H1',choices:'CHOICES'};
 
 	for (property in createElems) {
@@ -29,7 +30,7 @@
 	<header>
 		<breadcrumb></breadcrumb>
 	</header>
-	<questions>
-	</questions>
+	<questions></questions>
+	<footer></footer>
 </body>
 </html>
