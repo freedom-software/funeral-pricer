@@ -15,15 +15,15 @@
 	<script type="text/javascript" src="js/questions.js"></script>
 	<script type="text/javascript" src="js/values.js"></script>
 	<script type="text/javascript">
-	var page;
-	var elements = {};
-	var answers = {};
-	var getElems = ['header','breadcrumb','questions','footer'];
-	var createElems = {h1:'H1',choices:'CHOICES'};
+		var page;
+		var elements = {};
+		var answers = {};
+		var getElems = ['header','breadcrumb','questions','footer'];
+		var createElems = {h1:'H1',choices:'CHOICES'};
 
-	for (property in createElems) {
-		elements[property] = document.createElement(createElems[property]);
-	}
+		for (property in createElems) {
+			elements[property] = document.createElement(createElems[property]);
+		}
 	</script>
 </head>
 <body onload="startCalculator();">

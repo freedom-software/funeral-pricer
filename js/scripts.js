@@ -22,8 +22,9 @@ function genBreadcrumb() {
 	}
 }
 
-function progress(percent) {
-
+function progress(answered) {
+	var percent = (100 / (Object.keys(questions).length)) * answered;
+	elements.footer.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsla(0,0%,0%,0) "+percent+"%)";
 }
 
 function genContent(page) {
@@ -44,7 +45,13 @@ function genContent(page) {
 function submitPage(ele) {
 	answers[ele.name] = ele.value;
 	console.log(answers);
-	genContent(parseFloat(ele.name)+1);
+	progress(ele.name);
+
+	if(Object.keys(questions).length != ele.name) {
+		genContent(parseFloat(ele.name)+1);
+	}else{
+		genContent(0);
+	}
 }
 
 function breadClick(ele) {
