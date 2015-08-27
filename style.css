@@ -16,11 +16,10 @@ header {
 }
 breadcrumb > span {
 	padding: 0 4px;
-	cursor: pointer;
 	line-height: 2em;
 }
-breadcrumb > span:hover {
-	text-shadow: 0 0 5px hsl(0,0%,100%);
+breadcrumb > .activeCrumb {
+	color: red;
 }
 questions {
 	margin-top: 2em;

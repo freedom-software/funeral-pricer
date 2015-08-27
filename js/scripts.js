@@ -2,30 +2,49 @@ function startCalculator() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
 		elements[getElems[i]] = document.getElementsByTagName(getElems[i])[0];
 	};
-
-	genBreadcrumb();
-
-	genQuestion(1);
+	genQuestion();
 }
 
 function genBreadcrumb() {
-	for (n in questions) {
+	function insertCrumb(parent,quNum,text) {
 		var span = document.createElement('SPAN');
-		span.innerText = questions[n].breadcrumb;
-		span.setAttribute('question',n);
-		span.setAttribute('onClick','genQuestion(this.getAttribute("question")');
-		elements.breadcrumb.appendChild(span);
+		span.innerText = text;
+		span.setAttribute('question',quNum);
+		parent.appendChild(span);
+	}
 
-		if(Object.keys(questions).length != n) {
+	if(!elements.breadcrumb.innerHTML) {
+		for (n in questions) {
+			insertCrumb(elements.breadcrumb,n,questions[n].breadcrumb);
+
 			elements.breadcrumb.innerHTML += '>';
 		}
+		insertCrumb(elements.breadcrumb,0,'Summary');
 	}
+	var crumbs = elements.breadcrumb.children;
+	for (var i = crumbs.length - 1; i >= 0; i--) {
+		if(crumbs[i].getAttribute('question') == q_id) {
+			crumbs[i].className = 'activeCrumb';
+		}else{
+			crumbs[i].className = '';
+		}
+	};
 }
 
-function genQuestion(q_id) {
-	if(!q_id){
+function questionExists(qNum) {
+	var query = elements.questions.children;
+	for (var i = query.length - 1; i >= 0; i--) {
+		if(query[i].children[0].name == qNum) return true;
+	};
+	return false
+}
+
+function genQuestion() {
+	if(!q_id) {
 		alert('No question specified.');
 	}else{
+		genBreadcrumb();
+
 		var question = document.createElement('QUESTION');
 		question.innerText = questions[q_id].headText;
 
@@ -43,6 +62,7 @@ function genQuestion(q_id) {
 		for (choice in questions[q_id].options) {
 			option = document.createElement('OPTION');
 			option.innerHTML = questions[q_id].options[choice];
+			option.value = choice;
 			dropdown.appendChild(option);
 		}
 
@@ -52,20 +72,32 @@ function genQuestion(q_id) {
 	}
 }
 
+function genSummary() {
+	q_id = 0;
+
+	genBreadcrumb();
+
+	console.log('Display Summary');
+}
+
 function answer(ele) {
 	answers[ele.name] = ele.value;
 	console.log(answers);
-	progress(ele.name);
+	progress();
 
-	if(Object.keys(questions).length != ele.name) {
-		genQuestion(parseFloat(ele.name)+1);
+	if(Object.keys(questions).length != parseFloat(ele.name)) {
+		q_id = parseFloat(ele.name)+1
+
+		if(!questionExists(q_id)) {
+			genQuestion();
+		}
 	}else{
-		genQuestion(0);
+		genSummary();
 	}
 }
 
-function progress(answered) {
-	var percent = (100 / (Object.keys(questions).length)) * answered;
+function progress() {
+	var percent = (100 / (Object.keys(questions).length)) * Object.keys(answers).length;
 	elements.footer.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsla(0,0%,0%,0) "+percent+"%)";
 }
 
