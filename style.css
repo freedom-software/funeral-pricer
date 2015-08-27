@@ -41,7 +41,7 @@ choices button{
 	line-height: 3em;
 	border: 1px solid black;
 	border-radius: 5px;
-	width: 6.5em;
+	min-width: 6.5em;
 	margin: 1em;
 	cursor: pointer;
 }

@@ -9,14 +9,10 @@ function startCalculator() {
 }
 
 function calculator(page) {
-	switch(parseFloat(page)) {
-		case 1: genBurial(); break;
-		case 2: genFuneral(); break;
-		case 3: genViewing(); break;
-		case 4: genCasket(); break;
-		case 5: genDay(); break;
-		case 6: genGuests(); break;
-		default: console.log('No page selected');
+	if(page){
+		genContent(page);
+	}else{
+		console.log('No page selected');
 	}
 }
 
@@ -35,55 +31,13 @@ function genBreadcrumb() {
 	}
 }
 
-function genBurial() {
-	var headText = 'How will the deceased be disposed of?';
-	var buttons = ['Burial','Cremation'];
-	var questionNum = 1;
-	genScreen(headText,buttons,questionNum);
-}
-
-function genFuneral() {
-	var headText = 'Will there be a funeral service?';
-	var buttons = ['Yes','No'];
-	var questionNum = 2;
-	genScreen(headText,buttons,questionNum);
-}
-
-function genViewing() {
-	var headText = 'Will there be a viewing?';
-	var buttons = ['Home','Premises','No'];
-	var questionNum = 3;
-	genScreen(headText,buttons,questionNum);
-}
-
-function genCasket() {
-	var headText = 'What sort of casket will be used?';
-	var buttons = ['Plain','Conservative','Average','Quality','Superior'];
-	var questionNum = 4;
-	genScreen(headText,buttons,questionNum);
-}
-
-function genDay() {
-	var headText = 'What sort of day will the funeral be on?';
-	var buttons = ['Week','Saterday','Sunday'];
-	var questionNum = 5;
-	genScreen(headText,buttons,questionNum);
-}
-
-function genGuests() {
-	var headText = 'Estimated number of guests?';
-	var buttons = ['>20','20-50','100-150','150-200','200-300','300-500','400-600','600-1000'];
-	var questionNum = 6;
-	genScreen(headText,buttons,questionNum);
-}
-
-function genScreen(headText,buttons,questionNum) {
-	elements.h1.innerText = headText;
+function genContent(page) {
+	elements.h1.innerText = questions[page].headText;
 	elements.questions.appendChild(elements.h1);
 
 	removeChildren(elements.choices);
 
-	appendButton(elements.choices,buttons,questionNum);
+	appendButton(elements.choices,questions[page].buttons,page);
 
 	elements.questions.appendChild(elements.choices);
 }
