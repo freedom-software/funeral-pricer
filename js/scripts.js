@@ -5,7 +5,7 @@ function startCalculator() {
 
 	genBreadcrumb();
 
-	genContent(1);
+	genQuestion(1);
 }
 
 function genBreadcrumb() {
@@ -13,7 +13,7 @@ function genBreadcrumb() {
 		var span = document.createElement('SPAN');
 		span.innerText = questions[n].breadcrumb;
 		span.setAttribute('question',n);
-		span.setAttribute('onClick','breadClick(this)');
+		span.setAttribute('onClick','genQuestion(this.getAttribute("question")');
 		elements.breadcrumb.appendChild(span);
 
 		if(Object.keys(questions).length != n) {
@@ -22,40 +22,51 @@ function genBreadcrumb() {
 	}
 }
 
-function progress(answered) {
-	var percent = (100 / (Object.keys(questions).length)) * answered;
-	elements.footer.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsla(0,0%,0%,0) "+percent+"%)";
-}
-
-function genContent(page) {
-	if(!page){
+function genQuestion(q_id) {
+	if(!q_id){
 		alert('No question specified.');
 	}else{
-		elements.h1.innerText = questions[page].headText;
-		elements.questions.appendChild(elements.h1);
+		var question = document.createElement('QUESTION');
+		question.innerText = questions[q_id].headText;
 
-		removeChildren(elements.choices);
+		var dropdown = document.createElement('SELECT');
+		dropdown.name = q_id;
+		dropdown.setAttribute('onChange','answer(this)');
 
-		appendButton(elements.choices,page);
+		var option = document.createElement('OPTION');
+		option.innerHTML = 'Please Select..';
+		option.disabled = true;
+		option.selected = true;
+		option.setAttribute('hidden','');
+		dropdown.appendChild(option);
 
-		elements.questions.appendChild(elements.choices);
+		for (choice in questions[q_id].options) {
+			option = document.createElement('OPTION');
+			option.innerHTML = questions[q_id].options[choice];
+			dropdown.appendChild(option);
+		}
+
+		question.appendChild(dropdown);
+
+		elements.questions.appendChild(question);
 	}
 }
 
-function submitPage(ele) {
+function answer(ele) {
 	answers[ele.name] = ele.value;
 	console.log(answers);
 	progress(ele.name);
 
 	if(Object.keys(questions).length != ele.name) {
-		genContent(parseFloat(ele.name)+1);
+		genQuestion(parseFloat(ele.name)+1);
 	}else{
-		genContent(0);
+		genQuestion(0);
 	}
 }
 
-function breadClick(ele) {
-	genContent(ele.getAttribute('question'));
+function progress(answered) {
+	var percent = (100 / (Object.keys(questions).length)) * answered;
+	elements.footer.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsla(0,0%,0%,0) "+percent+"%)";
 }
 
 function reset() {
