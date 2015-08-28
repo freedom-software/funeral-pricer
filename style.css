@@ -13,26 +13,41 @@ header {
 	text-align: center;
 	background-color: hsl(0,0%,0%);
 	color: white;
+	overflow: hidden;
 }
-breadcrumb > span {
+#breadcrumb {
+	display: block;
+	white-space: nowrap;
+	overflow: auto;
+}
+#breadcrumb::-webkit-scrollbar {
+	display:none;
+}
+#breadcrumb::-moz-scrollbar {
+	display:none;
+}
+#breadcrumb::-ms-scrollbar {
+	display:none;
+}
+#breadcrumb > span {
 	padding: 0 4px;
 	line-height: 2em;
 }
-breadcrumb > .activeCrumb {
+#breadcrumb > .activeCrumb {
 	color: red;
 }
-questions {
+#questions {
 	margin-top: 2em;
 	padding-top: 5px;
 	display: block;
 }
-question {
+#questions>div {
 	font-size: 120%;
 	display: block;
 	padding: 5px 20px;
 	position: relative;
 }
-question>select{
+#questions>div>select{
 	font-size: 85%;
 	width: 15em;
 	float: right;

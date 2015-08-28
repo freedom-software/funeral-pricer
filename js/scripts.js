@@ -1,14 +1,17 @@
 function startCalculator() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
-		elements[getElems[i]] = document.getElementsByTagName(getElems[i])[0];
+		elements[getElems[i]] = document.getElementById(getElems[i]);
 	};
-	genQuestion();
+
+	for (n in questions) {
+		genQuestion(n);
+	}
 }
 
 function genBreadcrumb() {
 	function insertCrumb(parent,quNum,text) {
 		var span = document.createElement('SPAN');
-		span.innerText = text;
+		span.innerHTML= text;
 		span.setAttribute('question',quNum);
 		parent.appendChild(span);
 	}
@@ -34,42 +37,39 @@ function genBreadcrumb() {
 function questionExists(qNum) {
 	var query = elements.questions.children;
 	for (var i = query.length - 1; i >= 0; i--) {
-		if(query[i].children[0].name == qNum) return true;
+		if(query[i].id == 'qu_'+qNum) return true;
 	};
-	return false
+	return false;
 }
 
-function genQuestion() {
-	if(!q_id) {
-		alert('No question specified.');
-	}else{
-		genBreadcrumb();
+function genQuestion(q_id) {
+	genBreadcrumb();
 
-		var question = document.createElement('QUESTION');
-		question.innerText = questions[q_id].headText;
+	var question = document.createElement('div');
+	question.innerHTML = questions[q_id].headText;
+	question.id = 'qu_'+q_id;
 
-		var dropdown = document.createElement('SELECT');
-		dropdown.name = q_id;
-		dropdown.setAttribute('onChange','answer(this)');
+	var dropdown = document.createElement('SELECT');
+	dropdown.name = q_id;
+	dropdown.setAttribute('onChange','answer(this)');
 
-		var option = document.createElement('OPTION');
-		option.innerHTML = 'Please Select..';
-		option.disabled = true;
-		option.selected = true;
-		option.setAttribute('hidden','');
+	var option = document.createElement('OPTION');
+	option.innerHTML = 'Please Select..';
+	option.disabled = true;
+	option.selected = true;
+	option.setAttribute('hidden','');
+	dropdown.appendChild(option);
+
+	for (choice in questions[q_id].options) {
+		option = document.createElement('OPTION');
+		option.innerHTML = questions[q_id].options[choice];
+		option.value = choice;
 		dropdown.appendChild(option);
-
-		for (choice in questions[q_id].options) {
-			option = document.createElement('OPTION');
-			option.innerHTML = questions[q_id].options[choice];
-			option.value = choice;
-			dropdown.appendChild(option);
-		}
-
-		question.appendChild(dropdown);
-
-		elements.questions.appendChild(question);
 	}
+
+	question.appendChild(dropdown);
+
+	elements.questions.appendChild(question);
 }
 
 function genSummary() {
@@ -78,6 +78,8 @@ function genSummary() {
 	genBreadcrumb();
 
 	console.log('Display Summary');
+
+
 }
 
 function answer(ele) {
@@ -98,7 +100,7 @@ function answer(ele) {
 
 function progress() {
 	var percent = (100 / (Object.keys(questions).length)) * Object.keys(answers).length;
-	elements.footer.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsla(0,0%,0%,0) "+percent+"%)";
+	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsla(0,0%,0%,0) "+percent+"%)";
 }
 
 function reset() {
