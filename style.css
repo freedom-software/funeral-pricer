@@ -5,6 +5,8 @@ html{
 body {
 	margin: 0;
 	background-color: hsl(0,0%,50%);
+	z-index: 1;
+	/*position: relative;*/
 }
 header {
 	position: fixed;
@@ -14,16 +16,17 @@ header {
 	background-color: hsl(0,0%,0%);
 	color: white;
 	overflow: hidden;
+	z-index: 10;
 }
 #breadcrumb {
 	display: block;
 	white-space: nowrap;
 	overflow: auto;
+	padding: 0 5px;
+	overflow: -moz-scrollbars-none;
+	-ms-overflow-style: none;
 }
 #breadcrumb::-webkit-scrollbar {
-	display:none;
-}
-#breadcrumb::-moz-scrollbar {
 	display:none;
 }
 #breadcrumb::-ms-scrollbar {
@@ -44,7 +47,6 @@ header {
 #questions>div {
 	font-size: 120%;
 	display: block;
-	padding: 5px 20px;
 	position: relative;
 }
 #questions>div>select{
@@ -52,13 +54,27 @@ header {
 	width: 15em;
 	float: right;
 }
+#summary>span {
+	float: right;
+}
+#questions>div
+,#summary {
+	padding: 5px 20px;
+}
 footer {
 	display: block;
 	width: 100%;
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	height: 50px;
+	height: 30px;
+	background-color: hsl(0,50%,50%);
 	border-top: 2px solid black;
 	transition: background 2s;
+}
+
+@media (max-width: 800px) {
+	#questions>div{
+		position: static;
+	}
 }

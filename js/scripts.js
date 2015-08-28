@@ -78,8 +78,8 @@ function genSummary() {
 	genBreadcrumb();
 
 	console.log('Display Summary');
-
-
+	summary.insertBefore('<hr>');
+	summary.innerHTML = 'Estimated Price: <span>$1000</span>';
 }
 
 function answer(ele) {
@@ -100,7 +100,7 @@ function answer(ele) {
 
 function progress() {
 	var percent = (100 / (Object.keys(questions).length)) * Object.keys(answers).length;
-	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsla(0,0%,0%,0) "+percent+"%)";
+	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsl(0,50%,50%) "+percent+"%)";
 }
 
 function reset() {

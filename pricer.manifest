@@ -1,0 +1,16 @@
+CACHE MANIFEST
+# v1 - 2015-08-28
+
+/pricer.html
+/style.css
+/js/helpers.js
+/js/scripts.js
+/js/questions.js
+/js/values.js
+
+# Use from network if available
+NETWORK:
+*
+
+# Incase a file cannot be retrieved from the internet
+FALLBACK:
