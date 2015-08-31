@@ -67,10 +67,22 @@ footer {
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	height: 30px;
+	font-size: 150%;
+}
+#progress_bar {
 	background-color: hsl(0,50%,50%);
-	border-top: 2px solid black;
+	height: 30px;
+	border: 2px solid black;
 	transition: background 2s;
+	margin-right: 5em;
+}
+#estimate {
+	float: right;
+	line-height: 34px;
+	font-weight: bold;
+	text-decoration: underline;
+	width: 5em;
+	text-align: center;
 }
 
 @media (max-width: 800px) {

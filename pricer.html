@@ -18,7 +18,8 @@
 		var q_id = 1;
 		var elements = {};
 		var answers = {};
-		var getElems = ['breadcrumb','questions','progress_bar','summary'];
+		var sum = 0;
+		var getElems = ['breadcrumb','questions','progress_bar','summary','estimate'];
 	</script>
 </head>
 <body onload="startCalculator();">
@@ -27,6 +28,9 @@
 	</header>
 	<section id='questions'></section>
 	<section id='summary'></section>
-	<footer id='progress_bar'></footer>
+	<footer>
+		<span id="estimate"></span>
+		<div id="progress_bar"></div>
+	</footer>
 </body>
 </html>

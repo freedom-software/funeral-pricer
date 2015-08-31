@@ -3,16 +3,16 @@ questions[1] = {
 	headText:'How will the deceased be disposed of?'
 	,breadcrumb:'Disposal'
 	,options:{
-		dispose1:'Burial'
-		,dispose2:'Cremation'
+		dispose1:['Burial',4500]
+		,dispose2:['Cremation',575]
 	}
 };
 questions[2] = {
 	headText:'Will there be a funeral service?'
 	,breadcrumb:'Funeral'
 	,options:{
-		funeral1:'Yes'
-		,funeral2:'No'
+		funeral1:['Yes',500]
+		,funeral2:['No',0]
 	}
 };
 questions[3] = {
@@ -59,3 +59,80 @@ questions[6] = {
 		,qunatity9:'More than 1000'
 	}
 };
+questions[7] = {
+	headText:'Who will lead the funeral service?'
+	,breadcrumb:'Lead'
+	,options:{
+		lead1:'Family member'
+		,lead2:'Funeral celebrant'
+		,lead3:'Church leader'
+	}
+};
+questions[8] = {
+	headText:'Flowers to be displayed on the casket'
+	,breadcrumb:'Flowers'
+	,options:{
+		flowers1:'Conservative'
+		,flowers2:'Average'
+		,flowers3:'Above Average'
+		,flowers4:'Superior'
+	}
+};
+questions[9] = {
+	headText:'Number of newspapers the notice will be sent to'
+	,breadcrumb:'Newspapers'
+	,options:{
+		news1:'0'
+		,news2:'1'
+		,news3:'2'
+		,news4:'3'
+		,news5:'4'
+		,news6:'5'
+		,news7:'6'
+		,news8:'7'
+		,news9:'8'
+		,news10:'9'
+		,news11:'10'
+	}
+};
+questions[10] = {
+	headText:'Will refreshments be available to the guests?'
+	,breadcrumb:'Refreshments'
+	,options:{
+		refresh1:'Yes'
+		,refresh2:'No'
+	}
+};
+questions[11] = {
+	headText:'Will a funeral program be required?'
+	,breadcrumb:'Program'
+	,options:{
+		refresh1:'Yes'
+		,refresh2:'No'
+	}
+};
+questions[12] = {
+	headText:'Will a power point slide show be required?'
+	,breadcrumb:'Slide Show'
+	,options:{
+		refresh1:'Yes'
+		,refresh2:'No'
+	}
+};
+questions[13] = {
+	headText:'Will there be hymns sung at the service?'
+	,breadcrumb: 'Hymns'
+	,options:{
+		refresh1:'Yes'
+		,refresh2:'No'
+	}
+};
+questions[13] = {
+	headText:'Will there be bagpipes or bugle players?'
+	,breadcrumb: 'Instruments'
+	,options:{
+		refresh1:'Yes'
+		,refresh2:'No'
+	}
+};
+

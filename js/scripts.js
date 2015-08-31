@@ -62,7 +62,7 @@ function genQuestion(q_id) {
 
 	for (choice in questions[q_id].options) {
 		option = document.createElement('OPTION');
-		option.innerHTML = questions[q_id].options[choice];
+		option.innerHTML = questions[q_id].options[choice][0];	//First value in the array for the question's options
 		option.value = choice;
 		dropdown.appendChild(option);
 	}
@@ -74,33 +74,30 @@ function genQuestion(q_id) {
 
 function genSummary() {
 	q_id = 0;
-
+	sum = 0;
 	genBreadcrumb();
 
-	console.log('Display Summary');
-	summary.insertBefore('<hr>');
-	summary.innerHTML = 'Estimated Price: <span>$1000</span>';
+	for(number in answers) {
+		sum += questions[number].options[answers[number]][1];	//Second value in the array for each question's options
+	}
+
+	elements.estimate.innerHTML = '$'+sum;
 }
 
 function answer(ele) {
 	answers[ele.name] = ele.value;
-	console.log(answers);
+
 	progress();
 
-	if(Object.keys(questions).length != parseFloat(ele.name)) {
-		q_id = parseFloat(ele.name)+1
-
-		if(!questionExists(q_id)) {
-			genQuestion();
-		}
-	}else{
-		genSummary();
-	}
 }
 
 function progress() {
 	var percent = (100 / (Object.keys(questions).length)) * Object.keys(answers).length;
 	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsl(0,50%,50%) "+percent+"%)";
+
+	if(percent === 100) {
+		genSummary();
+	}
 }
 
 function reset() {
