@@ -1,138 +1,174 @@
-var questions = {};
-questions[1] = {
-	headText:'How will the deceased be disposed of?'
-	,breadcrumb:'Disposal'
-	,options:{
-		dispose1:['Burial',4500]
-		,dispose2:['Cremation',575]
+var questions = {
+
+	/*
+
+	*/
+
+	disposition: {
+		description: "Burial or Cremation?"
+		,breadcrumb: "Burial/Cremation"
+		,type: "service"
+		,options: [
+			{
+				text: "Burial"
+				,services: 0
+				,disburesments: 4500
+			}
+			,{
+				text: "Cremation"
+				,services: 0
+				,disburesments: 575
+			}
+		]
 	}
-};
-questions[2] = {
-	headText:'Will there be a funeral service?'
-	,breadcrumb:'Funeral'
-	,options:{
-		funeral1:['Yes',500]
-		,funeral2:['No',0]
+
+	,family: {
+		description: "Family Attending Burial?"
+		,breadcrumb: "Family"
+		,type: "service"
+		,relation: ["disposition",1]
+		,options: [
+			{
+				text: "Yes"
+				,services: 200
+				,disburesments: 150
+			}
+			,{
+				text: "No"
+				,services: 0
+				,disburesments: 575
+			}
+		]
 	}
-};
-questions[3] = {
-	headText:'Will there be a viewing?'
-	,breadcrumb:'Viewing'
-	,options:{
-		viewing1:'At home'
-		,viewing2:'At your premises'
-		,viewing3:'No'
+
+	,viewing: {
+		description: "Will there be a viewing?"
+		,breadcrumb: "Viewing"
+		,type: "service"
+		,options: [
+			{
+				text: "No"
+				,services: 100
+				,disburesments: 0
+			}
+			,{
+				text: "At home"
+				,services: 500
+				,disburesments: 0
+			}
+			,{
+				text: "At your premises"
+				,services: 750
+				,disburesments: 0
+			}
+		]
 	}
-};
-questions[4] = {
-	headText:'What sort of casket will be used?'
-	,breadcrumb:'Casket'
-	,options:{
-		casket1:'Very Plain'
-		,casket2:'Conservative'
-		,casket3:'Average'
-		,casket4:'Above Average'
-		,casket5:'Superior'
+
+	,casket: {
+		description: "What sort of casket will be used?"
+		,breadcrumb: "Casket"
+		,type: "service"
+		,options: [
+			{
+				text: "Very Plain"
+				,services: 350
+				,disburesments: 0
+			}
+			,{
+				text: "Conservative"
+				,services: 1000
+				,disburesments: 0
+			}
+			,{
+				text: "Average"
+				,services: 1500
+				,disburesments: 0
+			}
+			,{
+				text: "Above Average"
+				,services: 2500
+				,disburesments: 0
+			}
+			,{
+				text: "Superior"
+				,services: 3500
+				,disburesments: 0
+			}
+		]
 	}
-};
-questions[5] = {
-	headText:'What sort of day will the funeral be on?'
-	,breadcrumb:'Day'
-	,options:{
-		day1:'Weekday'
-		,day2:'Saturday'
-		,day3:'Sunday or Public Holiday'
+
+	,day: {
+		description: "What sort of day will the funeral be on?"
+		,breadcrumb: "Day"
+		,type: "service"
+		,options: [
+			{
+				text: "Weekday"
+				,value: 0
+			}
+			,{
+				text: "Saturday"
+				,value: 250
+			}
+			,{
+				text: "Sunday or Public Holiday"
+				,value: 350
+			}
+		]
 	}
-};
-questions[6] = {
-	headText:'Estimated number of guests?'
-	,breadcrumb:'Guests'
-	,options:{
-		qunatity1:'Less than 20'
-		,qunatity2:'20 - 50'
-		,qunatity3:'100 - 150'
-		,qunatity4:'150 - 200'
-		,qunatity5:'200 - 300'
-		,qunatity6:'300 - 500'
-		,qunatity7:'400 - 600'
-		,qunatity8:'600 - 1000'
-		,qunatity9:'More than 1000'
+
+	,guests: {
+		description: "Estimated number of guests?"
+		,breadcrumb: "Guests"
+		,type: "service"
+		,options: [
+			{
+				text: "Less than 20"
+				,value: 15
+			}
+			,{
+				text: "20 - 50"
+				,value: 35
+			}
+			,{
+				text: "50 - 100"
+				,value: 75
+			}
+			,{
+				text: "100 - 150"
+				,value: 125
+			}
+			,{
+				text: "150 - 200"
+				,value: 175
+			}
+			,{
+				text: "200 - 300"
+				,value: 250
+			}
+			,{
+				text: " 300 - 500"
+				,value: 400
+			}
+			,{
+				text: " 400 - 600"
+				,value: 500
+			}
+			,{
+				text: " 600 - 1000"
+				,value: 800
+			}
+			,{
+				text: "more than 1000"
+				,value: 1000
+			}
+		]
 	}
+
 };
-questions[7] = {
-	headText:'Who will lead the funeral service?'
-	,breadcrumb:'Lead'
-	,options:{
-		lead1:'Family member'
-		,lead2:'Funeral celebrant'
-		,lead3:'Church leader'
-	}
-};
-questions[8] = {
-	headText:'Flowers to be displayed on the casket'
-	,breadcrumb:'Flowers'
-	,options:{
-		flowers1:'Conservative'
-		,flowers2:'Average'
-		,flowers3:'Above Average'
-		,flowers4:'Superior'
-	}
-};
-questions[9] = {
-	headText:'Number of newspapers the notice will be sent to'
-	,breadcrumb:'Newspapers'
-	,options:{
-		news1:'0'
-		,news2:'1'
-		,news3:'2'
-		,news4:'3'
-		,news5:'4'
-		,news6:'5'
-		,news7:'6'
-		,news8:'7'
-		,news9:'8'
-		,news10:'9'
-		,news11:'10'
-	}
-};
-questions[10] = {
-	headText:'Will refreshments be available to the guests?'
-	,breadcrumb:'Refreshments'
-	,options:{
-		refresh1:'Yes'
-		,refresh2:'No'
-	}
-};
-questions[11] = {
-	headText:'Will a funeral program be required?'
-	,breadcrumb:'Program'
-	,options:{
-		refresh1:'Yes'
-		,refresh2:'No'
-	}
-};
-questions[12] = {
-	headText:'Will a power point slide show be required?'
-	,breadcrumb:'Slide Show'
-	,options:{
-		refresh1:'Yes'
-		,refresh2:'No'
-	}
-};
-questions[13] = {
-	headText:'Will there be hymns sung at the service?'
-	,breadcrumb: 'Hymns'
-	,options:{
-		refresh1:'Yes'
-		,refresh2:'No'
-	}
-};
-questions[13] = {
-	headText:'Will there be bagpipes or bugle players?'
-	,breadcrumb: 'Instruments'
-	,options:{
-		refresh1:'Yes'
-		,refresh2:'No'
-	}
-};
+
+
+
+
+
 

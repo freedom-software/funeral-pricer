@@ -37,20 +37,21 @@ function genBreadcrumb() {
 function questionExists(qNum) {
 	var query = elements.questions.children;
 	for (var i = query.length - 1; i >= 0; i--) {
-		if(query[i].id == 'qu_'+qNum) return true;
+		if(query[i].id == qNum) return true;
 	};
 	return false;
 }
 
-function genQuestion(q_id) {
+function genQuestion(unique) {
 	genBreadcrumb();
 
 	var question = document.createElement('div');
-	question.innerHTML = questions[q_id].headText;
-	question.id = 'qu_'+q_id;
+	question.innerHTML = questions[unique].description;
+	question.id = unique;
 
 	var dropdown = document.createElement('SELECT');
-	dropdown.name = q_id;
+	dropdown.name = unique;
+	dropdown.className = 'qu_select';
 	dropdown.setAttribute('onChange','answer(this)');
 
 	var option = document.createElement('OPTION');
@@ -60,15 +61,23 @@ function genQuestion(q_id) {
 	option.setAttribute('hidden','');
 	dropdown.appendChild(option);
 
-	for (choice in questions[q_id].options) {
+	var options = questions[unique].options
+	for (var i = 0; i < options.length; i++) {
 		option = document.createElement('OPTION');
-		option.innerHTML = questions[q_id].options[choice][0];	//First value in the array for the question's options
-		option.value = choice;
+		option.innerHTML = options[i].text;
+		option.value = unique+i;
 		dropdown.appendChild(option);
-	}
+	};
 
 	question.appendChild(dropdown);
 
+	if(questions[unique].relation) {
+		question.setAttribute('relation',questions[unique].relation[0]);
+		question.style.display = 'none';
+		relations[questions[unique].relation[0]] = questions[unique].relation[1];
+	}else{
+		countAnswer[unique] = 0;
+	}
 	elements.questions.appendChild(question);
 }
 
@@ -85,14 +94,40 @@ function genSummary() {
 }
 
 function answer(ele) {
-	answers[ele.name] = ele.value;
+	answers[ele.name]=ele.value;
+
+	if(ele.value != '') {
+		countAnswer[ele.name] = 1;
+	}else{
+		countAnswer[ele.name] = 0;
+	}
+	var queries = elements.questions.children;
+
+	//console.log(relations[ele.name]);
+	for (var i = 0; i <queries.length; i++) {
+		if(queries[i].getAttribute('relation') === ele.name) {
+			if(ele.name+(relations[ele.name]-1) == ele.value) {
+				queries[i].style.display = 'block';
+				countAnswer[queries[i].id] = 0;
+			}else{
+				queries[i].children[0].selectedIndex = 0;
+				queries[i].style.display = 'none';
+				delete countAnswer[queries[i].id];
+			}
+		}
+	};
 
 	progress();
-
 }
 
 function progress() {
-	var percent = (100 / (Object.keys(questions).length)) * Object.keys(answers).length;
+	var count = 0;
+	for(n in countAnswer) {
+		if(countAnswer[n] === 1) {
+			count ++
+		}
+	}
+	var percent = (100 / (Object.keys(countAnswer).length)) * count;
 	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsl(0,50%,50%) "+percent+"%)";
 
 	if(percent === 100) {
