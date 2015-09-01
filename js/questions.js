@@ -1,7 +1,23 @@
 var questions = {
 
-	/*
-
+	/*	Help comment
+	*
+	*	uniqueDescriptorWord: {
+	*		description: "Text displayed, asking the question"
+	*		,breadcrumb: "Text used in the breadcrumb at the top of the page"
+	*		,type: "1 of 2 options (service, disbursement) to describe how to categorize the question"
+	*		,options: [  //Items to enter into the dropdown list to answer the question with
+	*			{
+	*				text: "Text displayed in the dropbox"
+	*				,services: amount to add for services
+	*				,disbursments: amount to add for disbursments
+	*			}
+	*			,{
+	*				text: "Text displayed in the dropbox"
+	*				,value: amount to add for other calculations in formulas
+	*			}
+	*		]
+	*	}
 	*/
 
 	disposition: {
@@ -12,12 +28,12 @@ var questions = {
 			{
 				text: "Burial"
 				,services: 0
-				,disburesments: 4500
+				,disbursements: 4500
 			}
 			,{
 				text: "Cremation"
 				,services: 0
-				,disburesments: 575
+				,disbursements: 575
 			}
 		]
 	}
@@ -31,12 +47,12 @@ var questions = {
 			{
 				text: "Yes"
 				,services: 200
-				,disburesments: 150
+				,disbursements: 150
 			}
 			,{
 				text: "No"
 				,services: 0
-				,disburesments: 575
+				,disbursements: 575
 			}
 		]
 	}
@@ -49,17 +65,17 @@ var questions = {
 			{
 				text: "No"
 				,services: 100
-				,disburesments: 0
+				,disbursements: 0
 			}
 			,{
 				text: "At home"
 				,services: 500
-				,disburesments: 0
+				,disbursements: 0
 			}
 			,{
 				text: "At your premises"
 				,services: 750
-				,disburesments: 0
+				,disbursements: 0
 			}
 		]
 	}
@@ -72,27 +88,27 @@ var questions = {
 			{
 				text: "Very Plain"
 				,services: 350
-				,disburesments: 0
+				,disbursements: 0
 			}
 			,{
 				text: "Conservative"
 				,services: 1000
-				,disburesments: 0
+				,disbursements: 0
 			}
 			,{
 				text: "Average"
 				,services: 1500
-				,disburesments: 0
+				,disbursements: 0
 			}
 			,{
 				text: "Above Average"
 				,services: 2500
-				,disburesments: 0
+				,disbursements: 0
 			}
 			,{
 				text: "Superior"
 				,services: 3500
-				,disburesments: 0
+				,disbursements: 0
 			}
 		]
 	}
@@ -164,7 +180,6 @@ var questions = {
 			}
 		]
 	}
-
 };
 
 

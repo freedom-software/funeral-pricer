@@ -2,6 +2,7 @@ function startCalculator() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
 		elements[getElems[i]] = document.getElementById(getElems[i]);
 	};
+	genBreadcrumb();
 
 	for (n in questions) {
 		genQuestion(n);
@@ -24,6 +25,9 @@ function genBreadcrumb() {
 		}
 		insertCrumb(elements.breadcrumb,0,'Summary');
 	}
+}
+
+function updateBreadcrumb(q_id) {
 	var crumbs = elements.breadcrumb.children;
 	for (var i = crumbs.length - 1; i >= 0; i--) {
 		if(crumbs[i].getAttribute('question') == q_id) {
@@ -43,8 +47,6 @@ function questionExists(qNum) {
 }
 
 function genQuestion(unique) {
-	genBreadcrumb();
-
 	var question = document.createElement('div');
 	question.innerHTML = questions[unique].description;
 	question.id = unique;
@@ -65,7 +67,7 @@ function genQuestion(unique) {
 	for (var i = 0; i < options.length; i++) {
 		option = document.createElement('OPTION');
 		option.innerHTML = options[i].text;
-		option.value = unique+i;
+		option.value = (i+1);
 		dropdown.appendChild(option);
 	};
 
@@ -76,43 +78,31 @@ function genQuestion(unique) {
 		question.style.display = 'none';
 		relations[questions[unique].relation[0]] = questions[unique].relation[1];
 	}else{
-		countAnswer[unique] = 0;
+		answers[unique] = 0;
 	}
 	elements.questions.appendChild(question);
-}
-
-function genSummary() {
-	q_id = 0;
-	sum = 0;
-	genBreadcrumb();
-
-	for(number in answers) {
-		sum += questions[number].options[answers[number]][1];	//Second value in the array for each question's options
-	}
-
-	elements.estimate.innerHTML = '$'+sum;
 }
 
 function answer(ele) {
 	answers[ele.name]=ele.value;
 
-	if(ele.value != '') {
-		countAnswer[ele.name] = 1;
-	}else{
-		countAnswer[ele.name] = 0;
+	if(ele.value == '') {
+		answers[ele.name] = 0;
 	}
+
+	console.log(answers);
+
 	var queries = elements.questions.children;
 
-	//console.log(relations[ele.name]);
-	for (var i = 0; i <queries.length; i++) {
-		if(queries[i].getAttribute('relation') === ele.name) {
-			if(ele.name+(relations[ele.name]-1) == ele.value) {
-				queries[i].style.display = 'block';
-				countAnswer[queries[i].id] = 0;
+	for (var i = 0; i <queries.length; i++) {							//for each of the questions
+		if(queries[i].getAttribute('relation') === ele.name) {			//if the question relates to the recently answered question
+			if(relations[ele.name] == ele.value) {		//if the value of the recently answered question is what is needed to show the hidden question
+				queries[i].style.display = 'block';					//show the question
+				answers[queries[i].id] = 0;							//add the question to the object of questions to answer
 			}else{
-				queries[i].children[0].selectedIndex = 0;
-				queries[i].style.display = 'none';
-				delete countAnswer[queries[i].id];
+				queries[i].children[0].selectedIndex = 0;			//unselect any selected options in the dropdown
+				queries[i].style.display = 'none';					//hide the question
+				delete answers[queries[i].id];						//remove the questions from the object of questions to answer
 			}
 		}
 	};
@@ -122,17 +112,42 @@ function answer(ele) {
 
 function progress() {
 	var count = 0;
-	for(n in countAnswer) {
-		if(countAnswer[n] === 1) {
+	for(n in answers) {
+		if(answers[n] !== 0) {
 			count ++
 		}
 	}
-	var percent = (100 / (Object.keys(countAnswer).length)) * count;
+	var percent = 100 / (Object.keys(answers).length) * count;	//calculate percentage complete as 100 divided by the total number of questions to answer multiplied by the number of questions answered
 	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsl(0,50%,50%) "+percent+"%)";
 
 	if(percent === 100) {
 		genSummary();
 	}
+}
+
+function genSummary() {
+	sum = 0;
+	services = 0;
+	disbursments = 0;
+
+	updateBreadcrumb(0);
+
+	for(unique in answers) {
+		var choice = questions[unique].options[answers[unique]-1];
+		if(choice.value) {
+
+		}else{
+			if(choice.services) {
+				services += choice.services;
+			}
+			if(choice.disbursments) {
+				disbursments += choice.disbursments;
+			}
+		}
+	}
+	sum += services + disbursments;
+
+	elements.estimate.innerHTML = '$'+sum;
 }
 
 function reset() {
