@@ -1,3 +1,4 @@
+//Ran on page load, loads elements by ID into the elements object and calls the HTML generating functions
 function startCalculator() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
 		elements[getElems[i]] = document.getElementById(getElems[i]);
@@ -9,6 +10,7 @@ function startCalculator() {
 	}
 }
 
+//Generates the HTML for the breadcrumb
 function genBreadcrumb() {
 	function insertCrumb(parent,quNum,text) {
 		var span = document.createElement('SPAN');
@@ -27,25 +29,20 @@ function genBreadcrumb() {
 	}
 }
 
+//Updates the breadcrumbs, adding or removing active class and scrolling the element along
 function updateBreadcrumb(q_id) {
 	var crumbs = elements.breadcrumb.children;
 	for (var i = crumbs.length - 1; i >= 0; i--) {
-		if(crumbs[i].getAttribute('question') == q_id) {
-			crumbs[i].className = 'activeCrumb';
+		if(crumbs[i].getAttribute('question') == q_id) {												//If question attribute matches name of question just answered
+			crumbs[i].className = 'activeCrumb';													//Colour the crumb to indicate it is active
+			elements.breadcrumb.scrollLeft = crumbs[i].offsetLeft-(window.innerWidth / 2.3);	//Attempt to scroll the active crumb to the center of the screen
 		}else{
-			crumbs[i].className = '';
+			crumbs[i].className = '';																//Remove colouring
 		}
 	};
 }
 
-function questionExists(qNum) {
-	var query = elements.questions.children;
-	for (var i = query.length - 1; i >= 0; i--) {
-		if(query[i].id == qNum) return true;
-	};
-	return false;
-}
-
+//Generates the HTML for a question, used on page load.
 function genQuestion(unique) {
 	var question = document.createElement('div');
 	question.innerHTML = questions[unique].description;
@@ -83,20 +80,20 @@ function genQuestion(unique) {
 	elements.questions.appendChild(question);
 }
 
+//Called when a question is answered, handels updating the answered questions object and hiding and showing additional questions
 function answer(ele) {
-	answers[ele.name]=ele.value;
+	answers[ele.name]=ele.value;									//Add question answer to answers object
 
-	if(ele.value == '') {
-		answers[ele.name] = 0;
+	if(ele.value == '') {												//If answered element's value is null (unlikely)
+		answers[ele.name] = 0;									//Set answer to zero
+	}else{
+		updateBreadcrumb(ele.name);							//Change Breadcrumb state
 	}
 
-	console.log(answers);
-
 	var queries = elements.questions.children;
-
 	for (var i = 0; i <queries.length; i++) {							//for each of the questions
 		if(queries[i].getAttribute('relation') === ele.name) {			//if the question relates to the recently answered question
-			if(relations[ele.name] == ele.value) {		//if the value of the recently answered question is what is needed to show the hidden question
+			if(relations[ele.name] == ele.value) {					//if the value of the recently answered question is what is needed to show the hidden question
 				queries[i].style.display = 'block';					//show the question
 				answers[queries[i].id] = 0;							//add the question to the object of questions to answer
 			}else{
@@ -110,6 +107,7 @@ function answer(ele) {
 	progress();
 }
 
+//calculates percentage completed, updating the progress_bar and activates final estimate at 100%
 function progress() {
 	var count = 0;
 	for(n in answers) {
@@ -125,6 +123,7 @@ function progress() {
 	}
 }
 
+//Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
 	sum = 0;
 	services = 0;
@@ -155,6 +154,7 @@ function genSummary() {
 	elements.estimateWord.className = 'estimateShow';
 }
 
+//For reseting the pricer
 function reset() {
 	console.log('reseting');
 }
