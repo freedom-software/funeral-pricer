@@ -128,7 +128,9 @@ function progress() {
 function genSummary() {
 	sum = 0;
 	services = 0;
-	disbursments = 0;
+	disbursements = 0;
+	professional = 2500;
+	deathCertificate = 26.50;
 
 	updateBreadcrumb(0);
 
@@ -140,14 +142,17 @@ function genSummary() {
 			if(choice.services) {
 				services += choice.services;
 			}
-			if(choice.disbursments) {
-				disbursments += choice.disbursments;
+			if(choice.disbursements) {
+				disbursements += choice.disbursements;
 			}
 		}
+		services += professional;
+		disbursements += deathCertificate;
 	}
-	sum += services + disbursments;
+	sum += services + disbursements;
 
-	elements.estimate.innerHTML = '$'+sum;
+	elements.estimate.innerHTML = '$'+sum.toFixed(2);
+	elements.estimateWord.className = 'estimateShow';
 }
 
 function reset() {

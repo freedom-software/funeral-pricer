@@ -40,7 +40,7 @@ header {
 	color: red;
 }
 #questions {
-	margin-top: 2em;
+	margin: 2em 0 2.5em 0;
 	padding-top: 5px;
 	display: block;
 }
@@ -51,8 +51,8 @@ header {
 }
 .qu_select{
 	font-size: 85%;
-	width: 15em;
-	float: right;
+	display: block;
+	width: 100%;
 }
 #summary>span {
 	float: right;
@@ -68,25 +68,34 @@ footer {
 	bottom: 0;
 	left: 0;
 	font-size: 150%;
+	background-color: hsl(0,0%,50%);
 }
 #progress_bar {
+	height: 20px;
 	background-color: hsl(0,50%,50%);
-	height: 30px;
 	border: 2px solid black;
 	transition: background 2s;
-	margin-right: 5em;
 }
 #estimate {
-	float: right;
-	line-height: 34px;
 	font-weight: bold;
 	text-decoration: underline;
-	width: 5em;
 	text-align: center;
+	margin: 0 .5em;
+	position: absolute;
+	right: 0px;
 }
-
-@media (max-width: 800px) {
-	#questions>div{
-		position: static;
+#estimateWord{
+	display: none;
+}
+.estimateShow{
+	display: inline !important;
+}
+@media (min-width: 720px) {
+	.qu_select{
+		float: right;
+		width: 15em;
+	}
+	#progress_bar {
+		height: 30px;
 	}
 }

@@ -27,12 +27,10 @@ var questions = {
 		,options: [
 			{
 				text: "Burial"
-				,services: 0
 				,disbursements: 4500
 			}
 			,{
 				text: "Cremation"
-				,services: 0
 				,disbursements: 575
 			}
 		]
@@ -51,8 +49,6 @@ var questions = {
 			}
 			,{
 				text: "No"
-				,services: 0
-				,disbursements: 575
 			}
 		]
 	}
@@ -63,19 +59,16 @@ var questions = {
 		,type: "service"
 		,options: [
 			{
-				text: "No"
-				,services: 100
-				,disbursements: 0
+				text: "At your premises"
+				,services: 750
 			}
 			,{
 				text: "At home"
 				,services: 500
-				,disbursements: 0
 			}
 			,{
-				text: "At your premises"
-				,services: 750
-				,disbursements: 0
+				text: "No"
+				,services: 100
 			}
 		]
 	}
@@ -86,29 +79,24 @@ var questions = {
 		,type: "service"
 		,options: [
 			{
-				text: "Very Plain"
-				,services: 350
-				,disbursements: 0
-			}
-			,{
-				text: "Conservative"
-				,services: 1000
-				,disbursements: 0
-			}
-			,{
-				text: "Average"
-				,services: 1500
-				,disbursements: 0
+				text: "Superior"
+				,services: 3500
 			}
 			,{
 				text: "Above Average"
 				,services: 2500
-				,disbursements: 0
 			}
 			,{
-				text: "Superior"
-				,services: 3500
-				,disbursements: 0
+				text: "Average"
+				,services: 1500
+			}
+			,{
+				text: "Conservative"
+				,services: 1000
+			}
+			,{
+				text: "Very Plain"
+				,services: 350
 			}
 		]
 	}
@@ -119,16 +107,17 @@ var questions = {
 		,type: "service"
 		,options: [
 			{
-				text: "Weekday"
-				,value: 0
+				text: "Sunday or Public Holiday"
+				,services: 350
+				,disbursements: 750
 			}
 			,{
 				text: "Saturday"
-				,value: 250
+				,services: 250
+				,disbursements: 350
 			}
 			,{
-				text: "Sunday or Public Holiday"
-				,value: 350
+				text: "Weekday"
 			}
 		]
 	}
@@ -177,6 +166,235 @@ var questions = {
 			,{
 				text: "more than 1000"
 				,value: 1000
+			}
+		]
+	}
+
+	,lead: {
+		description: "Who will lead the funeral service?"
+		,breadcrumb: "Lead"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Church leader"
+				,disbursements: 180
+			}
+			,{
+				text: "Funeral celebran"
+				,disbursements: 350
+			}
+			,{
+				text: "Family member"
+			}
+		]
+	}
+
+	,flowers: {
+		description: "Flowers to be displayed on the casket"
+		,breadcrumb: "Flowers"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Superior"
+				,disbursements: 250
+			}
+			,{
+				text: "Above Average"
+				,disbursements: 200
+			}
+			,{
+				text: "Average"
+				,disbursements: 150
+			}
+			,{
+				text: "Conservative"
+				,disbursements: 100
+			}
+		]
+	}
+
+	,newsNumber: {
+		description: "Number of newspapers the notice will be sent"
+		,breadcrumb: "Newspaper Number"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "0"
+			}
+			,{
+				text: "1"
+				,value: 1
+			}
+			,{
+				text: "2"
+				,value: 2
+			}
+			,{
+				text: "3"
+				,value: 3
+			}
+			,{
+				text: "4"
+				,value: 4
+			}
+			,{
+				text: "5"
+				,value: 5
+			}
+			,{
+				text: "6"
+				,value: 6
+			}
+			,{
+				text: "7"
+				,value: 7
+			}
+			,{
+				text: "8"
+				,value: 8
+			}
+			,{
+				text: "9"
+				,value: 9
+			}
+			,{
+				text: "10"
+				,value: 10
+			}
+		]
+	}
+
+	,newsSize: {
+		description: "Newspaper notice size"
+		,breadcrumb: "Newspaper Size"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Short notice (~25 words)"
+				,value: 25
+			}
+			,{
+				text: "Standard notice (~100 words)"
+				,value: 150
+			}
+			,{
+				text: "Extended notice(~330 words)"
+				,value: 500
+			}
+		]
+	}
+
+	,refreshments: {
+		description: "Will refreshments be available to the guests?"
+		,breadcrumb: "Refreshments"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Yes"
+			}
+			,{
+				text: "No"
+			}
+		]
+	}
+
+	,catering: {
+		description: "Catering selection?"
+		,breadcrumb: "Catering"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Yes"
+			}
+			,{
+				text: "No"
+			}
+		]
+	}
+
+	,program: {
+		description: "Will a funeral program be required?"
+		,breadcrumb: "Program"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Yes"
+			}
+			,{
+				text: "No"
+			}
+		]
+	}
+
+	,programType: {
+		description: "Type of funeral program"
+		,breadcrumb: "Program Type"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Complex with many images"
+			}
+			,{
+				text: "Standard (up to 4 images)"
+			}
+			,{
+				text: "Plain (1 image)"
+			}
+		]
+	}
+
+	,slides: {
+		description: "Will a powerpoint slide show be required?"
+		,breadcrumb: "Slide Show"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Yes"
+			}
+			,{
+				text: "No"
+			}
+		]
+	}
+
+	,slidesType: {
+		description: "Type of powerpoint slide show"
+		,breadcrumb: "Slide Show Type"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Type 1"
+			}
+			,{
+				text: "Type 2"
+			}
+		]
+	}
+
+	,hynms: {
+		description: "Will there be hymns sung at the service?"
+		,breadcrumb: "Hymns"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Yes"
+			}
+			,{
+				text: "No"
+			}
+		]
+	}
+
+	,musicians: {
+		description: "Will there be bagpipes or bugle players?"
+		,breadcrumb: "Musicians"
+		,type: "disbursement"
+		,options: [
+			{
+				text: "Yes"
+			}
+			,{
+				text: "No"
 			}
 		]
 	}
