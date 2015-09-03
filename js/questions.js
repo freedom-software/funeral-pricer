@@ -220,6 +220,7 @@ var questions = {
 		,options: [
 			{
 				text: "0"
+				,value: 0
 			}
 			,{
 				text: "1"
@@ -304,10 +305,24 @@ var questions = {
 		,type: "disbursement"
 		,options: [
 			{
-				text: "Yes"
+				text: "Very Plain"
+				,value: 5
 			}
 			,{
-				text: "No"
+				text: "Conservative"
+				,value: 10
+			}
+			,{
+				text: "Average"
+				,value: 15
+			}
+			,{
+				text: "Above Average"
+				,value: 20
+			}
+			,{
+				text: "Superior"
+				,value: 25
 			}
 		]
 	}
@@ -319,6 +334,7 @@ var questions = {
 		,options: [
 			{
 				text: "Yes"
+				,disbursement: 60
 			}
 			,{
 				text: "No"
@@ -330,15 +346,19 @@ var questions = {
 		description: "Type of funeral program"
 		,breadcrumb: "Program Type"
 		,type: "disbursement"
+		,relation: ["program",1]
 		,options: [
 			{
 				text: "Complex with many images"
+				,value: 2.2
 			}
 			,{
 				text: "Standard (up to 4 images)"
+				,value: 1.6
 			}
 			,{
 				text: "Plain (1 image)"
+				,value: 1.2
 			}
 		]
 	}
@@ -361,12 +381,15 @@ var questions = {
 		description: "Type of powerpoint slide show"
 		,breadcrumb: "Slide Show Type"
 		,type: "disbursement"
+		,relation: ["slides",1]
 		,options: [
 			{
 				text: "Type 1"
+				,disbursement: 100
 			}
 			,{
 				text: "Type 2"
+				,disbursement: 150
 			}
 		]
 	}
@@ -378,6 +401,7 @@ var questions = {
 		,options: [
 			{
 				text: "Yes"
+				,disbursement: 100
 			}
 			,{
 				text: "No"
@@ -392,6 +416,7 @@ var questions = {
 		,options: [
 			{
 				text: "Yes"
+				,disbursement: 100
 			}
 			,{
 				text: "No"

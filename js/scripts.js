@@ -1,31 +1,31 @@
 //Ran on page load, loads elements by ID into the elements object and calls the HTML generating functions
 function startCalculator() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
-		elements[getElems[i]] = document.getElementById(getElems[i]);
+		elements[getElems[i]] = document.getElementById(getElems[i]);		//Adding elements by their ID to the elements object to be refered to later
 	};
-	genBreadcrumb();
+	genBreadcrumbs();												//Generate the breadcrumb
 
 	for (n in questions) {
-		genQuestion(n);
+		genQuestion(n);												//Generate a question for each question in the questions object
 	}
 }
 
 //Generates the HTML for the breadcrumb
-function genBreadcrumb() {
-	function insertCrumb(parent,quNum,text) {
+function genBreadcrumbs() {
+	function createCrumb(quNum,text) {							//Creats individual crumbs into the parent breadcrumb
 		var span = document.createElement('SPAN');
 		span.innerHTML= text;
 		span.setAttribute('question',quNum);
-		parent.appendChild(span);
+		return span;
 	}
 
 	if(!elements.breadcrumb.innerHTML) {
 		for (n in questions) {
-			insertCrumb(elements.breadcrumb,n,questions[n].breadcrumb);
+			elements.breadcrumb.appendChild(createCrumb(n,questions[n].breadcrumb));
 
 			elements.breadcrumb.innerHTML += '>';
 		}
-		insertCrumb(elements.breadcrumb,0,'Summary');
+		elements.breadcrumb.appendChild(createCrumb(0,'Summary'));
 	}
 }
 
@@ -36,7 +36,8 @@ function updateBreadcrumb(q_id) {
 		if(crumbs[i].getAttribute('question') == q_id) {												//If question attribute matches name of question just answered
 			crumbs[i].className = 'activeCrumb';													//Colour the crumb to indicate it is active
 			elements.breadcrumb.scrollLeft = crumbs[i].offsetLeft-(window.innerWidth / 2.3);	//Attempt to scroll the active crumb to the center of the screen
-		}else{
+		}else if((!(crumbs[i].getAttribute('question') in answers) || answers[crumbs[i].getAttribute('question')] === 0)
+			&& crumbs[i].className) {				//If the crumb dosn't need to be answered or hasn't been answered and has a class associated with it.
 			crumbs[i].className = '';																//Remove colouring
 		}
 	};
@@ -86,8 +87,6 @@ function answer(ele) {
 
 	if(ele.value == '') {												//If answered element's value is null (unlikely)
 		answers[ele.name] = 0;									//Set answer to zero
-	}else{
-		updateBreadcrumb(ele.name);							//Change Breadcrumb state
 	}
 
 	var queries = elements.questions.children;
@@ -104,7 +103,9 @@ function answer(ele) {
 		}
 	};
 
-	progress();
+	updateBreadcrumb(ele.name);							//Change Breadcrumb state of the answered question
+
+	progress();						//Update progress trackers
 }
 
 //calculates percentage completed, updating the progress_bar and activates final estimate at 100%
@@ -112,46 +113,60 @@ function progress() {
 	var count = 0;
 	for(n in answers) {
 		if(answers[n] !== 0) {
-			count ++
+			count ++				//Add 1 to count variable if the question value is not 0 (un-answered)
 		}
 	}
-	var percent = 100 / (Object.keys(answers).length) * count;	//calculate percentage complete as 100 divided by the total number of questions to answer multiplied by the number of questions answered
+		//calculate percentage complete as 100 divided by the total number of questions to answer multiplied by the number of questions answered
+	var percent = 100 / (Object.keys(answers).length) * count;
+		//change progress bar background color
 	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsl(0,50%,50%) "+percent+"%)";
 
 	if(percent === 100) {
-		genSummary();
+		genSummary();									//If all the questions that need to be answered are answered generate summary report
 	}
 }
 
 //Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
-	sum = 0;
-	services = 0;
-	disbursements = 0;
-	professional = 2500;
-	deathCertificate = 26.50;
+	estimate = {sum:0,service:0,disbursement:0};
+	professional = 2500;									//Set professional fee
+	deathCertificate = 26.50;								//Set death certificate cost
 
-	updateBreadcrumb(0);
+	updateBreadcrumb(0);									//Update the Breadcrumb to move to position 0, which is the summary
 
 	for(unique in answers) {
-		var choice = questions[unique].options[answers[unique]-1];
-		if(choice.value) {
-
-		}else{
-			if(choice.services) {
-				services += choice.services;
-			}
-			if(choice.disbursements) {
-				disbursements += choice.disbursements;
-			}
+		var choice = questions[unique].options[answers[unique]-1];			//Shortcut to the question's answer object
+		if(choice.service) {
+			estimate.service += choice.service;								//Add any service costs to service account
 		}
-		services += professional;
-		disbursements += deathCertificate;
+		if(choice.disbursement) {
+			estimate.disbursement += choice.disbursement;					//Add any disbursement costs to disbursement account
+		}
 	}
-	sum += services + disbursements;
+	//Calculate formulas; formulas combine the values of 2 questions to conclude with
+	for (formula in formulas) {
+		var answer1 = answers[formulas[formula].value1];						//Number of option chosen for first question
+		var answer2 = answers[formulas[formula].value2];						//Number of option chosen for second question
+		if(answer1 && answer2) {											//If both questions answered
+			var question1 = questions[formulas[formula].value1];				//Shortcut to first question in formula
+			var question2 = questions[formulas[formula].value2];				//Shortcut to second question in formula
+			var account = question1.type;										//Account to add cost to
+			var value1 = question1.options[answer1-1].value;					//Value of option chosen for first question
+			var value2 = question2.options[answer2-1].value;					//Value of option chosen for second question
+			var operator = formulas[formula].operator;							//Operator to use for formula
 
-	elements.estimate.innerHTML = '$'+sum.toFixed(2);
-	elements.estimateWord.className = 'estimateShow';
+			estimate[account] += varOperators[operator](value1,value2);		//Calculate result of formula and add to account
+			console.log(formula);
+			console.log(varOperators[operator](value1,value2));
+		}
+	}
+
+	estimate.service += professional;									//Add professional fee to service account
+	estimate.disbursement += deathCertificate;						//Add death certificate cost to disbursement account
+	estimate.sum += estimate.service + estimate.disbursement;		//Combine service and disbursments accounts into total estimate
+
+	elements.estimate.innerHTML = '$'+estimate.sum.toFixed(2);	//Add total estiamte to estimate element
+	elements.estimateWord.className = 'estimateShow';			//Show the estimate word / title
 }
 
 //For reseting the pricer

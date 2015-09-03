@@ -22,6 +22,15 @@ function compare(a,b) {
 	return 0;
 }
 
+var varOperators = {
+	'+': function(a,b) { return a + b }
+	,'-': function(a,b) { return a - b }
+	,'*': function(a,b) { return a * b }
+	,'/': function(a,b) { return a / b }
+	,'<': function(a,b) { return a < b }
+	,'>': function(a,b) { return a > b }
+};
+
 //Add colour constants to JS
 window.ICE_blue = '<?php echo ICE_blue; ?>';
 window.ICE_background = '<?php echo ICE_background; ?>';
