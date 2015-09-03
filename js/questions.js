@@ -1,11 +1,15 @@
 var questions = {
 
-	/*	Help comment
+	/*	Example
 	*
 	*	uniqueDescriptorWord: {
 	*		description: "Text displayed, asking the question"
 	*		,breadcrumb: "Text used in the breadcrumb at the top of the page"
 	*		,type: "1 of 2 options (service, disbursement) to describe how to categorize the question"
+	*		,relation: {
+	*				question: "uniqueDescriptorWord of the question of which the answer will show or hide this one"
+	*				,answers: [array of possible answers for the question that will show this question]
+	*			}
 	*		,options: [  //Items to enter into the dropdown list to answer the question with
 	*			{
 	*				text: "Text displayed in the dropbox"
@@ -40,12 +44,29 @@ var questions = {
 		description: "Family Attending Burial?"
 		,breadcrumb: "Family"
 		,type: "service"
-		,relation: ["disposition",1]
+		,relation: {
+			question: "disposition"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Yes"
 				,services: 200
 				,disbursements: 150
+			}
+			,{
+				text: "No"
+			}
+		]
+	}
+
+	,funeral: {
+		description: "Funeral Service?"
+		,breadcrumb: "Funeral"
+		,type: "service"
+		,options: [
+			{
+				text: "Yes"
 			}
 			,{
 				text: "No"
@@ -105,6 +126,10 @@ var questions = {
 		description: "What sort of day will the funeral be on?"
 		,breadcrumb: "Day"
 		,type: "service"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Sunday or Public Holiday"
@@ -126,6 +151,10 @@ var questions = {
 		description: "Estimated number of guests?"
 		,breadcrumb: "Guests"
 		,type: "service"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Less than 20"
@@ -174,6 +203,10 @@ var questions = {
 		description: "Who will lead the funeral service?"
 		,breadcrumb: "Lead"
 		,type: "disbursement"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Church leader"
@@ -193,6 +226,10 @@ var questions = {
 		description: "Flowers to be displayed on the casket"
 		,breadcrumb: "Flowers"
 		,type: "disbursement"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Superior"
@@ -217,6 +254,10 @@ var questions = {
 		description: "Number of newspapers the notice will be sent"
 		,breadcrumb: "Newspaper Number"
 		,type: "disbursement"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "0"
@@ -268,6 +309,10 @@ var questions = {
 	,newsSize: {
 		description: "Newspaper notice size"
 		,breadcrumb: "Newspaper Size"
+		,relation: {
+			question: 'newsNumber'
+			,answers: range(2,11,1)					//range is defined in helpers.js: (start,end,step)
+		}
 		,type: "disbursement"
 		,options: [
 			{
@@ -289,6 +334,10 @@ var questions = {
 		description: "Will refreshments be available to the guests?"
 		,breadcrumb: "Refreshments"
 		,type: "disbursement"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Yes"
@@ -303,6 +352,10 @@ var questions = {
 		description: "Catering selection?"
 		,breadcrumb: "Catering"
 		,type: "disbursement"
+		,relation: {
+			question: "refreshments"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Very Plain"
@@ -331,10 +384,14 @@ var questions = {
 		description: "Will a funeral program be required?"
 		,breadcrumb: "Program"
 		,type: "disbursement"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Yes"
-				,disbursement: 60
+				,disbursements: 60
 			}
 			,{
 				text: "No"
@@ -346,7 +403,10 @@ var questions = {
 		description: "Type of funeral program"
 		,breadcrumb: "Program Type"
 		,type: "disbursement"
-		,relation: ["program",1]
+		,relation: {
+			question: "program"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Complex with many images"
@@ -367,9 +427,14 @@ var questions = {
 		description: "Will a powerpoint slide show be required?"
 		,breadcrumb: "Slide Show"
 		,type: "disbursement"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Yes"
+				,disbursements: 120
 			}
 			,{
 				text: "No"
@@ -381,15 +446,22 @@ var questions = {
 		description: "Type of powerpoint slide show"
 		,breadcrumb: "Slide Show Type"
 		,type: "disbursement"
-		,relation: ["slides",1]
+		,relation: {
+			questions: "slides"
+			,answers: [1]
+		}
 		,options: [
 			{
-				text: "Type 1"
-				,disbursement: 100
+				text: "20 Photos - 1 song"
+				,disbursements: 50
 			}
 			,{
-				text: "Type 2"
-				,disbursement: 150
+				text: "50 Photos - 2 song"
+				,disbursements: 100
+			}
+			,{
+				text: "2 Slide Shows"
+				,disbursements: 200
 			}
 		]
 	}
@@ -398,10 +470,14 @@ var questions = {
 		description: "Will there be hymns sung at the service?"
 		,breadcrumb: "Hymns"
 		,type: "disbursement"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Yes"
-				,disbursement: 100
+				,disbursements: 100
 			}
 			,{
 				text: "No"
@@ -413,10 +489,14 @@ var questions = {
 		description: "Will there be bagpipes or bugle players?"
 		,breadcrumb: "Musicians"
 		,type: "disbursement"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
 		,options: [
 			{
 				text: "Yes"
-				,disbursement: 100
+				,disbursements: 100
 			}
 			,{
 				text: "No"

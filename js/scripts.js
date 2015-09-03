@@ -38,7 +38,7 @@ function updateBreadcrumb(q_id) {
 			elements.breadcrumb.scrollLeft = crumbs[i].offsetLeft-(window.innerWidth / 2.3);	//Attempt to scroll the active crumb to the center of the screen
 		}else if((!(crumbs[i].getAttribute('question') in answers) || answers[crumbs[i].getAttribute('question')] === 0)
 			&& crumbs[i].className) {				//If the crumb dosn't need to be answered or hasn't been answered and has a class associated with it.
-			crumbs[i].className = '';																//Remove colouring
+			crumbs[i].className = '';					//Remove colouring
 		}
 	};
 }
@@ -72,9 +72,8 @@ function genQuestion(unique) {
 	question.appendChild(dropdown);
 
 	if(questions[unique].relation) {
-		question.setAttribute('relation',questions[unique].relation[0]);
+		question.setAttribute('relation',questions[unique].relation.question);
 		question.style.display = 'none';
-		relations[questions[unique].relation[0]] = questions[unique].relation[1];
 	}else{
 		answers[unique] = 0;
 	}
@@ -90,22 +89,23 @@ function answer(ele) {
 	}
 
 	var queries = elements.questions.children;
-	for (var i = 0; i <queries.length; i++) {							//for each of the questions
-		if(queries[i].getAttribute('relation') === ele.name) {			//if the question relates to the recently answered question
-			if(relations[ele.name] == ele.value) {					//if the value of the recently answered question is what is needed to show the hidden question
-				queries[i].style.display = 'block';					//show the question
-				answers[queries[i].id] = 0;							//add the question to the object of questions to answer
+	for (var i = 0; i <queries.length; i++) {							//For each of the questions
+		if(queries[i].getAttribute('relation') === ele.name) {			//If the question relates to the recently answered question
+			var choices = questions[queries[i].id].relation.answers;
+			if(choices.indexOf(parseFloat(ele.value)) > -1) {		//If the value of the recently answered question is what is needed to show the hidden question
+				queries[i].style.display = 'block';					//Show the question
+				answers[queries[i].id] = 0;							//Add the question to the object of questions to answer
 			}else{
-				queries[i].children[0].selectedIndex = 0;			//unselect any selected options in the dropdown
-				queries[i].style.display = 'none';					//hide the question
-				delete answers[queries[i].id];						//remove the questions from the object of questions to answer
+				queries[i].children[0].selectedIndex = 0;			//Unselect any selected options in the dropdown
+				queries[i].style.display = 'none';					//Hide the question
+				delete answers[queries[i].id];						//Remove the questions from the object of questions to answer
 			}
 		}
 	};
 
 	updateBreadcrumb(ele.name);							//Change Breadcrumb state of the answered question
 
-	progress();						//Update progress trackers
+	progress();					//Update progress trackers
 }
 
 //calculates percentage completed, updating the progress_bar and activates final estimate at 100%
@@ -128,26 +128,29 @@ function progress() {
 
 //Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
-	estimate = {sum:0,service:0,disbursement:0};
 	professional = 2500;									//Set professional fee
 	deathCertificate = 26.50;								//Set death certificate cost
+	estimate.services = professional;						//Add professional fee to service account
+	estimate.disbursements = deathCertificate;				//Add death certificate cost to disbursement account
 
 	updateBreadcrumb(0);									//Update the Breadcrumb to move to position 0, which is the summary
 
 	for(unique in answers) {
 		var choice = questions[unique].options[answers[unique]-1];			//Shortcut to the question's answer object
-		if(choice.service) {
-			estimate.service += choice.service;								//Add any service costs to service account
+		if(choice.services) {
+			estimate.services += choice.services;								//Add any service costs to service account
+			console.log("services: "+estimate.services);
 		}
-		if(choice.disbursement) {
-			estimate.disbursement += choice.disbursement;					//Add any disbursement costs to disbursement account
+		if(choice.disbursements) {
+			estimate.disbursements += choice.disbursements;					//Add any disbursement costs to disbursement account
+			console.log("disbursements: "+estimate.disbursements);
 		}
 	}
 	//Calculate formulas; formulas combine the values of 2 questions to conclude with
 	for (formula in formulas) {
 		var answer1 = answers[formulas[formula].value1];						//Number of option chosen for first question
 		var answer2 = answers[formulas[formula].value2];						//Number of option chosen for second question
-		if(answer1 && answer2) {											//If both questions answered
+		if(answer1 && answer2) {												//If both questions answered
 			var question1 = questions[formulas[formula].value1];				//Shortcut to first question in formula
 			var question2 = questions[formulas[formula].value2];				//Shortcut to second question in formula
 			var account = question1.type;										//Account to add cost to
@@ -156,17 +159,14 @@ function genSummary() {
 			var operator = formulas[formula].operator;							//Operator to use for formula
 
 			estimate[account] += varOperators[operator](value1,value2);		//Calculate result of formula and add to account
-			console.log(formula);
-			console.log(varOperators[operator](value1,value2));
 		}
 	}
 
-	estimate.service += professional;									//Add professional fee to service account
-	estimate.disbursement += deathCertificate;						//Add death certificate cost to disbursement account
-	estimate.sum += estimate.service + estimate.disbursement;		//Combine service and disbursments accounts into total estimate
+	estimate.sum = estimate.services + estimate.disbursements;				//Combine service and disbursments accounts into total estimate
+	console.log(estimate.sum);
 
-	elements.estimate.innerHTML = '$'+estimate.sum.toFixed(2);	//Add total estiamte to estimate element
-	elements.estimateWord.className = 'estimateShow';			//Show the estimate word / title
+	elements.estimate.innerHTML = '$'+estimate.sum.toFixed(2);			//Add total estiamte to estimate element
+	elements.estimateWord.className = 'estimateShow';					//Show the estimate word / title
 }
 
 //For reseting the pricer
