@@ -60,20 +60,6 @@ var questions = {
 		]
 	}
 
-	,funeral: {
-		description: "Funeral Service?"
-		,breadcrumb: "Funeral"
-		,type: "service"
-		,options: [
-			{
-				text: "Yes"
-			}
-			,{
-				text: "No"
-			}
-		]
-	}
-
 	,viewing: {
 		description: "Will there be a viewing?"
 		,breadcrumb: "Viewing"
@@ -122,27 +108,16 @@ var questions = {
 		]
 	}
 
-	,day: {
-		description: "What sort of day will the funeral be on?"
-		,breadcrumb: "Day"
+	,funeral: {
+		description: "Funeral Service?"
+		,breadcrumb: "Funeral"
 		,type: "service"
-		,relation: {
-			question: "funeral"
-			,answers: [1]
-		}
 		,options: [
 			{
-				text: "Sunday or Public Holiday"
-				,services: 350
-				,disbursements: 750
+				text: "Yes"
 			}
 			,{
-				text: "Saturday"
-				,services: 250
-				,disbursements: 350
-			}
-			,{
-				text: "Weekday"
+				text: "No"
 			}
 		]
 	}
@@ -195,6 +170,31 @@ var questions = {
 			,{
 				text: "more than 1000"
 				,value: 1000
+			}
+		]
+	}
+
+	,day: {
+		description: "What sort of day will the funeral be on?"
+		,breadcrumb: "Day"
+		,type: "service"
+		,relation: {
+			question: "funeral"
+			,answers: [1]
+		}
+		,options: [
+			{
+				text: "Sunday or Public Holiday"
+				,services: 350
+				,disbursements: 750
+			}
+			,{
+				text: "Saturday"
+				,services: 250
+				,disbursements: 350
+			}
+			,{
+				text: "Weekday"
 			}
 		]
 	}
