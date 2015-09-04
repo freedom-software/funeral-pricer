@@ -4,10 +4,6 @@
 
 Javascript based application that allows users to answer a few questions about features of a future funeral and gives them an estimated cost of the funeral based on their answers to those questions.
 
-## Code Example
-
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
-
 ## Motivation
 
 The Funeral Pricer gives both funeral directors and those looking into a funeral, an idea of the price of a funeral with the features they are looking for.

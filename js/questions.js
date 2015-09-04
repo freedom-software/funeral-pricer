@@ -213,7 +213,7 @@ var questions = {
 				,disbursements: 180
 			}
 			,{
-				text: "Funeral celebran"
+				text: "Funeral celebrant"
 				,disbursements: 350
 			}
 			,{
@@ -447,7 +447,7 @@ var questions = {
 		,breadcrumb: "Slide Show Type"
 		,type: "disbursement"
 		,relation: {
-			questions: "slides"
+			question: "slides"
 			,answers: [1]
 		}
 		,options: [

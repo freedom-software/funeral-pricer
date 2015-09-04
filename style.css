@@ -5,19 +5,99 @@ html{
 body {
 	margin: 0;
 	background-color: hsl(0,0%,50%);
-	z-index: 1;
+	z-index: 0;
+	margin-right: 20px;
+	overflow: scroll;
 }
-header {
-	position: fixed;
-	top: 0;
+header,footer,#contentWrapper{
+	display: block;
 	width: 100%;
-	text-align: center;
-	background-color: hsl(0,0%,0%);
-	color: white;
-	overflow: hidden;
-	z-index: 5;
+	max-width: 700px;
+	margin: auto;
 }
-#breadcrumb {
+header,#contentWrapper {
+	padding: 0 10px;
+}
+
+header h1{
+	margin: 0;
+}
+#questions>span {
+	display: block;
+	margin-top: 20px;
+}
+#questions h2 {
+	margin: 2px 0;
+}
+#contentWrapper {
+	position: relative;
+	padding-bottom: 30px;
+}
+#questions>div {
+	font-size: 100%;
+	display: block;
+	position: relative;
+	font-weight: bold;
+	padding-top: 8px;
+}
+.qu_select{
+	font-size: 85%;
+	display: block;
+	width: 100%;
+}
+#summary>span {
+	float: right;
+}
+footer {
+	display: block;
+	position: fixed;
+	bottom: 0;
+	margin: auto;
+	z-index: 5;
+	left: 0;
+	margin: 0;
+}
+#progress_bar {
+	line-height: 20px;
+	height: 20px;
+	background-color: hsl(0,50%,50%);
+	border: 2px solid black;
+	transition: background 2s;
+	z-index: 9;
+	padding: 0 5px;
+}
+#estimate{
+	font-weight: bold;
+	text-decoration: underline;
+	float: right;
+}
+#buttons{
+	margin-top: 12px;
+	text-align: right;
+}
+.estimateShow{
+	display: inline !important;
+}
+@media (min-width: 720px) {
+	.qu_select{
+		float: right;
+		width: 15em;
+	}
+	#contentWrapper {
+		padding-bottom: 35px;
+	}
+	#progress_bar {
+		height: 30px;
+		line-height: 30px;
+	}
+	footer {
+		font-size: 150%;
+		left: 50%;
+		margin-left: -350px;
+	}
+}
+
+/*#breadcrumb {
 	display: block;
 	white-space: nowrap;
 	overflow: auto;
@@ -37,75 +117,4 @@ header {
 }
 #breadcrumb > .activeCrumb {
 	color: red;
-}
-#questions {
-	margin: 2em 0 2.5em 0;
-	padding-top: 5px;
-	display: block;
-}
-#questions>div {
-	font-size: 100%;
-	display: block;
-	position: relative;
-	font-weight: bold;
-}
-.qu_select{
-	font-size: 85%;
-	display: block;
-	width: 100%;
-}
-#summary>span {
-	float: right;
-}
-#questions>div
-,#summary {
-	padding: 5px 20px;
-}
-footer {
-	display: block;
-	width: 100%;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	font-size: 100%;
-	background-color: hsl(0,0%,50%);
-	z-index: 5;
-}
-#progress_bar {
-	height: 20px;
-	background-color: hsl(0,50%,50%);
-	border: 2px solid black;
-	transition: background 2s;
-	z-index: 9;
-}
-#estimate {
-	font-weight: bold;
-	text-decoration: underline;
-	text-align: center;
-	right: 5px;
-}
-#estimateWord{
-	display: none;
-	left: 5px;
-}
-#estimateWord
-,#estimate{
-	position: fixed;
-	z-index: 10;
-	bottom: 2px;
-}
-.estimateShow{
-	display: inline !important;
-}
-@media (min-width: 720px) {
-	.qu_select{
-		float: right;
-		width: 15em;
-	}
-	#progress_bar {
-		height: 30px;
-	}
-	footer {
-		font-size: 150%;
-	}
-}
+}*/
