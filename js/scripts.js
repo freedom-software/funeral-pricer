@@ -4,8 +4,13 @@ function startCalculator() {
 		elements[getElems[i]] = document.getElementById(getElems[i]);		//Adding elements by their ID to the elements object to be refered to later
 	};
 
+	var count = 0
 	for (n in questions) {
 		genQuestion(n);												//Generate a question for each question in the questions object
+		if(count == 0) {
+			document.getElementById(n).className = document.getElementById(n).className.replace(' hiddenQuestion','');
+			count ++;
+		}
 	}
 
 	//genBreadcrumbs();												//Generate the breadcrumb
@@ -17,6 +22,7 @@ function genQuestion(unique) {
 	var question = document.createElement('div');
 	question.innerHTML = questions[unique].description;
 	question.id = unique;
+	question.className = ' hiddenQuestion';
 
 	var dropdown = document.createElement('SELECT');
 	dropdown.name = unique;
@@ -41,7 +47,7 @@ function genQuestion(unique) {
 	question.appendChild(dropdown);
 
 	if(questions[unique].relation) {
-		question.style.display = 'none';
+		question.className += ' relationQuestion';
 	}else{
 		answers[unique] = 0;
 	}
@@ -67,13 +73,15 @@ function answer(ele) {
 			if(relation){																	//If the question relates to a question
 				var select = document.getElementById(relation.question).children[0];
 				if(relation.answers.indexOf(parseFloat(select.value)) > -1) {			//If the question it relates to is answered correctly
-					queries[i].style.display = 'block';									//Show the question
+					queries[i].className = queries[i].className.replace(' relationQuestion','');						//Hide the question
 					if(!answers[queries[i].id]) {											//If question not in answers object
 						answers[queries[i].id] = 0;										//Add the question to the object of questions to answer
 					}
 				}else{
 					queries[i].children[0].selectedIndex = 0;							//Unselect any selected options in the dropdown
-					queries[i].style.display = 'none';									//Hide the question
+					if(queries[i].className.search('relationQuestion') == -1){
+						queries[i].className += ' relationQuestion';						//Hide the question
+					}
 					delete answers[queries[i].id];										//Remove the questions from the object of questions to answer
 				}
 			}
@@ -83,6 +91,21 @@ function answer(ele) {
 	//updateBreadcrumb(ele.name);							//Change Breadcrumb state of the answered question
 
 	progress();									//Update progress trackers
+
+	try{
+		var nextSibling = queries[ele.name].nextSibling;
+		while(nextSibling.nodeName != 'DIV' || nextSibling.className.search('relationQuestion') > -1) {
+			nextSibling = nextSibling.nextSibling;
+		}
+		console.log(nextSibling);
+		nextSibling.className = nextSibling.className.replace(' hiddenQuestion','');
+	}catch(err){
+		null;
+	}
+
+}
+
+function showQuestion(unique) {
 }
 
 //calculates percentage completed, updating the progress_bar and activates final estimate at 100%
@@ -106,6 +129,7 @@ function progress() {
 function showButton(position) {
 	elements.buttons.children[position].style.display = 'inline-block';
 }
+
 function disableQuestions() {
 	var queries = elements.questions.children;
 	for (var i = queries.length - 1; i >= 0; i--) {
@@ -133,6 +157,7 @@ function genSummary() {
 			estimate.disbursements += choice.disbursements;					//Add any disbursement costs to disbursement account
 		}
 	}
+
 	//Calculate formulas; formulas combine the values of 2 questions to conclude with
 	for (formula in formulas) {
 		var answer1 = answers[formulas[formula].value1];						//Number of option chosen for first question

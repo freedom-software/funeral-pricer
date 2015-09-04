@@ -75,8 +75,11 @@ footer {
 	margin-top: 12px;
 	text-align: right;
 }
-.estimateShow{
-	display: inline !important;
+.relationQuestion {
+	display: none !important;
+}
+.hiddenQuestion {
+	display: none !important;
 }
 @media (min-width: 720px) {
 	.qu_select{

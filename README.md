@@ -1,12 +1,11 @@
 # Funeral Pricer
-
 ## Synopsis
 
 Javascript based application that allows users to answer a few questions about features of a future funeral and gives them an estimated cost of the funeral based on their answers to those questions.
 
 ## Motivation
 
-The Funeral Pricer gives both funeral directors and those looking into a funeral, an idea of the price of a funeral with the features they are looking for.
+The need to assist both funeral directors and those looking into a funeral, by giving them the abiltiy to quickly get an idea of the price of a funeral with the features they are looking for.
 
 ## Installation
 
