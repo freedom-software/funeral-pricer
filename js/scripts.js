@@ -107,11 +107,18 @@ function showButton(position) {
 	elements.buttons.children[position].style.display = 'inline-block';
 }
 function disableQuestions() {
-	elements.questions
+	var queries = elements.questions.children;
+	for (var i = queries.length - 1; i >= 0; i--) {
+		if(queries[i].nodeName == 'DIV') {
+			queries[i].children[0].setAttribute('disabled',true);
+		}
+	};
 }
 
 //Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
+	disableQuestions();
+
 	professional = 2500;									//Set professional fee
 	deathCertificate = 26.50;								//Set death certificate cost
 	estimate.services = professional;						//Add professional fee to service account
@@ -143,7 +150,6 @@ function genSummary() {
 	}
 
 	estimate.sum = estimate.services + estimate.disbursements;				//Combine service and disbursments accounts into total estimate
-	console.log(estimate.sum);
 
 	elements.progress_bar.innerHTML = 'Estimate: ';
 	var span = document.createElement('SPAN');
@@ -153,12 +159,6 @@ function genSummary() {
 
 	//updateBreadcrumb(0);									//Update the Breadcrumb to move to position 0, which is the summary
 }
-
-//For reseting the pricer
-function reset() {
-	console.log('reseting');
-}
-
 
 //Generates the HTML for the breadcrumb
 /*function genBreadcrumbs() {
