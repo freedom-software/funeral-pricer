@@ -78,10 +78,25 @@ var range = function(start, end, step) {
 	}
 
 	return range;
-
 }
 
 //Add colour constants to JS
 window.ICE_blue = '<?php echo ICE_blue; ?>';
 window.ICE_background = '<?php echo ICE_background; ?>';
 window.ICE_border = '<?php echo ICE_border; ?>';
+
+function showHideButton(position,action) {
+	switch(action){
+		case 'show': elements.buttons.children[position].style.display = 'inline-block'; break;
+		case 'hide': elements.buttons.children[position].style.display = 'none'; break;
+	}
+}
+
+function disableQuestions() {
+	var queries = elements.questions.children;
+	for (var i = queries.length - 1; i >= 0; i--) {
+		if(queries[i].nodeName == 'DIV') {
+			queries[i].children[0].setAttribute('disabled',true);
+		}
+	};
+}

@@ -67,20 +67,22 @@ function answer(ele) {
 	}
 
 	var queries = elements.questions.children;
-	for (var i = 0; i <queries.length; i++) {											//For each of the questions
+	for (var i = 0; i <queries.length; i++) {												//For each of the questions
 		if(queries[i].nodeName == 'DIV') {
 			var relation = questions[queries[i].id].relation;
 			if(relation){																	//If the question relates to a question
 				var select = document.getElementById(relation.question).children[0];
-				if(relation.answers.indexOf(parseFloat(select.value)) > -1) {			//If the question it relates to is answered correctly
+				if(relation.answers.indexOf(parseFloat(select.value)) > -1) {			//If the question it relates to is answered
 					queries[i].className = queries[i].className.replace(' relationQuestion','');						//Hide the question
 					if(!answers[queries[i].id]) {											//If question not in answers object
 						answers[queries[i].id] = 0;										//Add the question to the object of questions to answer
 					}
+
+
 				}else{
 					queries[i].children[0].selectedIndex = 0;							//Unselect any selected options in the dropdown
 					if(queries[i].className.search('relationQuestion') == -1){
-						queries[i].className += ' relationQuestion';						//Hide the question
+						queries[i].className += ' relationQuestion';					//Hide the question
 					}
 					delete answers[queries[i].id];										//Remove the questions from the object of questions to answer
 				}
@@ -88,24 +90,21 @@ function answer(ele) {
 		}
 	}
 
-	//updateBreadcrumb(ele.name);							//Change Breadcrumb state of the answered question
+
 
 	progress();									//Update progress trackers
 
-	try{
-		var nextSibling = queries[ele.name].nextSibling;
-		while(nextSibling.nodeName != 'DIV' || nextSibling.className.search('relationQuestion') > -1) {
-			nextSibling = nextSibling.nextSibling;
+	try{	//Look for next question that isn't hidden becuase of a relationship
+		var nQu = queries[ele.name].nextSibling;
+		while(nQu.nodeName != 'DIV' || nQu.className.search('relationQuestion') > -1) {
+			nQu = nQu.nextSibling;
 		}
-		console.log(nextSibling);
-		nextSibling.className = nextSibling.className.replace(' hiddenQuestion','');
+		nQu.className = nQu.className.replace(' hiddenQuestion','');	//Show the next question
 	}catch(err){
 		null;
 	}
 
-}
-
-function showQuestion(unique) {
+	//updateBreadcrumb(ele.name);							//Change Breadcrumb state of the answered question
 }
 
 //calculates percentage completed, updating the progress_bar and activates final estimate at 100%
@@ -123,21 +122,10 @@ function progress() {
 	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsl(0,50%,50%) "+percent+"%)";	//change progress bar background color
 
 	if(percent === 100) {
-		showButton(0);
+		showHideButton(0,'show');
+	}else{
+		showHideButton(0,'hide');
 	}
-}
-
-function showButton(position) {
-	elements.buttons.children[position].style.display = 'inline-block';
-}
-
-function disableQuestions() {
-	var queries = elements.questions.children;
-	for (var i = queries.length - 1; i >= 0; i--) {
-		if(queries[i].nodeName == 'DIV') {
-			queries[i].children[0].setAttribute('disabled',true);
-		}
-	};
 }
 
 //Generates the elements and calculates the final estimate for the funeral price
