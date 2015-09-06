@@ -117,7 +117,8 @@ function progress() {
 		}
 	}
 
-	var percent = 100 / (Object.keys(answers).length) * count;	//calculate percentage complete as 100 divided by the total number of questions to answer multiplied by the number of questions answered
+	var percent = 100 / (Object.keys(questions).length) * count;	//calculate percentage complete as 100 divided by the total number of questions multiplied by the number of questions answered
+	if(count == Object.keys(answers).length) percent = 100;	//If the total number of questions to answer equals the count of questions answered, make percent complete 100%.
 
 	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsl(0,50%,50%) "+percent+"%)";	//change progress bar background color
 
