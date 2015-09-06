@@ -9,6 +9,7 @@ function startCalculator() {
 		genQuestion(n);												//Generate a question for each question in the questions object
 		if(count == 0) {
 			document.getElementById(n).className = document.getElementById(n).className.replace(' hiddenQuestion','');
+			document.getElementById(n).children[0].style.outline = '2px solid hsla(0,100%,50%,.4)';
 			count ++;
 		}
 	}
@@ -87,6 +88,11 @@ function answer(ele) {
 					delete answers[queries[i].id];										//Remove the questions from the object of questions to answer
 				}
 			}
+			if(answers[queries[i].id] == 0) {
+				queries[i].children[0].style.outline = '2px solid hsla(0,100%,50%,.4)';
+			}else{
+				queries[i].children[0].style.outline = 'none';
+			}
 		}
 	}
 
@@ -123,6 +129,7 @@ function progress() {
 
 	if(percent === 100) {
 		showHideButton(0,'show');
+		elements.buttons.children[0].style.outline = '2px solid hsla(0,100%,50%,.4)';
 	}else{
 		showHideButton(0,'hide');
 	}
@@ -131,6 +138,8 @@ function progress() {
 //Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
 	disableQuestions();
+	elements.progress_bar.style.outline = '2px solid hsla(0,100%,50%,.4)';
+	elements.buttons.children[0].style.outline = 'none';
 
 	professional = 2500;									//Set professional fee
 	deathCertificate = 26.50;								//Set death certificate cost
