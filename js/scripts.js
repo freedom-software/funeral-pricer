@@ -9,7 +9,7 @@ function start() {
 		genQuestion(n);												//Generate a question for each question in the questions object
 		if(count == 0) {
 			document.getElementById(n).className = document.getElementById(n).className.replace(' hiddenQuestion','');
-			document.getElementById(n).children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+			document.getElementById(n).lastChild.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 			count ++;
 		}
 	}
@@ -89,9 +89,9 @@ function answer(ele) {
 				}
 			}
 			if(answers[queries[i].id] == 0) {
-				queries[i].children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+				queries[i].lastChild.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 			}else{
-				queries[i].children[0].style.boxShadow = 'none';
+				queries[i].lastChild.style.boxShadow = 'none';
 			}
 		}
 	}

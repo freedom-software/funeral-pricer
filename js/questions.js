@@ -81,7 +81,7 @@ var questions = {
 	}
 
 	,casket: {
-		description: "What sort of casket will be used?"
+		description: "Select the style of casket (coffin) required."
 		,breadcrumb: "Casket"
 		,type: "service"
 		,options: [
@@ -123,7 +123,7 @@ var questions = {
 	}
 
 	,guests: {
-		description: "Estimated number of guests?"
+		description: "Estimated number of guests attending?"
 		,breadcrumb: "Guests"
 		,type: "service"
 		,relation: {
@@ -175,7 +175,7 @@ var questions = {
 	}
 
 	,day: {
-		description: "What sort of day will the funeral be on?"
+		description: "What day will the funeral be on?"
 		,breadcrumb: "Day"
 		,type: "service"
 		,relation: {
@@ -184,17 +184,17 @@ var questions = {
 		}
 		,options: [
 			{
-				text: "Sunday or Public Holiday"
+				text: "A Sunday or Public Holiday"
 				,services: 350
 				,disbursements: 750
 			}
 			,{
-				text: "Saturday"
+				text: "A Saturday"
 				,services: 250
 				,disbursements: 350
 			}
 			,{
-				text: "Weekday"
+				text: "A Weekday"
 			}
 		]
 	}
@@ -223,7 +223,7 @@ var questions = {
 	}
 
 	,flowers: {
-		description: "Flowers to be displayed on the casket"
+		description: "Select the flowers to be displayed on the casket"
 		,breadcrumb: "Flowers"
 		,type: "disbursement"
 		,relation: {
@@ -246,6 +246,9 @@ var questions = {
 			,{
 				text: "Conservative"
 				,disbursements: 100
+			}
+			,{
+				text: "No Flowers Required"
 			}
 		]
 	}
