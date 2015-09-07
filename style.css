@@ -55,7 +55,6 @@ header h1,#progress_bar,#contentWrapper{
 button, select {
 	border: 1px solid hsla(0,0%,0%,.5);
 	background-color: white;
-	width: 45%;
 }
 footer {
 	display: block;

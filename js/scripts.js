@@ -28,12 +28,13 @@ function genQuestion(unique) {
 	var dropdown = document.createElement('SELECT');
 	dropdown.name = unique;
 	dropdown.className = 'qu_select';
+	if(questions[unique].default) dropdown.selectedIndex = questions[unique].default;
 	dropdown.setAttribute('onChange','answer(this)');
 
 	var option = document.createElement('OPTION');
 	option.innerHTML = 'Please Select..';
 	option.disabled = true;
-	option.selected = true;
+	if(!questions[unique].default) option.selected = true;
 	option.setAttribute('hidden','');
 	dropdown.appendChild(option);
 

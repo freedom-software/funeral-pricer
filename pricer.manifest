@@ -8,10 +8,10 @@ CACHE MANIFEST
 /js/questions.js
 /js/values.js
 /js/formulas.js
+/js/colors.js
 
 # Use from network if available
 NETWORK:
-/pricer.manifest
 /pricer.html
 /style.css
 /js/helpers.js
@@ -19,6 +19,7 @@ NETWORK:
 /js/questions.js
 /js/values.js
 /js/formulas.js
+/js/colors.js
 
 # Incase a file cannot be retrieved from the internet
 FALLBACK:
