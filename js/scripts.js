@@ -1,5 +1,5 @@
 //Ran on page load, loads elements by ID into the elements object and calls the HTML generating functions
-function startCalculator() {
+function start() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
 		elements[getElems[i]] = document.getElementById(getElems[i]);		//Adding elements by their ID to the elements object to be refered to later
 	};
@@ -9,7 +9,7 @@ function startCalculator() {
 		genQuestion(n);												//Generate a question for each question in the questions object
 		if(count == 0) {
 			document.getElementById(n).className = document.getElementById(n).className.replace(' hiddenQuestion','');
-			document.getElementById(n).children[0].style.outline = '2px solid hsla(0,100%,50%,.4)';
+			document.getElementById(n).children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 			count ++;
 		}
 	}
@@ -89,9 +89,9 @@ function answer(ele) {
 				}
 			}
 			if(answers[queries[i].id] == 0) {
-				queries[i].children[0].style.outline = '2px solid hsla(0,100%,50%,.4)';
+				queries[i].children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 			}else{
-				queries[i].children[0].style.outline = 'none';
+				queries[i].children[0].style.boxShadow = 'none';
 			}
 		}
 	}
@@ -129,7 +129,7 @@ function progress() {
 
 	if(percent === 100) {
 		showHideButton(0,'show');
-		elements.buttons.children[0].style.outline = '2px solid hsla(0,100%,50%,.4)';
+		elements.buttons.children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 	}else{
 		showHideButton(0,'hide');
 	}
@@ -138,8 +138,8 @@ function progress() {
 //Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
 	disableQuestions();
-	elements.progress_bar.style.outline = '2px solid hsla(0,100%,50%,.4)';
-	elements.buttons.children[0].style.outline = 'none';
+	elements.progress_bar.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+	elements.buttons.children[0].style.boxShadow = 'none';
 
 	professional = 2500;									//Set professional fee
 	deathCertificate = 26.50;								//Set death certificate cost
@@ -174,7 +174,7 @@ function genSummary() {
 
 	estimate.sum = estimate.services + estimate.disbursements;				//Combine service and disbursments accounts into total estimate
 
-	elements.progress_bar.innerHTML = 'Estimate: ';
+	elements.progress_bar.innerHTML = 'Approximate value: ';
 	var span = document.createElement('SPAN');
 	span.id = 'estimate';
 	span.innerHTML = '$'+estimate.sum.toFixed(2);							//Add total estiamte to estimate element

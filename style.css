@@ -2,29 +2,34 @@ html{
 	font-family: arial,sans-serif;
 	font-size: 16px;
 }
-body {
+body, header>h1, footer {
 	margin: 0;
+}
+body, header>h1, header, footer, #progress_bar, .qu_select {
+	width: 100%;
+}
+body {
 	background-color: hsl(0,0%,50%);
 	z-index: 0;
-	margin-right: 20px;
 	overflow: scroll;
+	height: 100vh;
 }
-header,footer,#contentWrapper{
+header h1,#progress_bar,#contentWrapper{
 	display: block;
-	width: 100%;
-	max-width: 700px;
 	margin: auto;
+	max-width: 700px;
 }
-header,#contentWrapper {
+#contentWrapper,header h1 {
 	padding: 0 10px;
-}
-
-header h1{
-	margin: 0;
 }
 #questions>span {
 	display: block;
+}
+#questions>span:not(:first-child){
 	margin-top: 20px;
+}
+#questions>span:first-child>hr{
+	margin-top: 0;
 }
 #questions h2 {
 	margin: 2px 0;
@@ -43,19 +48,19 @@ header h1{
 .qu_select{
 	font-size: 85%;
 	display: block;
-	width: 100%;
 }
 #summary>span {
 	float: right;
+}
+button, select {
+	border: 1px solid hsla(0,0%,0%,.5);
+	background-color: white;
 }
 footer {
 	display: block;
 	position: fixed;
 	bottom: 0;
-	margin: auto;
 	z-index: 5;
-	left: 0;
-	margin: 0;
 }
 #progress_bar {
 	line-height: 20px;
@@ -95,8 +100,11 @@ footer {
 	}
 	footer {
 		font-size: 150%;
-		left: 50%;
-		margin-left: -350px;
+	}
+}
+@media (min-width: 740px) {
+	body{
+		margin: 0;
 	}
 }
 
