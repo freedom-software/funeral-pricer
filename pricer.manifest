@@ -9,17 +9,11 @@ CACHE MANIFEST
 /js/values.js
 /js/formulas.js
 /js/colors.js
+/js/text.js
 
 # Use from network if available
 NETWORK:
-/pricer.html
-/style.css
-/js/helpers.js
-/js/scripts.js
-/js/questions.js
-/js/values.js
-/js/formulas.js
-/js/colors.js
+*
 
 # Incase a file cannot be retrieved from the internet
 FALLBACK:

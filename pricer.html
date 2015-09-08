@@ -15,29 +15,29 @@
 		var elements = {};
 		var answers = {};
 		var relations = {};
-		var getElems = ['questions','progress_bar','summary','buttons','services','disbursements'/*,'breadcrumb'*/];
+		var getElems = ['questions','progress_bar','summary','buttons','services','disbursements','title'/*,'breadcrumb'*/];
 	</script>
-	<script type="text/javascript" src="js/colors.js"></script>
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
-	<script type="text/javascript" src="js/questions.js"></script>
-	<script type="text/javascript" src="js/values.js"></script>
-	<script type="text/javascript" src="js/formulas.js"></script>
+	<script type="text/javascript" src="options/colors.js"></script>
+	<script type="text/javascript" src="options/questions.js"></script>
+	<script type="text/javascript" src="options/text.js"></script>
+	<script type="text/javascript" src="options/formulas.js"></script>
 </head>
 <body onload="start();">
 	<header>
 		<!-- <div id='breadcrumb'></div> -->
-		<h1>Funeral Value Indicator</h1>
+		<h1 id="title"></h1>
 	</header>
 	<div id='contentWrapper'>
 		<section id='questions'>
-			<span id='services'><hr><h2>Services</h2></span>
-			<span id='disbursements'><hr><h2>Disbursements</h2></span>
+			<span id='services'><hr><h2></h2></span>
+			<span id='disbursements'><hr><h2></h2></span>
 		</section>
 		<hr>
 		<section id='buttons'>
-			<button onClick='genSummary();' style='display:none;'>Approximate</button>
-			<button onClick='location.reload();'>Reset</button>
+			<button onClick='genSummary();' style='display:none;'></button>
+			<button onClick='location.reload();'></button>
 		</section>
 		<section id='summary'></section>
 	</div>

@@ -4,6 +4,8 @@ function start() {
 		elements[getElems[i]] = document.getElementById(getElems[i]);		//Adding elements by their ID to the elements object to be refered to later
 	};
 
+	genText();
+
 	var count = 0
 	for (n in questions) {
 		genQuestion(n);												//Generate a question for each question in the questions object
@@ -17,6 +19,13 @@ function start() {
 	//genBreadcrumbs();												//Generate the breadcrumb
 }
 
+function genText() {
+	elements.title.innerHTML = text.title;
+	elements.services.lastChild.innerHTML = text.span1;
+	elements.disbursements.lastChild.innerHTML = text.span2;
+	elements.buttons.children[0].innerHTML = text.calculateButton;
+	elements.buttons.children[1].innerHTML = text.resetButton;
+}
 
 //Generates the HTML for a question, used on page load.
 function genQuestion(unique) {
@@ -175,7 +184,7 @@ function genSummary() {
 
 	estimate.sum = estimate.services + estimate.disbursements;				//Combine service and disbursments accounts into total estimate
 
-	elements.progress_bar.innerHTML = 'Approximate value: ';
+	elements.progress_bar.innerHTML = text.total+': ';
 	var span = document.createElement('SPAN');
 	span.id = 'estimate';
 	span.innerHTML = '$'+estimate.sum.toFixed(2);							//Add total estiamte to estimate element
