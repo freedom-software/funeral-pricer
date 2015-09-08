@@ -32,7 +32,7 @@ function genQuestion(unique) {
 	dropdown.setAttribute('onChange','answer(this)');
 
 	var option = document.createElement('OPTION');
-	option.innerHTML = 'Please Select..';
+	option.innerHTML = defaultAnswer;
 	option.disabled = true;
 	if(!questions[unique].default) option.selected = true;
 	option.setAttribute('hidden','');

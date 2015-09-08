@@ -1,3 +1,4 @@
+var defaultAnswer = "Please Select..";
 var questions = {
 
 	/*	Example
