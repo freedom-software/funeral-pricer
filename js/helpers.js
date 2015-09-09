@@ -16,6 +16,10 @@ function removeChildren(parent) {
 	}
 }
 
+function insertAfter(newNode,referenceNode) {
+	referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
 function compare(a,b) {
 	if (a < b) return -1;
 	if (a > b) return 1;

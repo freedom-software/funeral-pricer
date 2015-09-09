@@ -6,33 +6,58 @@ function start() {
 
 	genText();
 
-	var count = 0
 	for (n in questions) {
 		genQuestion(n);												//Generate a question for each question in the questions object
-		if(count == 0) {
-			document.getElementById(n).className = document.getElementById(n).className.replace(' hiddenQuestion','');
-			document.getElementById(n).lastChild.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
-			count ++;
+		if(!firstQuestion) {
+			var firstQuestion = document.getElementById(n);
 		}
 	}
+	firstQuestion.className = firstQuestion.className.replace(' hiddenQuestion','');
+	firstQuestion.lastChild.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 
 	//genBreadcrumbs();												//Generate the breadcrumb
 }
 
+function genSpacer(name) {
+	var spacer = document.createElement('SPAN');
+	spacer.id = name;
+
+	spacer.appendChild(document.createElement('HR'));
+
+	var spacerTitle = document.createElement('H2');
+
+	spacerTitle.innerHTML = name;
+	spacer.appendChild(spacerTitle);
+
+	elements.questions.appendChild(spacer);
+	elements[name] = document.getElementById(name);
+}
+/*
+function genSpacers() {
+
+	var spacers = [];
+	for (n in questions){
+		if(spacers.indexOf(questions[n].type) == -1) {
+			spacers.push(questions[n].type);
+		}
+	}
+	for (var i = 0; i < spacers.length; i++) {
+		genSpacer(spacers[i]);
+	};
+}*/
+
 function genText() {
 	elements.title.innerHTML = text.title;
-	elements.services.lastChild.innerHTML = text.span1;
-	elements.disbursements.lastChild.innerHTML = text.span2;
 	elements.buttons.children[0].innerHTML = text.calculateButton;
 	elements.buttons.children[1].innerHTML = text.resetButton;
 }
 
 //Generates the HTML for a question, used on page load.
 function genQuestion(unique) {
-	var question = document.createElement('div');
-	question.innerHTML = questions[unique].description;
-	question.id = unique;
-	question.className = ' hiddenQuestion';
+	var newQuestion = document.createElement('div');
+	newQuestion.innerHTML = questions[unique].description;
+	newQuestion.id = unique;
+	newQuestion.className = ' hiddenQuestion';
 
 	var dropdown = document.createElement('SELECT');
 	dropdown.name = unique;
@@ -55,18 +80,38 @@ function genQuestion(unique) {
 		dropdown.appendChild(option);
 	};
 
-	question.appendChild(dropdown);
+	newQuestion.appendChild(dropdown);
 
 	if(questions[unique].relation) {
-		question.className += ' relationQuestion';
+		newQuestion.className += ' relationQuestion';
 	}else{
 		answers[unique] = 0;
 	}
-	switch(questions[unique].type) {
-		case 'service': elements.questions.insertBefore(question,elements.disbursements); break;
-		default: elements.questions.appendChild(question);
-	}
 
+	if(questions[unique].type) {
+		var type = questions[unique].type;
+		if(!document.getElementById(type)) {
+			genSpacer(type);
+		}
+		var spacer = document.getElementById(type);
+		if(spacer.nextSibling){
+			var sibling = spacer.nextSibling;
+			while(sibling.nodeName == 'DIV') {
+				if(sibling.nextSibling){
+					sibling = sibling.nextSibling;
+				}else{
+					break;
+				}
+			}
+			if(sibling.nodeName == 'SPAN') {
+				elements.questions.insertBefore(newQuestion,sibling);
+			}else{
+				elements.questions.appendChild(newQuestion);
+			}
+		}else{
+			elements.questions.appendChild(newQuestion);
+		}
+	}
 }
 
 //Called when a question is answered, handels updating the answered questions object and hiding and showing additional questions
@@ -88,8 +133,6 @@ function answer(ele) {
 					if(!answers[queries[i].id]) {											//If question not in answers object
 						answers[queries[i].id] = 0;										//Add the question to the object of questions to answer
 					}
-
-
 				}else{
 					queries[i].children[0].selectedIndex = 0;							//Unselect any selected options in the dropdown
 					if(queries[i].className.search('relationQuestion') == -1){
