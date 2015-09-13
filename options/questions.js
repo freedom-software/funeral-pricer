@@ -7,6 +7,7 @@ var questions = {
 	*		description: "Text displayed, asking the question"
 	*		,breadcrumb: "Text used in the breadcrumb at the top of the page"
 	*		,type: "1 of 2 options (service, disbursement) to describe how to categorize the question"
+	*		,blurb: "Text displayed under the question"
 	*		,relation: {
 	*				question: "uniqueDescriptorWord of the question of which the answer will show or hide this one"
 	*				,answers: [array of possible answers for the question that will show this question]

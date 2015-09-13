@@ -56,6 +56,9 @@ button, select {
 	border: 1px solid hsla(0,0%,0%,.5);
 	background-color: white;
 }
+.blurb{
+	font-size: 80%;
+}
 footer {
 	display: block;
 	position: fixed;

@@ -13,7 +13,7 @@ function start() {
 		}
 	}
 	firstQuestion.className = firstQuestion.className.replace(' hiddenQuestion','');
-	firstQuestion.lastChild.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+	firstQuestion.children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 
 	//genBreadcrumbs();												//Generate the breadcrumb
 }
@@ -82,6 +82,10 @@ function genQuestion(unique) {
 
 	newQuestion.appendChild(dropdown);
 
+	if(questions[unique].blurb) {
+		newQuestion.innerHTML += "<div class='blurb'>"+questions[unique].blurb+"</div>";
+	}
+
 	if(questions[unique].relation) {
 		newQuestion.className += ' relationQuestion';
 	}else{
@@ -142,9 +146,9 @@ function answer(ele) {
 				}
 			}
 			if(answers[queries[i].id] == 0) {
-				queries[i].lastChild.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+				queries[i].children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 			}else{
-				queries[i].lastChild.style.boxShadow = 'none';
+				queries[i].children[0].style.boxShadow = 'none';
 			}
 		}
 	}
