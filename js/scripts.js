@@ -225,20 +225,20 @@ function genSummary() {
 		}
 	}
 
-	estimate.sum = estimate.services + estimate.disbursements;				//Combine service and disbursments accounts into total estimate
+	estimate.sum = estimate.services + estimate.disbursements;			//Combine service and disbursments accounts into total estimate
 
 	elements.progress_bar.innerHTML = text.total+': ';
 	var span = document.createElement('SPAN');
 	span.id = 'estimate';
-	span.innerHTML = '$'+estimate.sum.toFixed(2);							//Add total estiamte to estimate element
+	span.innerHTML = estimate(estimate.sum);		//Add total estiamte to estimate element
 	elements.progress_bar.appendChild(span);
 
-	//updateBreadcrumb(0);									//Update the Breadcrumb to move to position 0, which is the summary
+	//updateBreadcrumb(0);		//Update the Breadcrumb to move to position 0, which is the summary
 }
 
 //Generates the HTML for the breadcrumb
 /*function genBreadcrumbs() {
-	function createCrumb(quNum,text) {							//Creats individual crumbs into the parent breadcrumb
+	function createCrumb(quNum,text) {		//Creats individual crumbs into the parent breadcrumb
 		var span = document.createElement('SPAN');
 		span.innerHTML= text;
 		span.setAttribute('question',quNum);
