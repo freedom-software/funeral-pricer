@@ -86,7 +86,7 @@ var range = function(start, end, step) {
 
 function showHideButton(position,action) {
 	switch(action){
-		case 'show': elements.buttons.children[position].style.display = 'inline-block'; break;
+		case 'show': elements.buttons.children[position].style.display = 'block'; break;
 		case 'hide': elements.buttons.children[position].style.display = 'none'; break;
 	}
 }
@@ -98,4 +98,15 @@ function disableQuestions() {
 			queries[i].children[0].setAttribute('disabled',true);
 		}
 	};
+}
+
+function scrollBottom() {
+	var bottom = window.scrollMaxY;
+	if(!bottom && document.documentElement.scrollHeight > document.documentElement.clientHeight) {
+		bottom = document.documentElement.scrollHeight
+	}
+	if(bottom > 0){
+		window.scrollTo(0,bottom);
+		document.body.style.height = document.documentElement.scrollHeight+"px";
+	}
 }

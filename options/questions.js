@@ -46,7 +46,7 @@ var questions = [
 	,{
 		id: "family"
 		,text: "Family Attending Burial?"
-		,type: "cat1"
+		,type: "Services"
 		,relation: {
 			question: "disposition"
 			,answers: [1]
@@ -66,7 +66,7 @@ var questions = [
 	,{
 		id: 'viewing'
 		,text: "Will there be a viewing?"
-		,type: "cat1"
+		,type: "Services"
 		,options: [
 			{
 				text: "At your premises"
@@ -114,7 +114,7 @@ var questions = [
 	,{
 		id: 'funeral'
 		,text: "Funeral Service?"
-		,type: "cat2"
+		,type: "Services"
 		,options: [
 			{
 				text: "Yes"
@@ -128,7 +128,7 @@ var questions = [
 	,{
 		id: 'guests'
 		,text: "Estimated number of guests attending?"
-		,type: "cat2"
+		,type: "Services"
 		,relation: {
 			question: "funeral"
 			,answers: [1]

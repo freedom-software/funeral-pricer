@@ -166,6 +166,8 @@ function answer(ele) {
 
 	progress();									//Update progress trackers
 
+	scrollBottom();
+
 	//updateBreadcrumb(ele.name);							//Change Breadcrumb state of the answered question
 }
 
@@ -196,6 +198,9 @@ function genSummary() {
 	disableQuestions();
 	elements.progress_bar.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 	elements.buttons.children[0].style.boxShadow = 'none';
+
+	estimate.services = 0;
+	estimate.disbursements = 0;
 
 	//Fixed values
 	for (cost in fixedCosts.servies) {	//Add fixed services to service account
@@ -233,13 +238,17 @@ function genSummary() {
 
 			var operator = formulas[formula].operator;							//Operator to use for formula
 
+
 			estimate[account] += varOperators[operator](value1,value2);		//Calculate result of formula and add to account
 		}
 	}
+	//Create sumation of accounts
+	estimate.sum = 0;
 	for (account in estimate) {
 		if(account != 'sum') estimate.sum += estimate[account];		//Combine service and disbursments accounts into total estimate
 	}
 
+	//Add sumation to progress bar
 	elements.progress_bar.innerHTML = text.total+': ';
 	var span = document.createElement('SPAN');
 	span.id = 'estimate';
@@ -276,8 +285,8 @@ function genSummary() {
 			crumbs[i].className = 'activeCrumb';													//Colour the crumb to indicate it is active
 			elements.breadcrumb.scrollLeft = crumbs[i].offsetLeft-(window.innerWidth / 2.3);	//Attempt to scroll the active crumb to the center of the screen
 		}else if((!(crumbs[i].getAttribute('question') in answers) || answers[crumbs[i].getAttribute('question')] === 0)
-			&& crumbs[i].className) {				//If the crumb dosn't need to be answered or hasn't been answered and has a class associated with it.
-			crumbs[i].className = '';					//Remove colouring
+			&& crumbs[i].className) {		//If the crumb dosn't need to be answered or hasn't been answered and has a class associated with it.
+			crumbs[i].className = '';			//Remove colouring
 		}
 	};
 }*/
