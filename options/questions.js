@@ -28,7 +28,6 @@ var questions = {
 
 	disposition: {
 		description: "Burial or Cremation?"
-		,breadcrumb: "Burial/Cremation"
 		,type: "Services"
 		,options: [
 			{
@@ -44,7 +43,6 @@ var questions = {
 
 	,family: {
 		description: "Family Attending Burial?"
-		,breadcrumb: "Family"
 		,type: "Services"
 		,relation: {
 			question: "disposition"
@@ -64,7 +62,6 @@ var questions = {
 
 	,viewing: {
 		description: "Will there be a viewing?"
-		,breadcrumb: "Viewing"
 		,type: "Services"
 		,options: [
 			{
@@ -84,7 +81,6 @@ var questions = {
 
 	,casket: {
 		description: "Select the style of casket (coffin) required."
-		,breadcrumb: "Casket"
 		,type: "Services"
 		,options: [
 			{
@@ -112,7 +108,6 @@ var questions = {
 
 	,funeral: {
 		description: "Funeral Service?"
-		,breadcrumb: "Funeral"
 		,type: "Services"
 		,options: [
 			{
@@ -126,7 +121,6 @@ var questions = {
 
 	,guests: {
 		description: "Estimated number of guests attending?"
-		,breadcrumb: "Guests"
 		,type: "Services"
 		,relation: {
 			question: "funeral"
@@ -178,7 +172,6 @@ var questions = {
 
 	,day: {
 		description: "What day will the funeral be on?"
-		,breadcrumb: "Day"
 		,type: "Services"
 		,relation: {
 			question: "funeral"
@@ -203,7 +196,6 @@ var questions = {
 
 	,lead: {
 		description: "Who will lead the funeral service?"
-		,breadcrumb: "Lead"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -226,7 +218,6 @@ var questions = {
 
 	,flowers: {
 		description: "Select the flowers to be displayed on the casket"
-		,breadcrumb: "Flowers"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -257,7 +248,6 @@ var questions = {
 
 	,newsNumber: {
 		description: "Number of newspapers the notice will be sent"
-		,breadcrumb: "Newspaper Number"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -313,12 +303,11 @@ var questions = {
 
 	,newsSize: {
 		description: "Newspaper notice size"
-		,breadcrumb: "Newspaper Size"
+		,type: "Other Charges"
 		,relation: {
 			question: 'newsNumber'
 			,answers: range(2,11,1)					//range is defined in helpers.js: (start,end,step)
 		}
-		,type: "Other Charges"
 		,options: [
 			{
 				text: "Short notice (~25 words)"
@@ -337,7 +326,6 @@ var questions = {
 
 	,refreshments: {
 		description: "Will refreshments be available to the guests?"
-		,breadcrumb: "Refreshments"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -355,7 +343,6 @@ var questions = {
 
 	,catering: {
 		description: "Catering selection?"
-		,breadcrumb: "Catering"
 		,type: "Other Charges"
 		,relation: {
 			question: "refreshments"
@@ -387,7 +374,6 @@ var questions = {
 
 	,program: {
 		description: "Will a funeral program be required?"
-		,breadcrumb: "Program"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -406,7 +392,6 @@ var questions = {
 
 	,programType: {
 		description: "Type of funeral program"
-		,breadcrumb: "Program Type"
 		,type: "Other Charges"
 		,relation: {
 			question: "program"
@@ -430,7 +415,6 @@ var questions = {
 
 	,slides: {
 		description: "Will a powerpoint slide show be required?"
-		,breadcrumb: "Slide Show"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -449,7 +433,6 @@ var questions = {
 
 	,slidesType: {
 		description: "Type of powerpoint slide show"
-		,breadcrumb: "Slide Show Type"
 		,type: "Other Charges"
 		,relation: {
 			question: "slides"
@@ -473,7 +456,6 @@ var questions = {
 
 	,hynms: {
 		description: "Will there be hymns sung at the service?"
-		,breadcrumb: "Hymns"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -492,7 +474,6 @@ var questions = {
 
 	,musicians: {
 		description: "Will there be bagpipes or bugle players?"
-		,breadcrumb: "Musicians"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"

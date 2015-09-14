@@ -13,7 +13,11 @@ function start() {
 		}
 	}
 	firstQuestion.className = firstQuestion.className.replace(' hiddenQuestion','');
-	firstQuestion.children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+	if(firstQuestion.children[0].selectedIndex > 0) {
+		answer(firstQuestion.children[0]);
+	}else{
+		firstQuestion.children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+	}
 
 	//genBreadcrumbs();												//Generate the breadcrumb
 }
@@ -62,13 +66,12 @@ function genQuestion(unique) {
 	var dropdown = document.createElement('SELECT');
 	dropdown.name = unique;
 	dropdown.className = 'qu_select';
-	if(questions[unique].default) dropdown.selectedIndex = questions[unique].default;
 	dropdown.setAttribute('onChange','answer(this)');
 
 	var option = document.createElement('OPTION');
 	option.innerHTML = defaultAnswer;
 	option.disabled = true;
-	if(!questions[unique].default) option.selected = true;
+	if(!questions[unique].default || questions[unique].default <= 0) option.selected = true;
 	option.setAttribute('hidden','');
 	dropdown.appendChild(option);
 
@@ -79,6 +82,10 @@ function genQuestion(unique) {
 		option.value = (i+1);
 		dropdown.appendChild(option);
 	};
+
+	if(questions[unique].default && questions[unique].default > 0) {
+		dropdown.selectedIndex = questions[unique].default;
+	}
 
 	newQuestion.appendChild(dropdown);
 
@@ -153,19 +160,22 @@ function answer(ele) {
 		}
 	}
 
-
-
-	progress();									//Update progress trackers
-
 	try{	//Look for next question that isn't hidden becuase of a relationship
 		var nQu = queries[ele.name].nextSibling;
 		while(nQu.nodeName != 'DIV' || nQu.className.search('relationQuestion') > -1) {
 			nQu = nQu.nextSibling;
 		}
 		nQu.className = nQu.className.replace(' hiddenQuestion','');	//Show the next question
+
+		if(nQu.children[0].selectedIndex > 0) {
+			answer(nQu.children[0]);
+			return;
+		}
 	}catch(err){
 		null;
 	}
+
+	progress();									//Update progress trackers
 
 	//updateBreadcrumb(ele.name);							//Change Breadcrumb state of the answered question
 }
@@ -194,6 +204,7 @@ function progress() {
 
 //Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
+	console.log(answers);
 	disableQuestions();
 	elements.progress_bar.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 	elements.buttons.children[0].style.boxShadow = 'none';
