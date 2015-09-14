@@ -1,4 +1,4 @@
-//Ran on page load, loads elements by ID into the elements object and calls the HTML generating functions
+//Run on page load, loads elements by ID into the elements object and calls the HTML generating functions
 function start() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
 		elements[getElems[i]] = document.getElementById(getElems[i]);		//Adding elements by their ID to the elements object to be refered to later
@@ -6,10 +6,11 @@ function start() {
 
 	genText();
 
-	for (n in questions) {
-		genQuestion(n);												//Generate a question for each question in the questions object
+	for (var i = 0; i < questions.length; i++) {
+		genQuestion(i);												//Generate an element for each question in the questions object
+		positions[questions[i].id] = i;
 		if(!firstQuestion) {
-			var firstQuestion = document.getElementById(n);
+			var firstQuestion = document.getElementById(i);
 		}
 	}
 	firstQuestion.className = firstQuestion.className.replace(' hiddenQuestion','');
@@ -36,19 +37,6 @@ function genSpacer(name) {
 	elements.questions.appendChild(spacer);
 	elements[name] = document.getElementById(name);
 }
-/*
-function genSpacers() {
-
-	var spacers = [];
-	for (n in questions){
-		if(spacers.indexOf(questions[n].type) == -1) {
-			spacers.push(questions[n].type);
-		}
-	}
-	for (var i = 0; i < spacers.length; i++) {
-		genSpacer(spacers[i]);
-	};
-}*/
 
 function genText() {
 	elements.title.innerHTML = text.title;
@@ -57,25 +45,25 @@ function genText() {
 }
 
 //Generates the HTML for a question, used on page load.
-function genQuestion(unique) {
+function genQuestion(quID) {
 	var newQuestion = document.createElement('div');
-	newQuestion.innerHTML = questions[unique].description;
-	newQuestion.id = unique;
+	newQuestion.innerHTML = questions[quID].text;
+	newQuestion.id = quID;
 	newQuestion.className = ' hiddenQuestion';
 
 	var dropdown = document.createElement('SELECT');
-	dropdown.name = unique;
+	dropdown.name = quID;
 	dropdown.className = 'qu_select';
 	dropdown.setAttribute('onChange','answer(this)');
 
 	var option = document.createElement('OPTION');
 	option.innerHTML = defaultAnswer;
 	option.disabled = true;
-	if(!questions[unique].default || questions[unique].default <= 0) option.selected = true;
+	if(!questions[quID].default || questions[quID].default <= 0) option.selected = true;
 	option.setAttribute('hidden','');
 	dropdown.appendChild(option);
 
-	var options = questions[unique].options
+	var options = questions[quID].options
 	for (var i = 0; i < options.length; i++) {
 		option = document.createElement('OPTION');
 		option.innerHTML = options[i].text;
@@ -83,24 +71,24 @@ function genQuestion(unique) {
 		dropdown.appendChild(option);
 	};
 
-	if(questions[unique].default && questions[unique].default > 0) {
-		dropdown.selectedIndex = questions[unique].default;
+	if(questions[quID].default && questions[quID].default > 0) {
+		dropdown.selectedIndex = questions[quID].default;
 	}
 
 	newQuestion.appendChild(dropdown);
 
-	if(questions[unique].blurb) {
-		newQuestion.innerHTML += "<div class='blurb'>"+questions[unique].blurb+"</div>";
+	if(questions[quID].blurb) {
+		newQuestion.innerHTML += "<div class='blurb'>"+questions[quID].blurb+"</div>";
 	}
 
-	if(questions[unique].relation) {
+	if(questions[quID].relation) {
 		newQuestion.className += ' relationQuestion';
 	}else{
-		answers[unique] = 0;
+		answers[quID] = 0;
 	}
 
-	if(questions[unique].type) {
-		var type = questions[unique].type;
+	if(questions[quID].type) {
+		var type = questions[quID].type;
 		if(!document.getElementById(type)) {
 			genSpacer(type);
 		}
@@ -138,7 +126,7 @@ function answer(ele) {
 		if(queries[i].nodeName == 'DIV') {
 			var relation = questions[queries[i].id].relation;
 			if(relation){																	//If the question relates to a question
-				var select = document.getElementById(relation.question).children[0];
+				var select = document.getElementById(positions[relation.question]).children[0];
 				if(relation.answers.indexOf(parseFloat(select.value)) > -1) {			//If the question it relates to is answered
 					queries[i].className = queries[i].className.replace(' relationQuestion','');						//Hide the question
 					if(!answers[queries[i].id]) {											//If question not in answers object
@@ -160,19 +148,20 @@ function answer(ele) {
 		}
 	}
 
-	try{	//Look for next question that isn't hidden becuase of a relationship
-		var nQu = queries[ele.name].nextSibling;
-		while(nQu.nodeName != 'DIV' || nQu.className.search('relationQuestion') > -1) {
-			nQu = nQu.nextSibling;
-		}
+	var count = parseFloat(ele.name)+1;
+
+	do{		//Find the next question that isn't hidden by relationship
+		var nQu = document.getElementById(count);
+		count++;
+	} while(nQu && nQu.className.search('relationQuestion') > -1);
+
+	if(nQu) {
 		nQu.className = nQu.className.replace(' hiddenQuestion','');	//Show the next question
 
-		if(nQu.children[0].selectedIndex > 0) {
-			answer(nQu.children[0]);
+		if(nQu.children[0].selectedIndex > 0) {		//If the question already has a selection
+			answer(nQu.children[0]);					//behave as if it was just selected
 			return;
 		}
-	}catch(err){
-		null;
 	}
 
 	progress();									//Update progress trackers
@@ -204,7 +193,6 @@ function progress() {
 
 //Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
-	console.log(answers);
 	disableQuestions();
 	elements.progress_bar.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 	elements.buttons.children[0].style.boxShadow = 'none';
@@ -218,8 +206,8 @@ function genSummary() {
 	}
 
 	//Question values
-	for(unique in answers) {
-		var choice = questions[unique].options[answers[unique]-1];			//Shortcut to the question's answer object
+	for(qID in answers) {
+		var choice = questions[qID].options[answers[qID]-1];			//Shortcut to the question's answer object
 		if(choice.services) {
 			estimate.services += choice.services;								//Add any service costs to service account
 		}

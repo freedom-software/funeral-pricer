@@ -1,10 +1,11 @@
 var defaultAnswer = "Please Select..";
-var questions = {
+var questions = [
 
 	/*	Example
 	*
-	*	uniqueDescriptorWord: {
-	*		description: "Text displayed, asking the question"
+	*	{
+	*		id: "uniqueDescriptorWord"
+	*		,text: "Text displayed, asking the question"
 	*		,breadcrumb: "Text used in the breadcrumb at the top of the page"
 	*		,type: "1 of 2 options (service, disbursement) to describe how to categorize the question"
 	*		,blurb: "Text displayed under the question"
@@ -26,8 +27,9 @@ var questions = {
 	*	}
 	*/
 
-	disposition: {
-		description: "Burial or Cremation?"
+	{
+		id: "disposition"
+		,text: "Burial or Cremation?"
 		,type: "Services"
 		,options: [
 			{
@@ -41,9 +43,10 @@ var questions = {
 		]
 	}
 
-	,family: {
-		description: "Family Attending Burial?"
-		,type: "Services"
+	,{
+		id: "family"
+		,text: "Family Attending Burial?"
+		,type: "cat1"
 		,relation: {
 			question: "disposition"
 			,answers: [1]
@@ -60,9 +63,10 @@ var questions = {
 		]
 	}
 
-	,viewing: {
-		description: "Will there be a viewing?"
-		,type: "Services"
+	,{
+		id: 'viewing'
+		,text: "Will there be a viewing?"
+		,type: "cat1"
 		,options: [
 			{
 				text: "At your premises"
@@ -79,8 +83,9 @@ var questions = {
 		]
 	}
 
-	,casket: {
-		description: "Select the style of casket (coffin) required."
+	,{
+		id: "casket"
+		,text: "Select the style of casket (coffin) required."
 		,type: "Services"
 		,options: [
 			{
@@ -106,9 +111,10 @@ var questions = {
 		]
 	}
 
-	,funeral: {
-		description: "Funeral Service?"
-		,type: "Services"
+	,{
+		id: 'funeral'
+		,text: "Funeral Service?"
+		,type: "cat2"
 		,options: [
 			{
 				text: "Yes"
@@ -119,9 +125,10 @@ var questions = {
 		]
 	}
 
-	,guests: {
-		description: "Estimated number of guests attending?"
-		,type: "Services"
+	,{
+		id: 'guests'
+		,text: "Estimated number of guests attending?"
+		,type: "cat2"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -170,8 +177,9 @@ var questions = {
 		]
 	}
 
-	,day: {
-		description: "What day will the funeral be on?"
+	,{
+		id: 'day'
+		,text: "What day will the funeral be on?"
 		,type: "Services"
 		,relation: {
 			question: "funeral"
@@ -194,8 +202,9 @@ var questions = {
 		]
 	}
 
-	,lead: {
-		description: "Who will lead the funeral service?"
+	,{
+		id: 'lead'
+		,text: "Who will lead the funeral service?"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -216,8 +225,9 @@ var questions = {
 		]
 	}
 
-	,flowers: {
-		description: "Select the flowers to be displayed on the casket"
+	,{
+		id: 'flowers'
+		,text: "Select the flowers to be displayed on the casket"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -246,8 +256,9 @@ var questions = {
 		]
 	}
 
-	,newsNumber: {
-		description: "Number of newspapers the notice will be sent"
+	,{
+		id: 'newsNumber'
+		,text: "Number of newspapers the notice will be sent"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -301,8 +312,9 @@ var questions = {
 		]
 	}
 
-	,newsSize: {
-		description: "Newspaper notice size"
+	,{
+		id: 'newsSize'
+		,text: "Newspaper notice size"
 		,type: "Other Charges"
 		,relation: {
 			question: 'newsNumber'
@@ -324,8 +336,9 @@ var questions = {
 		]
 	}
 
-	,refreshments: {
-		description: "Will refreshments be available to the guests?"
+	,{
+		id: 'refreshments'
+		,text: "Will refreshments be available to the guests?"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -341,8 +354,9 @@ var questions = {
 		]
 	}
 
-	,catering: {
-		description: "Catering selection?"
+	,{
+		id: 'catering'
+		,text: "Catering selection?"
 		,type: "Other Charges"
 		,relation: {
 			question: "refreshments"
@@ -372,8 +386,9 @@ var questions = {
 		]
 	}
 
-	,program: {
-		description: "Will a funeral program be required?"
+	,{
+		id: 'program'
+		,text: "Will a funeral program be required?"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -390,8 +405,9 @@ var questions = {
 		]
 	}
 
-	,programType: {
-		description: "Type of funeral program"
+	,{
+		id: 'programType'
+		,text: "Type of funeral program"
 		,type: "Other Charges"
 		,relation: {
 			question: "program"
@@ -413,8 +429,9 @@ var questions = {
 		]
 	}
 
-	,slides: {
-		description: "Will a powerpoint slide show be required?"
+	,{
+		id: 'slides'
+		,text: "Will a powerpoint slide show be required?"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -431,8 +448,9 @@ var questions = {
 		]
 	}
 
-	,slidesType: {
-		description: "Type of powerpoint slide show"
+	,{
+		id: 'slidesType'
+		,text: "Type of powerpoint slide show"
 		,type: "Other Charges"
 		,relation: {
 			question: "slides"
@@ -454,8 +472,9 @@ var questions = {
 		]
 	}
 
-	,hynms: {
-		description: "Will there be hymns sung at the service?"
+	,{
+		id: 'hynms'
+		,text: "Will there be hymns sung at the service?"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -472,8 +491,9 @@ var questions = {
 		]
 	}
 
-	,musicians: {
-		description: "Will there be bagpipes or bugle players?"
+	,{
+		id: 'musicians'
+		,text: "Will there be bagpipes or bugle players?"
 		,type: "Other Charges"
 		,relation: {
 			question: "funeral"
@@ -489,4 +509,4 @@ var questions = {
 			}
 		]
 	}
-};
+];
