@@ -219,21 +219,26 @@ function genSummary() {
 	//Formulated values
 	//Calculate formulas; formulas combine the values of 2 questions to conclude with
 	for (formula in formulas) {
-		var answer1 = answers[formulas[formula].value1];						//Number of option chosen for first question
-		var answer2 = answers[formulas[formula].value2];						//Number of option chosen for second question
+		var answer1 = answers[positions[formulas[formula].value1]];						//Number of option chosen for first question
+		var answer2 = answers[positions[formulas[formula].value2]];						//Number of option chosen for second question
+
 		if(answer1 && answer2) {												//If both questions answered
-			var question1 = questions[formulas[formula].value1];				//Shortcut to first question in formula
-			var question2 = questions[formulas[formula].value2];				//Shortcut to second question in formula
-			var account = question1.type;										//Account to add cost to
+			var question1 = questions[positions[formulas[formula].value1]];				//Shortcut to first question in formula
+			var question2 = questions[positions[formulas[formula].value2]];				//Shortcut to second question in formula
+
+			var account = formulas[formula].type;										//Account to add cost to
+
 			var value1 = question1.options[answer1-1].value;					//Value of option chosen for first question
 			var value2 = question2.options[answer2-1].value;					//Value of option chosen for second question
+
 			var operator = formulas[formula].operator;							//Operator to use for formula
 
 			estimate[account] += varOperators[operator](value1,value2);		//Calculate result of formula and add to account
 		}
 	}
-
-	estimate.sum = estimate.services + estimate.disbursements;			//Combine service and disbursments accounts into total estimate
+	for (account in estimate) {
+		if(account != 'sum') estimate.sum += estimate[account];		//Combine service and disbursments accounts into total estimate
+	}
 
 	elements.progress_bar.innerHTML = text.total+': ';
 	var span = document.createElement('SPAN');
