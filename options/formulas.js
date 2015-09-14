@@ -2,7 +2,17 @@
 // 1: nearest multiples of the scope
 // 2: add & minus scope and remove anything smaller than 100
 var approxType = 1;
-var scope = 0;	// value to build the estimate around; if zero displays full value
+var scope = 0;		// value to build the estimate around; if zero displays full value
+
+var fixedCosts = {};
+fixedCosts.services = { //Add fixed services fees to approximation
+	'Professional Fee' : 2500
+	//,description:value
+}
+fixedCosts.disbursements = { //Add fixed disbursements fees to approximation
+	'Death Certificate' : 26.50
+	//,description:value
+}
 
 var formulas = {
 
@@ -32,14 +42,14 @@ var formulas = {
 	}
 }
 
-function estimate(total) {		//formulas to use for the approximation of the funeral value
+function approx(total) {		//formulas to use for the approximation of the funeral value
 	if(scope && scope > 0){
 		switch(approxType) {
-			case 1:		//nearest multiples of the scope
+			case 1:		//nearest multiples of the scope	-	narrow scope
 				var min = Math.floor( total / scope ) * scope;
 				var max = Math.ceil( total / scope ) * scope;
 			break;
-			case 2:		//add & minus scope and remove anything smaller than 100
+			case 2:		//add & minus scope and remove anything smaller than 100	-	wider scope
 				var min = Math.round( ( total - scope ) / 100 ) * 100;
 				var max = Math.round( ( total + scope) / 100 ) * 100;
 			break;

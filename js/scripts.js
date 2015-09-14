@@ -198,11 +198,15 @@ function genSummary() {
 	elements.progress_bar.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
 	elements.buttons.children[0].style.boxShadow = 'none';
 
-	professional = 2500;									//Set professional fee
-	deathCertificate = 26.50;								//Set death certificate cost
-	estimate.services = professional;						//Add professional fee to service account
-	estimate.disbursements = deathCertificate;				//Add death certificate cost to disbursement account
+	//Fixed values
+	for (cost in fixedCosts.servies) {	//Add fixed services to service account
+		estimate.services += fixedCosts.servies[cost];
+	}
+	for (cost in fixedCosts.disbursements) {	//Add fixed disbursements to service account
+		estimate.disbursements += fixedCosts.disbursements[cost];
+	}
 
+	//Question values
 	for(unique in answers) {
 		var choice = questions[unique].options[answers[unique]-1];			//Shortcut to the question's answer object
 		if(choice.services) {
@@ -213,6 +217,7 @@ function genSummary() {
 		}
 	}
 
+	//Formulated values
 	//Calculate formulas; formulas combine the values of 2 questions to conclude with
 	for (formula in formulas) {
 		var answer1 = answers[formulas[formula].value1];						//Number of option chosen for first question
@@ -234,7 +239,7 @@ function genSummary() {
 	elements.progress_bar.innerHTML = text.total+': ';
 	var span = document.createElement('SPAN');
 	span.id = 'estimate';
-	span.innerHTML = estimate(estimate.sum);		//Add total estiamte to estimate element
+	span.innerHTML = approx(estimate.sum);		//Add total estiamte to estimate element
 	elements.progress_bar.appendChild(span);
 
 	//updateBreadcrumb(0);		//Update the Breadcrumb to move to position 0, which is the summary
