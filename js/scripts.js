@@ -77,9 +77,14 @@ function genQuestion(quID) {
 
 	newQuestion.appendChild(dropdown);
 
+	var blurb = document.createElement('TABLE');
+	blurb.className = "blurb";
+	blurb.innerHTML = "<tr><td></td></tr>";
+
 	if(questions[quID].blurb) {
-		newQuestion.innerHTML += "<div class='blurb'>"+questions[quID].blurb+"</div>";
+		blurb.children[0].children[0].innerHTML += ""+questions[quID].blurb+"";
 	}
+	newQuestion.appendChild(blurb);
 
 	if(questions[quID].relation) {
 		newQuestion.className += ' relationQuestion';
@@ -113,12 +118,75 @@ function genQuestion(quID) {
 	}
 }
 
+function answerBlurb(show,element) {
+	var image = document.getElementById(element.name+'_img');
+	var blurb = document.getElementById(element.name+'_blurb');
+	var file = questions[element.name].options[element.value-1].image;
+	var text = questions[element.name].options[element.value-1].blurb;
+	if(text) {		//If the answer has a blurb associated with it
+		if(show) {		//If intend to show blurb
+			if(!blurb) {		//If no blurb, create one
+				blurb = document.createElement('div');
+				blurb.id = element.name+'_blurb';
+				blurb.innerHTML = text;
+
+				var cell = document.createElement('TD');
+				cell.appendChild(blurb);
+
+				if(image){
+					image.parentNode.parentNode.insertBefore(cell,image.parentNode);
+				}else{
+					element.parentNode.children[1].children[0].children[0].appendChild(cell);
+				}
+			}else{
+				blurb.innerHTML = text;
+			}
+		}
+	}else{
+		var removeBlurb = 1;
+	}
+
+	if(blurb && (removeBlurb || show == 0)) {
+		var cell = blurb.parentNode;
+		cell.parentNode.removeChild(cell);
+	}
+
+	if(file) {		//If the answer has an image associated with it
+		if(show) {		//If intend to show image
+			if(!image){		//If no image, create one
+				image = document.createElement('IMG');
+				image.id = element.name+'_img';
+				image.src = "images/"+file;
+				image.alt = file;
+
+				var cell = document.createElement('TD');
+				cell.appendChild(image);
+
+				element.parentNode.children[1].children[0].children[0].appendChild(cell);
+			}else{		//else change image source
+				image.src = "images/"+file;
+				image.alt = file;
+			}
+		}
+	}else{
+		var removeImage = 1;
+	}
+
+	if(image && (removeImage || show == 0)) {		//If the function hasn't returned by now and an image is in the HTML, remove it
+		var cell = image.parentNode;
+		cell.parentNode.removeChild(cell);
+	}
+}
+
 //Called when a question is answered, handels updating the answered questions object and hiding and showing additional questions
 function answer(ele) {
 	answers[ele.name]=ele.value;									//Add question answer to answers object
 
 	if(ele.value == '') {												//If answered element's value is null (unlikely)
 		answers[ele.name] = 0;									//Set answer to zero
+		answerBlurb(false,ele);
+	}else{
+		answerBlurb(true,ele);
 	}
 
 	var queries = elements.questions.children;

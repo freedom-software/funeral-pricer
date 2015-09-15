@@ -18,10 +18,12 @@ var questions = [
 	*				text: "Text displayed in the dropbox"
 	*				,services: amount to add for services
 	*				,disbursments: amount to add for disbursments
+	*				,image: "file name and extention in the images folder"
 	*			}
 	*			,{
 	*				text: "Text displayed in the dropbox"
 	*				,value: amount to add for other calculations in formulas
+	*				,blurb: "Text to display when answer chosen"
 	*			}
 	*		]
 	*	}

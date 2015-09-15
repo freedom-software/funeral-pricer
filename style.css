@@ -56,7 +56,16 @@ button, select {
 	background-color: white;
 }
 .blurb{
+	margin-top: 5px;
+	display: block;
 	font-size: 80%;
+}
+.blurb td:first-child{
+	width: 100%;
+}
+.blurb img{
+	width: 16em;
+	max-height: 150px;
 }
 footer {
 	font-size: 120%;
