@@ -183,7 +183,7 @@ function progress() {
 	var percent = 100 / (Object.keys(questions).length) * count;	//calculate percentage complete as 100 divided by the total number of questions multiplied by the number of questions answered
 	if(count == Object.keys(answers).length) percent = 100;	//If the total number of questions to answer equals the count of questions answered, make percent complete 100%.
 
-	elements.progress_bar.style.background = "linear-gradient(to right, "+colors.progress2+" "+percent+"%, "+colors.progress2+" "+percent+"%)";	//change progress bar background color
+	elements.progress_bar.style.background = "linear-gradient(to right, "+colors.progress2+" "+percent+"%, "+colors.progress1+" "+percent+"%)";	//change progress bar background color
 
 	if(percent === 100) {
 		showHideButton(0,'show');
