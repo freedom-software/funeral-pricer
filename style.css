@@ -69,7 +69,6 @@ footer {
 #progress_bar {
 	height: 30px;
 	line-height: 30px;
-	background-color: hsl(0,50%,50%);
 	border: 2px solid black;
 	transition: background 2s;
 	z-index: 9;

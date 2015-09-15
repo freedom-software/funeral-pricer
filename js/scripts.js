@@ -17,7 +17,7 @@ function start() {
 	if(firstQuestion.children[0].selectedIndex > 0) {
 		answer(firstQuestion.children[0]);
 	}else{
-		firstQuestion.children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+		firstQuestion.children[0].style.boxShadow = '0px -1px 15px 6px '+colors.highlight;
 	}
 
 	//genBreadcrumbs();												//Generate the breadcrumb
@@ -141,7 +141,7 @@ function answer(ele) {
 				}
 			}
 			if(answers[queries[i].id] == 0) {
-				queries[i].children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+				queries[i].children[0].style.boxShadow = '0px -1px 15px 6px '+colors.question_highlight;
 			}else{
 				queries[i].children[0].style.boxShadow = 'none';
 			}
@@ -183,11 +183,11 @@ function progress() {
 	var percent = 100 / (Object.keys(questions).length) * count;	//calculate percentage complete as 100 divided by the total number of questions multiplied by the number of questions answered
 	if(count == Object.keys(answers).length) percent = 100;	//If the total number of questions to answer equals the count of questions answered, make percent complete 100%.
 
-	elements.progress_bar.style.background = "linear-gradient(to right, hsla(120,100%,35%,1) "+percent+"%, hsl(0,50%,50%) "+percent+"%)";	//change progress bar background color
+	elements.progress_bar.style.background = "linear-gradient(to right, "+colors.progress2+" "+percent+"%, "+colors.progress2+" "+percent+"%)";	//change progress bar background color
 
 	if(percent === 100) {
 		showHideButton(0,'show');
-		elements.buttons.children[0].style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+		elements.buttons.children[0].style.boxShadow = '0px -1px 15px 6px '+colors.button_highlight;
 	}else{
 		showHideButton(0,'hide');
 	}
@@ -196,7 +196,7 @@ function progress() {
 //Generates the elements and calculates the final estimate for the funeral price
 function genSummary() {
 	disableQuestions();
-	elements.progress_bar.style.boxShadow = '0px -1px 15px 6px '+window.FREEDOM_lightgreen;
+	elements.progress_bar.style.boxShadow = '0px -1px 15px 6px '+colors.progress_highlight;
 	elements.buttons.children[0].style.boxShadow = 'none';
 
 	estimate.services = 0;
