@@ -4,7 +4,7 @@ window.green_color = 'hsl( 53.5, 29.6%, 75.5% )';
 window.background_color = 'hsl( 0, 0%, 93% )';
 
 //----Colours used through out the code----
-var colors = {
+window.colors = {
 	highlight: lightgreen_color
 	,background1: green_color
 	,background2: background_color

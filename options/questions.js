@@ -1,5 +1,6 @@
-var defaultAnswer = "Please Select..";
-var questions = [
+window.defaultAnswer = "Please Select..";
+
+window.questions = [
 
 	/*	Example
 	*
@@ -69,10 +70,13 @@ var questions = [
 		id: 'viewing'
 		,text: "Will there be a viewing?"
 		,type: "Services"
+		,blurb: "Question Blurb"
 		,options: [
 			{
 				text: "At your premises"
 				,services: 750
+				,blurb: "answer blurb"
+				,image: "Coffin.png"
 			}
 			,{
 				text: "At home"

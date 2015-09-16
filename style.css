@@ -11,6 +11,10 @@ body {
 	overflow-y: scroll;
 	height: 100vh;
 }
+body>object,
+body>object * {
+	display: none;
+}
 header h1,#progress_bar,#contentWrapper{
 	display: block;
 	margin: auto;
@@ -79,7 +83,7 @@ footer {
 	height: 30px;
 	line-height: 30px;
 	border: 2px solid black;
-	transition: background 2s;
+	/*transition: background 2s;*/
 	z-index: 9;
 	padding: 0 5px;
 }

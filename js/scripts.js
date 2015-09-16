@@ -1,3 +1,59 @@
+//global variables
+var estimate = { services : 0, disbursements : 0 };
+var elements = {};
+var answers = {};
+var positions = {};
+var files = 0;
+var getElems = ['questions','progress_bar','summary','buttons','services','disbursements','title','mainHead'/*,'breadcrumb'*/];
+
+var preferences = ['colors_source','questions_source','text_source','formulas_source','fixedCosts_source','approximation_source'];
+
+function beginLoading() {
+	var toLoad = document.body.children;
+	for (var i = 0; i < toLoad.length; i++) {
+		if(toLoad[i].nodeName == 'OBJECT') {
+			loadPreference(toLoad[i]);
+		}
+	};
+}
+
+function loadPreference(source) {
+	var location = source.baseURI+'options/';
+	var text = source.contentDocument.body.firstChild.innerHTML;
+	importConfig(source.data.replace(location,''),text);
+	files ++;
+
+	if(files >= 4){
+		start();
+	}
+}
+
+function importConfig(file,text) {
+	try {
+		if(text.search('function') > -1) {
+			text = unescapeHTML(text);
+			console.log(text);
+		}
+		eval(text);
+		if(text.search('function') > -1) {
+			var script = document.createElement('SCRIPT');
+			script.innerHTML = text;
+			document.body.appendChild(script);
+		}
+	} catch(error) {
+		switch (error.name) {
+			case 'SyntaxError':
+				//handle syntax error…
+				alert("A " + error.name + " occured: \nThere is a configuration error in the '"+file+"' file.\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: " + error.message);
+			break;
+			default:
+				//handle all other error types here…
+				alert("A " + error.name + "occured on file: "+file+"\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: "+error.message);
+			break;
+		}
+	}
+}
+
 //Run on page load, loads elements by ID into the elements object and calls the HTML generating functions
 function start() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
@@ -40,6 +96,7 @@ function genSpacer(name) {
 
 function genText() {
 	elements.title.innerHTML = text.title;
+	elements.mainHead.innerHTML = text.mainHead;
 	elements.buttons.children[0].innerHTML = text.calculateButton;
 	elements.buttons.children[1].innerHTML = text.resetButton;
 }
@@ -325,6 +382,34 @@ function genSummary() {
 
 	//updateBreadcrumb(0);		//Update the Breadcrumb to move to position 0, which is the summary
 }
+
+function showHideButton(position,action) {
+	switch(action){
+		case 'show': elements.buttons.children[position].style.display = 'block'; break;
+		case 'hide': elements.buttons.children[position].style.display = 'none'; break;
+	}
+}
+
+function disableQuestions() {
+	var queries = elements.questions.children;
+	for (var i = queries.length - 1; i >= 0; i--) {
+		if(queries[i].nodeName == 'DIV') {
+			queries[i].children[0].setAttribute('disabled',true);
+		}
+	};
+}
+
+function scrollBottom() {
+	var bottom = window.scrollMaxY;
+	if(!bottom && document.documentElement.scrollHeight > document.documentElement.clientHeight) {
+		bottom = document.documentElement.scrollHeight
+	}
+	if(bottom > 0){
+		window.scrollTo(0,bottom);
+		document.body.style.height = document.documentElement.scrollHeight+"px";
+	}
+}
+
 
 //Generates the HTML for the breadcrumb
 /*function genBreadcrumbs() {
