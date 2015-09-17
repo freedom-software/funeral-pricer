@@ -34,13 +34,11 @@ window.questions = [
 		id: "disposition"
 		,text: "Burial or Cremation?"
 		,category: "Services"
-		,blurb: "Question BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion Blurb"
+		,blurb: "Will the deceased be Buried or Cremated?"
 		,options: [
 			{
 				text: "Burial"
 				,costs: {disbursements: 4500}
-				,blurb: "answer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurb"
-				,image: "Coffin.png"
 			}
 			,{
 				text: "Cremation"
@@ -99,22 +97,32 @@ window.questions = [
 			{
 				text: "Superior"
 				,costs: {services: 3500}
+				,image: 'casket_super.png'
+				,blurb: 'Superior Casket'
 			}
 			,{
 				text: "Above Average"
 				,costs: {services: 2500}
+				,image: 'casket_above.png'
+				,blurb: 'Above Average Casket'
 			}
 			,{
 				text: "Average"
 				,costs: {services: 1500}
+				,image: 'casket_average.png'
+				,blurb: 'Average Casket'
 			}
 			,{
 				text: "Conservative"
 				,costs: {services: 1000}
+				,image: 'casket_conserve.png'
+				,blurb: 'Conservative Casket'
 			}
 			,{
 				text: "Very Plain"
 				,costs: {services: 350}
+				,image: 'casket_plain.png'
+				,blurb: 'Plain Casket'
 			}
 		]
 	}
@@ -123,6 +131,7 @@ window.questions = [
 		id: 'funeral'
 		,text: "Funeral Service?"
 		,category: "Services"
+		,blurb: "Will a funeral service event be held before the disposition?"
 		,options: [
 			{
 				text: "Yes"
@@ -188,6 +197,7 @@ window.questions = [
 	,{
 		id: 'day'
 		,text: "What day will the funeral be on?"
+		,blurb: "The type of day can incur an extra charge"
 		,category: "Services"
 		,relation: {
 			question: "funeral"
@@ -249,18 +259,22 @@ window.questions = [
 			{
 				text: "Superior"
 				,costs:{ disbursements: 250 }
+				,image: "flowers_superior.png"
 			}
 			,{
 				text: "Above Average"
 				,costs:{ disbursements: 200 }
+				,image: "flowers_above.png"
 			}
 			,{
 				text: "Average"
 				,costs:{ disbursements: 150 }
+				,image: "flowers_average.gif"
 			}
 			,{
 				text: "Conservative"
 				,costs:{ disbursements: 100 }
+				,image: "flowers_conserve.png"
 			}
 			,{
 				text: "No Flowers Required"
