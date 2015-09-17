@@ -1,8 +1,9 @@
 function approx(total) {		//formulas to use for the approximation of the funeral value
-	// type of forumla to use for approximating the funeral value; to add more options, alter esimate function at bottom of file.
+
+	var approxType = 1;		// type of forumla to use for approximating the funeral value; to add more options, alter esimate function at bottom of file.
 	// 1: nearest multiples of the scope
 	// 2: add & minus scope and remove anything smaller than 100
-	var approxType = 1;
+
 	var approxScope = 300;		// value to build the estimate around; if zero displays full value
 
 	if(approxScope && approxScope > 0) {
@@ -16,9 +17,9 @@ function approx(total) {		//formulas to use for the approximation of the funeral
 				var max = Math.round( ( total + approxScope) / 100 ) * 100;
 			break;
 			default:
-				return "$"+total.toFixed(2);
+				return "$"+total.toFixed(2);		//If no approximation type value, return true estimation value
 		}
-		return "$"+min+" - $"+max;
+		return "$"+min+" - $"+max;		//Return the result of the approximation equation
 	}
-	return "$"+total.toFixed(2);
+	return "$"+total.toFixed(2);		//If no scope value, return true estimation value
 }

@@ -1,4 +1,4 @@
-window.fixedCosts = [
+window.fixedCosts = [		//Add fixed costs to the calulation that are added no matter the questions answered
 
 	/*	Example
 	*

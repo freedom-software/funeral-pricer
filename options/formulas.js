@@ -1,4 +1,4 @@
-window.formulas = {
+window.formulas = {		//Formulas that are calculated based on the value of the questions specified in the formula
 
 	/*	Example
 	*

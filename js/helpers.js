@@ -1,32 +1,20 @@
-function appendButton(ele,qu) {
-	var choices = questions[qu].buttons;
-	for (property in choices) {
-		var button = document.createElement('BUTTON');
-		button.innerText = choices[property];
-		button.value = property;
-		button.name = qu;
-		button.setAttribute('onClick','submitPage(this);');
-		ele.appendChild(button);
-	}
-}
-
-function removeChildren(parent) {
+function removeChildren(parent) {		//Remove all the children from the parent element
 	while (parent.firstChild) {
 		parent.removeChild(parent.firstChild);
 	}
 }
 
-function insertAfter(newNode,referenceNode) {
+function insertAfter(newNode,referenceNode) {		//Insert new node after reference node
 	referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
-function compare(a,b) {
+function compare(a,b) {		//comparison function used in combination with a sort function
 	if (a < b) return -1;
 	if (a > b) return 1;
 	return 0;
 }
 
-var varOperators = {
+var varOperators = {		//list of operators used to all dynamic calculation in formulas
 	'+': function(a,b) { return a + b }
 	,'-': function(a,b) { return a - b }
 	,'*': function(a,b) { return a * b }
@@ -35,7 +23,7 @@ var varOperators = {
 	,'>': function(a,b) { return a > b }
 };
 
-var range = function(start, end, step) {
+var range = function(start, end, step) {		//Function allowing the creation of a array of numbers based upon the inputs
 	var range = [];
 	var typeofStart = typeof start;
 	var typeofEnd = typeof end;
@@ -84,13 +72,13 @@ var range = function(start, end, step) {
 	return range;
 }
 
-function unescapeHTML(input) {
+function unescapeHTML(input) {		//Function to remove the html escaped characters in the body of a text and replace them with their true values
 	var node = document.createElement('textarea');
 	node.innerHTML = input;
 	return node.value;
 }
 
-function XHR(url) {
+function XHR(url) {		//Function to call preferences from a URL using a GET HTTP requests and import them into the application
 	if (window.XMLHttpRequest) {
 		var xhr=new XMLHttpRequest();
 	} else {
@@ -107,7 +95,7 @@ function XHR(url) {
 	xhr.send();
 }
 
-function reflowElement(element) {
+function reflowElement(element) {		//Function to attempt to reflow an element in an attempt for it to be positioned correctly
 	var display = element.style.display;
 
 	clearTimeout(reflowTimer);
@@ -119,7 +107,7 @@ function reflowElement(element) {
 	}, 500);
 }
 
-function initReflow(ID) {
+function initReflow(ID) {		//Function to initialize the reflow function based on the window resizing
 	var element = document.getElementById(ID);
 
 	if(window.attachEvent) {

@@ -1,6 +1,6 @@
-window.defaultAnswer = "Please Select..";
+window.defaultAnswer = "Please Select..";		//Wording of the default dropdown option
 
-window.questions = [
+window.questions = [		//Questions that will be displayed in the application
 
 	/*	Example
 	*
