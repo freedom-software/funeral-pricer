@@ -1,11 +1,23 @@
-window.fixedCosts = {
-	services: { //Add fixed services fees to approximation
-		'Professional Fee' : 2500
-		//,description:value
+window.fixedCosts = [
+
+	/*	Example
+	*
+	*	{
+	*		account: "name of account to add cost to"
+	*		,name: "text to associate cost with"
+	*		,value: cost amount
+	*	}
+	*/
+
+	{
+		account: 'services'
+		,name: 'Professional Fee'
+		,value: 2500
 	}
-	,disbursements: { //Add fixed disbursements fees to approximation
-		'Death Certificate' : 26.50
-		//,description:value
+	,{
+		account: 'disbursements'
+		,name: 'Death Certificate'
+		,value: 26.50
 	}
-};
+];
 

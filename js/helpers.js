@@ -89,3 +89,43 @@ function unescapeHTML(input) {
 	node.innerHTML = input;
 	return node.value;
 }
+
+function XHR(url) {
+	if (window.XMLHttpRequest) {
+		var xhr=new XMLHttpRequest();
+	} else {
+		var xhr=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xhr.onreadystatechange=function() {
+		if (xhr.readyState==4 && xhr.status==200) {
+			if(xhr.responseText.length != 0){
+				importConfig(url.replace('/options/',''),xhr.responseText);
+			}
+		}
+	}
+	xhr.open("GET", url);
+	xhr.send();
+}
+
+function reflowElement(element) {
+	var display = element.style.display;
+
+	clearTimeout(reflowTimer);
+	element.style.display = 'none';
+
+	reflowTimer = setTimeout(function() {
+		element.style.display = display;
+		console.log('reflow');
+	}, 500);
+}
+
+function initReflow(ID) {
+	var element = document.getElementById(ID);
+
+	if(window.attachEvent) {
+		window.attachEvent('onresize', reflowElement(element) );
+	}
+	else if(window.addEventListener) {
+		window.addEventListener('resize', reflowElement(element), true);
+	}
+}

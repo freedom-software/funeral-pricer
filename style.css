@@ -66,10 +66,15 @@ button, select {
 }
 .blurb td:first-child{
 	width: 100%;
+	text-align: left;
+	vertical-align: top;
 }
 .blurb img{
 	width: 16em;
 	max-height: 150px;
+}
+.blurb td:last-child{
+	text-align: center;
 }
 footer {
 	font-size: 120%;
@@ -83,7 +88,7 @@ footer {
 	height: 30px;
 	line-height: 30px;
 	border: 2px solid black;
-	/*transition: background 2s;*/
+	/*transition: background 1s;*/
 	z-index: 9;
 	padding: 0 5px;
 }
@@ -120,7 +125,19 @@ footer {
 .hiddenQuestion {
 	display: none !important;
 }
-@media (min-width: 720px) {
+@media (max-width: 600px) {
+	.blurb td{
+		display: block;
+	}
+	.blurb
+	,.blurb td:first-child{
+		text-align: center;
+	}
+	.blurb tbody {
+		display: inline-block;
+	}
+}
+@media (min-width: 600px) {
 	.qu_select{
 		float: right;
 		width: 15em;

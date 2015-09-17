@@ -1,4 +1,5 @@
 //global variables
+var reflowTimer;
 var estimate = { services : 0, disbursements : 0 };
 var elements = {};
 var answers = {};
@@ -6,40 +7,19 @@ var positions = {};
 var files = 0;
 var getElems = ['questions','progress_bar','summary','buttons','services','disbursements','title','mainHead'/*,'breadcrumb'*/];
 
-var preferences = ['colors_source','questions_source','text_source','formulas_source','fixedCosts_source','approximation_source'];
-
-function beginLoading() {
-	var toLoad = document.body.children;
-	for (var i = 0; i < toLoad.length; i++) {
-		if(toLoad[i].nodeName == 'OBJECT') {
-			loadPreference(toLoad[i]);
-		}
-	};
-}
-
-function loadPreference(source) {
-	var location = source.baseURI+'options/';
-	var text = source.contentDocument.body.firstChild.innerHTML;
-	importConfig(source.data.replace(location,''),text);
-	files ++;
-
-	if(files >= 4){
-		start();
-	}
-}
+var preferences = ['approximation.js','fixedCosts.js','formulas.js','questions.js','colors.js','text.js'];
+for (var i = preferences.length - 1; i >= 0; i--) { XHR('/options/'+preferences[i]);}
 
 function importConfig(file,text) {
+	text = unescapeHTML(text);
 	try {
-		if(text.search('function') > -1) {
-			text = unescapeHTML(text);
-			console.log(text);
-		}
 		eval(text);
 		if(text.search('function') > -1) {
 			var script = document.createElement('SCRIPT');
 			script.innerHTML = text;
 			document.body.appendChild(script);
 		}
+		files ++;
 	} catch(error) {
 		switch (error.name) {
 			case 'SyntaxError':
@@ -51,6 +31,10 @@ function importConfig(file,text) {
 				alert("A " + error.name + "occured on file: "+file+"\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: "+error.message);
 			break;
 		}
+	}
+
+	if(files >= 6){
+		start();
 	}
 }
 
@@ -75,9 +59,8 @@ function start() {
 	}else{
 		firstQuestion.children[0].style.boxShadow = '0px -1px 15px 6px '+colors.highlight;
 	}
-
-	//genBreadcrumbs();												//Generate the breadcrumb
 }
+
 
 function genSpacer(name) {
 	var spacer = document.createElement('SPAN');
@@ -139,7 +122,7 @@ function genQuestion(quID) {
 	blurb.innerHTML = "<tr><td></td></tr>";
 
 	if(questions[quID].blurb) {
-		blurb.children[0].children[0].innerHTML += ""+questions[quID].blurb+"";
+		blurb.children[0].children[0].children[0].innerHTML += ""+questions[quID].blurb+"";
 	}
 	newQuestion.appendChild(blurb);
 
@@ -149,12 +132,12 @@ function genQuestion(quID) {
 		answers[quID] = 0;
 	}
 
-	if(questions[quID].type) {
-		var type = questions[quID].type;
-		if(!document.getElementById(type)) {
-			genSpacer(type);
+	if(questions[quID].category) {
+		var category = questions[quID].category;
+		if(!document.getElementById(category)) {
+			genSpacer(category);
 		}
-		var spacer = document.getElementById(type);
+		var spacer = document.getElementById(category);
 		if(spacer.nextSibling){
 			var sibling = spacer.nextSibling;
 			while(sibling.nodeName == 'DIV') {
@@ -178,34 +161,14 @@ function genQuestion(quID) {
 function answerBlurb(show,element) {
 	var image = document.getElementById(element.name+'_img');
 	var blurb = document.getElementById(element.name+'_blurb');
+	var cell = document.getElementById(element.name+'_cell');
 	var file = questions[element.name].options[element.value-1].image;
 	var text = questions[element.name].options[element.value-1].blurb;
-	if(text) {		//If the answer has a blurb associated with it
-		if(show) {		//If intend to show blurb
-			if(!blurb) {		//If no blurb, create one
-				blurb = document.createElement('div');
-				blurb.id = element.name+'_blurb';
-				blurb.innerHTML = text;
 
-				var cell = document.createElement('TD');
-				cell.appendChild(blurb);
-
-				if(image){
-					image.parentNode.parentNode.insertBefore(cell,image.parentNode);
-				}else{
-					element.parentNode.children[1].children[0].children[0].appendChild(cell);
-				}
-			}else{
-				blurb.innerHTML = text;
-			}
-		}
-	}else{
-		var removeBlurb = 1;
-	}
-
-	if(blurb && (removeBlurb || show == 0)) {
-		var cell = blurb.parentNode;
-		cell.parentNode.removeChild(cell);
+	if(!cell) {
+		var cell = document.createElement('TD');
+		cell.id = element.name+'_cell';
+		element.parentNode.lastChild.firstChild.firstChild.appendChild(cell);
 	}
 
 	if(file) {		//If the answer has an image associated with it
@@ -216,10 +179,12 @@ function answerBlurb(show,element) {
 				image.src = "images/"+file;
 				image.alt = file;
 
-				var cell = document.createElement('TD');
-				cell.appendChild(image);
+				if(blurb){
+					cell.insertBefore(image,blurb);
+				}else{
+					cell.appendChild(image);
+				}
 
-				element.parentNode.children[1].children[0].children[0].appendChild(cell);
 			}else{		//else change image source
 				image.src = "images/"+file;
 				image.alt = file;
@@ -230,7 +195,30 @@ function answerBlurb(show,element) {
 	}
 
 	if(image && (removeImage || show == 0)) {		//If the function hasn't returned by now and an image is in the HTML, remove it
-		var cell = image.parentNode;
+		cell.removeChild(image);
+	}
+
+	if(text) {		//If the answer has a blurb associated with it
+		if(show) {		//If intend to show blurb
+			if(!blurb) {		//If no blurb, create one
+				blurb = document.createElement('div');
+				blurb.id = element.name+'_blurb';
+				blurb.innerHTML = text;
+
+				cell.appendChild(blurb);
+			}else{
+				blurb.innerHTML = text;
+			}
+		}
+	}else{
+		var removeBlurb = 1;
+	}
+
+	if(blurb && (removeBlurb || show == 0)) {
+		cell.removeChild(blurb);
+	}
+
+	if(cell.children.length <= 0) {
 		cell.parentNode.removeChild(cell);
 	}
 }
@@ -327,25 +315,27 @@ function genSummary() {
 	estimate.services = 0;
 	estimate.disbursements = 0;
 
+	console.log('----Accounts Summary----');
+	console.log('-Fixed Costs-');
 	//Fixed values
-	for (cost in fixedCosts.servies) {	//Add fixed services to service account
-		estimate.services += fixedCosts.servies[cost];
-	}
-	for (cost in fixedCosts.disbursements) {	//Add fixed disbursements to service account
-		estimate.disbursements += fixedCosts.disbursements[cost];
-	}
-
+	for (var i = fixedCosts.length - 1; i >= 0; i--) {
+	 	fixedCosts[i]
+	 	console.log(fixedCosts[i].name+' | '+fixedCosts[i].account+': '+fixedCosts[i].value);
+		estimate[fixedCosts[i].account] += fixedCosts[i].value;
+	 };
+	 console.log('-Questions-');
 	//Question values
 	for(qID in answers) {
 		var choice = questions[qID].options[answers[qID]-1];			//Shortcut to the question's answer object
-		if(choice.services) {
-			estimate.services += choice.services;								//Add any service costs to service account
-		}
-		if(choice.disbursements) {
-			estimate.disbursements += choice.disbursements;					//Add any disbursement costs to disbursement account
+		if(choice.costs) {
+			console.log(questions[qID].text+' | '+choice.text+': ');
+			for (cost in choice.costs) {
+				console.log(' + '+cost+': '+choice.costs[cost]);
+				estimate[cost] += choice.costs[cost];						//Add any service costs to service account
+			}
 		}
 	}
-
+	 console.log('-Formulas-');
 	//Formulated values
 	//Calculate formulas; formulas combine the values of 2 questions to conclude with
 	for (formula in formulas) {
@@ -356,28 +346,32 @@ function genSummary() {
 			var question1 = questions[positions[formulas[formula].value1]];				//Shortcut to first question in formula
 			var question2 = questions[positions[formulas[formula].value2]];				//Shortcut to second question in formula
 
-			var account = formulas[formula].type;										//Account to add cost to
+			var account = formulas[formula].account;										//Account to add cost to
 
 			var value1 = question1.options[answer1-1].value;					//Value of option chosen for first question
 			var value2 = question2.options[answer2-1].value;					//Value of option chosen for second question
 
 			var operator = formulas[formula].operator;							//Operator to use for formula
 
-
+			console.log(formula+':');
+			console.log(' + '+account+': '+varOperators[operator](value1,value2));
 			estimate[account] += varOperators[operator](value1,value2);		//Calculate result of formula and add to account
 		}
 	}
 	//Create sumation of accounts
-	estimate.sum = 0;
+	console.log(' ## Summary ## ')
+	sum = 0;
 	for (account in estimate) {
-		if(account != 'sum') estimate.sum += estimate[account];		//Combine service and disbursments accounts into total estimate
+		console.log(account+': '+estimate[account]);
+		if(account != 'sum') sum += estimate[account];		//Combine service and disbursments accounts into total estimate
 	}
+	console.log('Total: '+sum);
 
 	//Add sumation to progress bar
 	elements.progress_bar.innerHTML = text.total+': ';
 	var span = document.createElement('SPAN');
 	span.id = 'estimate';
-	span.innerHTML = approx(estimate.sum);		//Add total estiamte to estimate element
+	span.innerHTML = approx(sum);		//Add total estiamte to estimate element
 	elements.progress_bar.appendChild(span);
 
 	//updateBreadcrumb(0);		//Update the Breadcrumb to move to position 0, which is the summary
@@ -409,7 +403,6 @@ function scrollBottom() {
 		document.body.style.height = document.documentElement.scrollHeight+"px";
 	}
 }
-
 
 //Generates the HTML for the breadcrumb
 /*function genBreadcrumbs() {

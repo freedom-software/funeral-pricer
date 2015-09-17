@@ -8,7 +8,7 @@ window.questions = [
 	*		id: "uniqueDescriptorWord"
 	*		,text: "Text displayed, asking the question"
 	*		,breadcrumb: "Text used in the breadcrumb at the top of the page"
-	*		,type: "1 of 2 options (service, disbursement) to describe how to categorize the question"
+	*		,category: "1 of 2 options (service, disbursement) to describe how to categorize the question"
 	*		,blurb: "Text displayed under the question"
 	*		,relation: {
 	*				question: "uniqueDescriptorWord of the question of which the answer will show or hide this one"
@@ -17,8 +17,8 @@ window.questions = [
 	*		,options: [  //Items to enter into the dropdown list to answer the question with
 	*			{
 	*				text: "Text displayed in the dropbox"
-	*				,services: amount to add for services
-	*				,disbursments: amount to add for disbursments
+	*				,accountName: amount to add for question for 1 account
+	*				,accountName: amount to add for question for another account
 	*				,image: "file name and extention in the images folder"
 	*			}
 	*			,{
@@ -33,15 +33,18 @@ window.questions = [
 	{
 		id: "disposition"
 		,text: "Burial or Cremation?"
-		,type: "Services"
+		,category: "Services"
+		,blurb: "Question BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion BlurbQuestion Blurb"
 		,options: [
 			{
 				text: "Burial"
-				,disbursements: 4500
+				,costs: {disbursements: 4500}
+				,blurb: "answer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurbanswer blurb"
+				,image: "Coffin.png"
 			}
 			,{
 				text: "Cremation"
-				,disbursements: 575
+				,costs: {disbursements: 575}
 			}
 		]
 	}
@@ -49,7 +52,7 @@ window.questions = [
 	,{
 		id: "family"
 		,text: "Family Attending Burial?"
-		,type: "Services"
+		,category: "Services"
 		,relation: {
 			question: "disposition"
 			,answers: [1]
@@ -57,8 +60,10 @@ window.questions = [
 		,options: [
 			{
 				text: "Yes"
-				,services: 200
-				,disbursements: 150
+				,costs: {
+					services: 200
+					,disbursements: 150
+				}
 			}
 			,{
 				text: "No"
@@ -69,22 +74,19 @@ window.questions = [
 	,{
 		id: 'viewing'
 		,text: "Will there be a viewing?"
-		,type: "Services"
-		,blurb: "Question Blurb"
+		,category: "Services"
 		,options: [
 			{
 				text: "At your premises"
-				,services: 750
-				,blurb: "answer blurb"
-				,image: "Coffin.png"
+				,costs: {services: 750}
 			}
 			,{
 				text: "At home"
-				,services: 500
+				,costs: {services: 500}
 			}
 			,{
 				text: "No"
-				,services: 100
+				,costs: {services: 100}
 			}
 		]
 	}
@@ -92,27 +94,27 @@ window.questions = [
 	,{
 		id: "casket"
 		,text: "Select the style of casket (coffin) required."
-		,type: "Services"
+		,category: "Services"
 		,options: [
 			{
 				text: "Superior"
-				,services: 3500
+				,costs: {services: 3500}
 			}
 			,{
 				text: "Above Average"
-				,services: 2500
+				,costs: {services: 2500}
 			}
 			,{
 				text: "Average"
-				,services: 1500
+				,costs: {services: 1500}
 			}
 			,{
 				text: "Conservative"
-				,services: 1000
+				,costs: {services: 1000}
 			}
 			,{
 				text: "Very Plain"
-				,services: 350
+				,costs: {services: 350}
 			}
 		]
 	}
@@ -120,7 +122,7 @@ window.questions = [
 	,{
 		id: 'funeral'
 		,text: "Funeral Service?"
-		,type: "Services"
+		,category: "Services"
 		,options: [
 			{
 				text: "Yes"
@@ -134,7 +136,7 @@ window.questions = [
 	,{
 		id: 'guests'
 		,text: "Estimated number of guests attending?"
-		,type: "Services"
+		,category: "Services"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -186,7 +188,7 @@ window.questions = [
 	,{
 		id: 'day'
 		,text: "What day will the funeral be on?"
-		,type: "Services"
+		,category: "Services"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -194,13 +196,17 @@ window.questions = [
 		,options: [
 			{
 				text: "A Sunday or Public Holiday"
-				,services: 350
-				,disbursements: 750
+				,costs: {
+					services: 350
+					,disbursements: 750
+				}
 			}
 			,{
 				text: "A Saturday"
-				,services: 250
-				,disbursements: 350
+				,costs: {
+					services: 250
+					,disbursements: 350
+				}
 			}
 			,{
 				text: "A Weekday"
@@ -211,7 +217,7 @@ window.questions = [
 	,{
 		id: 'lead'
 		,text: "Who will lead the funeral service?"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -219,11 +225,11 @@ window.questions = [
 		,options: [
 			{
 				text: "Church leader"
-				,disbursements: 180
+				,costs:{ disbursements: 180 }
 			}
 			,{
 				text: "Funeral celebrant"
-				,disbursements: 350
+				,costs:{ disbursements: 350 }
 			}
 			,{
 				text: "Family member"
@@ -234,7 +240,7 @@ window.questions = [
 	,{
 		id: 'flowers'
 		,text: "Select the flowers to be displayed on the casket"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -242,19 +248,19 @@ window.questions = [
 		,options: [
 			{
 				text: "Superior"
-				,disbursements: 250
+				,costs:{ disbursements: 250 }
 			}
 			,{
 				text: "Above Average"
-				,disbursements: 200
+				,costs:{ disbursements: 200 }
 			}
 			,{
 				text: "Average"
-				,disbursements: 150
+				,costs:{ disbursements: 150 }
 			}
 			,{
 				text: "Conservative"
-				,disbursements: 100
+				,costs:{ disbursements: 100 }
 			}
 			,{
 				text: "No Flowers Required"
@@ -265,7 +271,7 @@ window.questions = [
 	,{
 		id: 'newsNumber'
 		,text: "Number of newspapers the notice will be sent"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -321,7 +327,7 @@ window.questions = [
 	,{
 		id: 'newsSize'
 		,text: "Newspaper notice size"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: 'newsNumber'
 			,answers: range(2,11,1)					//range is defined in helpers.js: (start,end,step)
@@ -345,7 +351,7 @@ window.questions = [
 	,{
 		id: 'refreshments'
 		,text: "Will refreshments be available to the guests?"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -363,7 +369,7 @@ window.questions = [
 	,{
 		id: 'catering'
 		,text: "Catering selection?"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "refreshments"
 			,answers: [1]
@@ -395,7 +401,7 @@ window.questions = [
 	,{
 		id: 'program'
 		,text: "Will a funeral program be required?"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -403,7 +409,7 @@ window.questions = [
 		,options: [
 			{
 				text: "Yes"
-				,disbursements: 60
+				,costs: { disbursements: 60 }
 			}
 			,{
 				text: "No"
@@ -412,9 +418,9 @@ window.questions = [
 	}
 
 	,{
-		id: 'programType'
-		,text: "Type of funeral program"
-		,type: "Other Charges"
+		id: 'programCategory'
+		,text: "Category of funeral program"
+		,category: "Other Charges"
 		,relation: {
 			question: "program"
 			,answers: [1]
@@ -438,7 +444,7 @@ window.questions = [
 	,{
 		id: 'slides'
 		,text: "Will a powerpoint slide show be required?"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -446,7 +452,7 @@ window.questions = [
 		,options: [
 			{
 				text: "Yes"
-				,disbursements: 120
+				,costs: { disbursements: 120 }
 			}
 			,{
 				text: "No"
@@ -455,9 +461,9 @@ window.questions = [
 	}
 
 	,{
-		id: 'slidesType'
-		,text: "Type of powerpoint slide show"
-		,type: "Other Charges"
+		id: 'slidescategory'
+		,text: "Category of powerpoint slide show"
+		,category: "Other Charges"
 		,relation: {
 			question: "slides"
 			,answers: [1]
@@ -465,15 +471,15 @@ window.questions = [
 		,options: [
 			{
 				text: "20 Photos - 1 song"
-				,disbursements: 50
+				,costs: { disbursements: 50 }
 			}
 			,{
 				text: "50 Photos - 2 song"
-				,disbursements: 100
+				,costs: { disbursements: 100 }
 			}
 			,{
 				text: "2 Slide Shows"
-				,disbursements: 200
+				,costs: { disbursements: 200 }
 			}
 		]
 	}
@@ -481,7 +487,7 @@ window.questions = [
 	,{
 		id: 'hynms'
 		,text: "Will there be hymns sung at the service?"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -489,7 +495,7 @@ window.questions = [
 		,options: [
 			{
 				text: "Yes"
-				,disbursements: 100
+				,costs: { disbursements: 100 }
 			}
 			,{
 				text: "No"
@@ -500,7 +506,7 @@ window.questions = [
 	,{
 		id: 'musicians'
 		,text: "Will there be bagpipes or bugle players?"
-		,type: "Other Charges"
+		,category: "Other Charges"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -508,7 +514,7 @@ window.questions = [
 		,options: [
 			{
 				text: "Yes"
-				,disbursements: 100
+				,costs: { disbursements: 100 }
 			}
 			,{
 				text: "No"
