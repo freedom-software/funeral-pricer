@@ -34,7 +34,7 @@ window.questions = [		//Questions that will be displayed in the application
 		id: "disposition"
 		,text: "Burial or Cremation?"
 		,category: "Services"
-		,blurb: "Will the deceased be Buried or Cremated?"
+		,blurb: "Will your loved one be Buried or Cremated?"
 		,options: [
 			{
 				text: "Burial"
@@ -72,6 +72,7 @@ window.questions = [		//Questions that will be displayed in the application
 	,{
 		id: 'viewing'
 		,text: "Will there be a viewing?"
+		,blurb: "Will your loved one need to be made ready to be viewed by your their friends and family."
 		,category: "Services"
 		,options: [
 			{
@@ -251,6 +252,7 @@ window.questions = [		//Questions that will be displayed in the application
 		id: 'flowers'
 		,text: "Select the flowers to be displayed on the casket"
 		,category: "Other Charges"
+		,blurb: "Flowers will be displayed on the casket during the funeral"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -259,7 +261,7 @@ window.questions = [		//Questions that will be displayed in the application
 			{
 				text: "Superior"
 				,costs:{ disbursements: 250 }
-				,image: "flowers_superior.png"
+				,image: "flowers_super.png"
 			}
 			,{
 				text: "Above Average"
@@ -344,7 +346,7 @@ window.questions = [		//Questions that will be displayed in the application
 		,category: "Other Charges"
 		,relation: {
 			question: 'newsNumber'
-			,answers: range(2,11,1)					//range is defined in helpers.js: (start,end,step)
+			,answers: range(2,11,1)		//range is defined in helpers.js: (start,end,step)
 		}
 		,options: [
 			{
@@ -392,22 +394,32 @@ window.questions = [		//Questions that will be displayed in the application
 			{
 				text: "Very Plain"
 				,value: 5
+				,image: "cater_plain.jpg"
+				,blurb: "Plain catering"
 			}
 			,{
 				text: "Conservative"
 				,value: 10
+				,image: "cater_conserve.jpg"
+				,blurb: "Conservative catering"
 			}
 			,{
 				text: "Average"
 				,value: 15
+				,image: "cater_average.jpg"
+				,blurb: "Average catering"
 			}
 			,{
 				text: "Above Average"
 				,value: 20
+				,image: "cater_above.jpg"
+				,blurb: "Above average catering"
 			}
 			,{
 				text: "Superior"
 				,value: 25
+				,image: "cater_super.png"
+				,blurb: "Superior catering"
 			}
 		]
 	}
@@ -416,6 +428,7 @@ window.questions = [		//Questions that will be displayed in the application
 		id: 'program'
 		,text: "Will a funeral program be required?"
 		,category: "Other Charges"
+		,blurb: "Document offered to attendees giving describing your loved on and the proceedings of the funeral"
 		,relation: {
 			question: "funeral"
 			,answers: [1]
@@ -459,6 +472,7 @@ window.questions = [		//Questions that will be displayed in the application
 		id: 'slides'
 		,text: "Will a powerpoint slide show be required?"
 		,category: "Other Charges"
+		,blurb: "We can setup a slide show to be displayed during the funeral showing images of your loved one"
 		,relation: {
 			question: "funeral"
 			,answers: [1]

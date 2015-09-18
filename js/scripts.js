@@ -24,6 +24,7 @@ function importConfig(file,text) {
 		}
 		files ++;		//increment the file count
 	} catch(error) {		//If an error occured catch it and display to user
+		console.log(error);
 		switch (error.name) {
 			case 'SyntaxError':
 				//handle syntax error…
