@@ -1,6 +1,6 @@
 //global variables
 var reflowTimer;		//Variable containing the timer for reflows
-var estimate = {};		//Object containg the various accounts and their amounts.
+var accounts = {};		//Object containg the various accounts and their amounts.
 var elements = {};		//Object containing the various element references
 var getElems = ['questions','progress_bar','summary','buttons','services','disbursements','title','mainHead'];		//Collection of elements to be referenced under the elements object
 var answers = {};		//Object containg the question's number and the questions answer position in the options array of the question
@@ -331,28 +331,27 @@ function genSummary() {
 	elements.progress_bar.style.boxShadow = highlight_shadow+' '+colors.progress_highlight;		//Highlight the progress bar
 	elements.buttons.children[0].style.boxShadow = 'none';		//Remove the highlight on the calculate button
 
-	estimate = {};		//Reset the accounts
+	accounts = {};		//Reset the accounts
 
-	console.log('----Accounts Summary----');
-	console.log('-Fixed Costs-');
 	//Add the fixed values to their accounts
 	for (var i = fixedCosts.length - 1; i >= 0; i--) {
-		console.log(fixedCosts[i].name+' | '+fixedCosts[i].account+': '+fixedCosts[i].value);
-		estimate[fixedCosts[i].account] += fixedCosts[i].value;
+		if(!accounts[fixedCosts[i].account]){		//Add the account to the accounts object if it dosn't exist
+			accounts[fixedCosts[i].account] = {};
+		}
+		accounts[fixedCosts[i].account][fixedCosts[i].name] = fixedCosts[i].value;
 	};
-	console.log('-Questions-');
 	//Add the question values to their accoutns
 	for(qID in answers) {
 		var choice = questions[qID].options[answers[qID]-1];
 		if(choice.costs) {		//If the question's answer has direct costs associated to it add them
-			console.log(questions[qID].text+' | '+choice.text+': ');
-			for (cost in choice.costs) {
-				console.log(' + '+cost+': '+choice.costs[cost]);
-				estimate[cost] += choice.costs[cost];
+			for (account in choice.costs) {
+				if(!accounts[account]){		//Add the account to the accounts object if it dosn't exist
+					accounts[account] = {};
+				}
+				accounts[account][questions[qID].text+' | '+choice.text] = choice.costs[account];
 			}
 		}
 	}
-	 console.log('-Formulas-');
 	//Add formulated values to their accounts
 	//Calculate formulas; formulas combine the values of 2 questions to conclude with
 	for (formula in formulas) {
@@ -370,25 +369,33 @@ function genSummary() {
 
 			var operator = formulas[formula].operator;			//Operator to use for formula
 
-			console.log(formula+':');
-			console.log(' + '+account+': '+varOperators[operator](value1,value2));
-			estimate[account] += varOperators[operator](value1,value2);		//Calculate result of formula and add to account
+			if(!accounts[account]){		//Add the account to the accounts object if it dosn't exist
+				accounts[account] = {};
+			}
+			accounts[account][formula] = varOperators[operator](value1,value2);		//Calculate result of formula and add to account
 		}
 	}
-	//Create sumation of accounts
-	console.log(' ## Summary ## ')
-	sum = 0;
-	for (account in estimate) {
-		console.log(account+': '+estimate[account]);
-		if(account != 'sum') sum += estimate[account];		//Combine each account into a sum variable
+	//Total accounts
+	var estimate = {};		//Create variable to contain the account totals
+	for(account in accounts) {
+		var total = 0;
+		for (item in accounts[account]) {
+			total += accounts[account][item];		//Add each account's item value to the total
+		};
+		estimate[account] = total;		//add the total to the esimate object
 	}
-	console.log('Total: '+sum);
 
-	//Add sumation to progress bar
+	//Create sumation of accounts
+	result = 0;
+	for (account in estimate) {
+		result += estimate[account];		//Combine each account into a result variable
+	}
+
+	//Add result to progress bar
 	elements.progress_bar.innerHTML = text.total+': ';
 	var span = document.createElement('SPAN');
 	span.id = 'estimate';
-	span.innerHTML = approx(sum);		//Add total estiamte to estimate element
+	span.innerHTML = approx(result);		//Add total estiamte to estimate element
 	elements.progress_bar.appendChild(span);		//Add estimate to progress bar
 }
 
