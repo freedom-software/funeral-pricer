@@ -10,10 +10,10 @@ var files = 0;		//Number of preferences files loaded
 
 //Load the various preferences files in options folder
 var preferences = ['approximation.js','fixedCosts.js','formulas.js','questions.js','colors.js','text.js'];
-for (var i = preferences.length - 1; i >= 0; i--) { XHR('/options/'+preferences[i]);}
+for (var i = preferences.length - 1; i >= 0; i--) { XHR('options/'+preferences[i]);}
 
 //Evaluates and execute each of the preferences files, handeling any sort of syntax or other errors that may occur, making it easier to debug
-function importConfig(file,text) {
+function importConfig(url,text) {
 	text = unescapeHTML(text);		//Convert the file into plain text
 	try {
 		eval(text);		//Evalutate and execute the preferences
@@ -28,18 +28,16 @@ function importConfig(file,text) {
 		switch (error.name) {
 			case 'SyntaxError':
 				//handle syntax error…
-				alert("A " + error.name + " occured: \nThere is a configuration error in the '"+file+"' file.\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: " + error.message);
+				alert("A " + error.name + " occured: \nThere is a configuration error in the '"+url+"' file.\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: " + error.message);
 			break;
 			default:
 				//handle all other error types here…
-				alert("A " + error.name + "occured on file: "+file+"\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: "+error.message);
+				alert("A " + error.name + "occured on file: "+url+"\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: "+error.message);
 			break;
 		}
 	}
 
-	if(files >= preferences.length){		//If all preferences files passed, begin the loading of the application
-		start();
-	}
+	start();
 }
 
 //Run on page load, loads elements by ID into the elements object and calls the HTML generating functions
@@ -48,6 +46,11 @@ function start() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
 		elements[getElems[i]] = document.getElementById(getElems[i]);		//Adding elements by their ID to the elements object to be refered to later
 	};
+
+	if(files < preferences.length){		//If all preferences files passed, begin the loading of the application
+		elements.mainHead.innerHTML = "Not all preferences have been loaded.<br>One or more files in the options folder may have been miss configured.";
+		return;
+	}
 
 	genText();		//Add the general text to the page
 

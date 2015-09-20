@@ -7,7 +7,6 @@ window.questions = [		//Questions that will be displayed in the application
 	*	{
 	*		id: "uniqueDescriptorWord"
 	*		,text: "Text displayed, asking the question"
-	*		,breadcrumb: "Text used in the breadcrumb at the top of the page"
 	*		,category: "1 of 2 options (service, disbursement) to describe how to categorize the question"
 	*		,blurb: "Text displayed under the question"
 	*		,relation: {

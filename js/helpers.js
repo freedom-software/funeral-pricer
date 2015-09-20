@@ -79,6 +79,7 @@ function unescapeHTML(input) {		//Function to remove the html escaped characters
 }
 
 function XHR(url) {		//Function to call preferences from a URL using a GET HTTP requests and import them into the application
+	if(window.location.href.search('pricer.html')) url = window.location.href.replace('pricer.html','')+url;
 	if (window.XMLHttpRequest) {
 		var xhr=new XMLHttpRequest();
 	} else {
@@ -87,7 +88,7 @@ function XHR(url) {		//Function to call preferences from a URL using a GET HTTP 
 	xhr.onreadystatechange=function() {
 		if (xhr.readyState==4 && xhr.status==200) {
 			if(xhr.responseText.length != 0){
-				importConfig(url.replace('/options/',''),xhr.responseText);
+				importConfig(url,xhr.responseText);
 			}
 		}
 	}
