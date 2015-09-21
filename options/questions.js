@@ -17,7 +17,7 @@ window.questions = [		//Questions that will be displayed in the application
 	*			{
 	*				text: 'Text displayed in the dropbox'
 	*				,costs: {
-	*					accountName: amount to add for question to account
+	*					"account name": amount to add for question to account
 	*					,accountName: amount to add for question to account
 	*				}
 	*				,image: 'file name and extention in the images folder'
