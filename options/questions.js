@@ -133,7 +133,7 @@ window.questions = [		//Questions that will be displayed in the application
 		id: 'funeral'
 		,text: 'Funeral Service?'
 		,category: 'Services'
-		,blurb: 'Will a funeral service event be held before the disposition?'
+		,blurb: 'Will a funeral service be held before the disposition?'
 		,options: [
 			{
 				text: 'Yes'

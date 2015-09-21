@@ -333,26 +333,27 @@ function genSummary() {
 			var question1 = questions[positions[formulas[formula].value1]];		//Shortcut to first question in formula
 			var question2 = questions[positions[formulas[formula].value2]];		//Shortcut to second question in formula
 
-			var account = formulas[formula].account;		//Account to add cost to
-
 			var value1 = question1.options[answer1-1].value;		//Value of option chosen for first question
 			var value2 = question2.options[answer2-1].value;		//Value of option chosen for second question
 
-			var operator = formulas[formula].operator;			//Operator to use for formula
+			if(value1 && value2){
+				var account = formulas[formula].account;		//Account to add cost to
+				var operator = formulas[formula].operator;			//Operator to use for formula
 
-			if(!accounts[account]) accounts[account] = {}; //Add the account to the accounts object if it dosn't exist
+				if(!accounts[account]) accounts[account] = {}; //Add the account to the accounts object if it dosn't exist
 
-			var text;
-			if(formulas[formula]['text']) {
-				var text = formulas[formula]['text'];
-				text1 = question1.options[answer1-1].text;
-				text2 = question2.options[answer2-1].text;
-				text = text.replace('[value1]',text1);
-				text = text.replace('[value2]',text2);
+				var text;
+				if(formulas[formula]['text']) {
+					var text = formulas[formula]['text'];
+					text1 = question1.options[answer1-1].text;
+					text2 = question2.options[answer2-1].text;
+					text = text.replace('[value1]',text1);
+					text = text.replace('[value2]',text2);
+				}
+				else{ text = formula; }
+
+				accounts[account][text] = varOperators[operator](value1,value2);		//Calculate result of formula and add to account
 			}
-			else{ text = formula; }
-
-			accounts[account][text] = varOperators[operator](value1,value2);		//Calculate result of formula and add to account
 		}
 	}
 	//Total accounts
