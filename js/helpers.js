@@ -72,30 +72,6 @@ var range = function(start, end, step) {		//Function allowing the creation of a 
 	return range;
 }
 
-function unescapeHTML(input) {		//Function to remove the html escaped characters in the body of a text and replace them with their true values
-	var node = document.createElement('textarea');
-	node.innerHTML = input;
-	return node.value;
-}
-
-function XHR(url) {		//Function to call preferences from a URL using a GET HTTP requests and import them into the application
-	if(window.location.href.search('pricer.html')) url = window.location.href.replace('pricer.html','')+url;
-	if (window.XMLHttpRequest) {
-		var xhr=new XMLHttpRequest();
-	} else {
-		var xhr=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xhr.onreadystatechange=function() {
-		if (xhr.readyState==4 && xhr.status==200) {
-			if(xhr.responseText.length != 0){
-				importConfig(url,xhr.responseText);
-			}
-		}
-	}
-	xhr.open("GET", url);
-	xhr.send();
-}
-
 function reflowElement(element) {		//Function to attempt to reflow an element in an attempt for it to be positioned correctly
 	var display = element.style.display;
 

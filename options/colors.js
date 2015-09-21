@@ -20,36 +20,36 @@ var style = document.createElement('STYLE');
 
 //Text Colour
 	//All Text
-		style.innerHTML += "*{color: black;}";
+		style.innerHTML += '*{color: black;}';
 	//Headings
 		//Title
-			style.innerHTML += "h1{color: black;}";
+			style.innerHTML += 'h1{color: black;}';
 		//Sub
-			style.innerHTML += "h2{color: black;}";
+			style.innerHTML += 'h2{color: black;}';
 
 //Progress Bar
 	//Background
-		style.innerHTML += "#progress_bar{background-color: "+colors.progress1+";}";
+		style.innerHTML += '#progress_bar{background-color: '+colors.progress1+';}';
 	//Border
-		style.innerHTML += "#progress_bar{border: 2px solid black;}";
+		style.innerHTML += '#progress_bar{border: 2px solid black;}';
 	//Text
-		style.innerHTML += "#progress_bar{color: black;}";
+		style.innerHTML += '#progress_bar{color: black;}';
 
 //Buttons Colour
 	//Background
-		style.innerHTML += "button{background-color: white;}";
+		style.innerHTML += 'button{background-color: white;}';
 	//Border
-		style.innerHTML += "button{border-color: black;}";
+		style.innerHTML += 'button{border-color: black;}';
 	//Text
-		style.innerHTML += "button{color: black;}";
+		style.innerHTML += 'button{color: black;}';
 
 //Horizontal Rules
 	//Colour
-	/*style.innerHTML += "hr{border-color: black;}";*/
+	/*style.innerHTML += 'hr{border-color: black;}';*/
 	//Effect
-	style.innerHTML += "hr{border-style: inset;}";
+	style.innerHTML += 'hr{border-style: inset;}';
 
 //Body Background Colour
-	style.innerHTML += "body{background: linear-gradient(to bottom, "+colors.background1+" 0%,"+colors.background2+" 10%);}";
+	style.innerHTML += 'body{background: linear-gradient(to bottom, '+colors.background1+' 0%,'+colors.background2+' 10%);}';
 
 document.head.appendChild(style);

@@ -17,9 +17,9 @@ function approx(total) {		//formulas to use for the approximation of the funeral
 				var max = Math.round( ( total + approxScope) / 100 ) * 100;
 			break;
 			default:
-				return "$"+total.toFixed(2);		//If no approximation type value, return true estimation value
+				return '$'+total.toFixed(2);		//If no approximation type value, return true estimation value
 		}
-		return "$"+min+" - $"+max;		//Return the result of the approximation equation
+		return '$'+min+' - $'+max;		//Return the result of the approximation equation
 	}
-	return "$"+total.toFixed(2);		//If no scope value, return true estimation value
+	return '$'+total.toFixed(2);		//If no scope value, return true estimation value
 }

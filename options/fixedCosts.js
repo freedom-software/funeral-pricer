@@ -3,8 +3,8 @@ window.fixedCosts = [		//Add fixed costs to the calulation that are added no mat
 	/*	Example
 	*
 	*	{
-	*		account: "name of account to add cost to"
-	*		,name: "text to associate cost with"
+	*		account: 'name of account to add cost to'
+	*		,name: 'text to associate cost with'
 	*		,value: cost amount
 	*	}
 	*/
@@ -20,4 +20,3 @@ window.fixedCosts = [		//Add fixed costs to the calulation that are added no mat
 		,value: 26.50
 	}
 ];
-

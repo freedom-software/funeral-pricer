@@ -6,39 +6,6 @@ var getElems = ['questions','progress_bar','summary','buttons','services','disbu
 var answers = {};		//Object containg the question's number and the questions answer position in the options array of the question
 var positions = {};		//Object containing a library of question IDs and their position in the questions array
 var highlight_shadow = '0px -1px 15px 6px';		//Size of the shadow the highlighting of elements makes
-var files = 0;		//Number of preferences files loaded
-
-//Load the various preferences files in options folder
-var preferences = ['approximation.js','fixedCosts.js','formulas.js','questions.js','colors.js','text.js'];
-for (var i = preferences.length - 1; i >= 0; i--) { XHR('options/'+preferences[i]);}
-
-//Evaluates and execute each of the preferences files, handeling any sort of syntax or other errors that may occur, making it easier to debug
-function importConfig(url,text) {
-	text = unescapeHTML(text);		//Convert the file into plain text
-	try {
-		eval(text);		//Evalutate and execute the preferences
-		if(text.search('function') > -1) {		//if the text is a function, add it to a script element and append to document
-			var script = document.createElement('SCRIPT');
-			script.innerHTML = text;
-			document.body.appendChild(script);
-		}
-		files ++;		//increment the file count
-	} catch(error) {		//If an error occured catch it and display to user
-		console.log(error);
-		switch (error.name) {
-			case 'SyntaxError':
-				//handle syntax error…
-				alert("A " + error.name + " occured: \nThere is a configuration error in the '"+url+"' file.\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: " + error.message);
-			break;
-			default:
-				//handle all other error types here…
-				alert("A " + error.name + "occured on file: "+url+"\nLine: "+error.lineNumber+"\nCharacter: "+error.columnNumber+"\nMessage: "+error.message);
-			break;
-		}
-	}
-
-	start();
-}
 
 //Run on page load, loads elements by ID into the elements object and calls the HTML generating functions
 function start() {
@@ -46,11 +13,6 @@ function start() {
 	for (var i = getElems.length - 1; i >= 0; i--) {
 		elements[getElems[i]] = document.getElementById(getElems[i]);		//Adding elements by their ID to the elements object to be refered to later
 	};
-
-	if(files < preferences.length){		//If all preferences files passed, begin the loading of the application
-		elements.mainHead.innerHTML = "Not all preferences have been loaded.<br>One or more files in the options folder may have been miss configured.";
-		return;
-	}
 
 	genText();		//Add the general text to the page
 
