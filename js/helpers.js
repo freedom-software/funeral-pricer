@@ -94,3 +94,7 @@ function initReflow(ID) {		//Function to initialize the reflow function based on
 		window.addEventListener('resize', reflowElement(element), true);
 	}
 }
+
+function capitalizeFirstLetter(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}

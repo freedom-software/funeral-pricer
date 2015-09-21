@@ -5,5 +5,5 @@ window.text = {		//Text used throughout the application
 	,resetButton: "Reset"		//Wording of the reset button that reloads the page
 	,emailButton: "Email Approximation"		//Wording of the email button that adds the information to an email
 	,total: "Approximate value"		//Wording of the total in the progress bar
-	,emailSubject: "Funeral Price Indicator - approximation"
+	,emailSubject: "Funeral Price Indicator - approximation"		//Subject of generated email
 };

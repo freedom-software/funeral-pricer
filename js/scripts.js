@@ -413,26 +413,34 @@ function scrollBottom() {
 	}
 }
 
+
+//Builds the email for the browser's email handler and passes it to the sendmail() function
 function emailApprox() {
 	var body = "";
 	for (account in accounts) {
-		var subaccount = accounts[account]
-		body += "\n"+account;
+		var subaccount = accounts[account];
+		body += "\n"+ capitalizeFirstLetter(account);
 		for (query in subaccount){
-			body += "\n" + query + ': ' + subaccount[query];
+			body += "\n" + query + ": $" + subaccount[query];
 		}
-		body += "\nTotal: " + totals[account] + "\n";
+		body += "\nTotal: $" + totals[account] + "\n";
 	};
 	body += "\n";
 	for (property in result) {
-		body +="\n" + property + ": " + result[property];
+		body += "\n" + capitalizeFirstLetter(property)
+		if(property == 'sum'){
+			body += ": $" + result[property];
+		}else{
+			body += ": " + result[property];
+		}
 	};
 	sendMail(null,null,text.emailSubject,body);
 }
 
+//Redirects the window object to the browser's mail handler
 function sendMail(to,cc,subject,body) {
 	var link = "mailto:"
-		+((to) ? to : '')
+		+ ((to) ? to : '')
 		+ "?"
 		+ ((cc) ? "cc=" + cc : '')
 		+ ((subject) ?"&subject=" + escape(subject) :'')
