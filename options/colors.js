@@ -8,6 +8,7 @@ window.colors = {
 	highlight: lightgreen_color
 	,background1: green_color
 	,background2: background_color
+	,html_background: background_color
 	,progress1: 'hsl(0,50%,50%)'
 	,progress2: 'hsla(120,100%,35%,1)'
 	,progress_highlight: lightgreen_color
@@ -50,6 +51,7 @@ var style = document.createElement('STYLE');
 	style.innerHTML += 'hr{border-style: inset;}';
 
 //Body Background Colour
+	style.innerHTML += 'html{background-color: '+colors.html_background+';}'
 	style.innerHTML += 'body{background: linear-gradient(to bottom, '+colors.background1+' 0%,'+colors.background2+' 10%);}';
 
 document.head.appendChild(style);

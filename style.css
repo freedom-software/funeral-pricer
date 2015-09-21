@@ -2,13 +2,16 @@ html{
 	font-family: arial,sans-serif;
 	font-size: 16px;
 }
+html { position: absolute; top: 0; bottom: 0; left: 0; right: 0; }
+html,body { min-height: 100%; }
+
 body, header>h1, footer {
 	margin: 0;
 }
 body {
+	background-repeat: no-repeat;
 	z-index: 0;
 	overflow-y: scroll;
-	height: 100vh;
 }
 body>object,
 body>object * {

@@ -4,7 +4,7 @@ var accounts = {};		//Object containg the various accounts and their amounts.
 var totals = {};		//Object containing the account totals
 var result = {sum:0,approximation:0};		//Object containing the end figures of the calcualtions
 var elements = {};		//Object containing the various element references
-var getElems = ['questions','progress_bar','summary','buttons','services','disbursements','title','mainHead','calculateButton','resetButton','emailButton'];		//Collection of elements to be referenced under the elements object
+var getElems = ['questions','progress_bar','summary','buttons','services','disbursements','title','mainHead','calculateButton','resetButton','emailButton','contentWrapper'];		//Collection of elements to be referenced under the elements object
 var answers = {};		//Object containg the question's number and the questions answer position in the options array of the question
 var positions = {};		//Object containing a library of question IDs and their position in the questions array
 var highlight_shadow = '0px -1px 15px 6px';		//Size of the shadow the highlighting of elements makes
@@ -410,7 +410,6 @@ function scrollBottom() {
 	//Otherwise uses the entire hight of the page as the position to scroll to
 	if(bottom > 0){
 		window.scrollTo(0,bottom);
-		document.body.style.height = document.documentElement.scrollHeight+"px";
 	}
 }
 
