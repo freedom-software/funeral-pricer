@@ -98,31 +98,41 @@ footer {
 }
 #buttons{
 	margin-top: 12px;
+	position: relative;
 }
+
 #buttons button {
+	position: relative;
 	font-weight: bold;
 	width: 12em;
 	line-height: 2em;
 	text-align: center;
-	margin-left: auto;
 	display: block;
+	float: left;
 	margin-bottom: 10px;
+	cursor: pointer;
 	padding: 0;
 }
 #buttons button:focus {
 	outline:none;
 }
-#buttons button:last-child {
-	float: left;
-}
-#buttons button:first-child {
-	float: right;
+#buttons button:last-child{
+	float: none;
+	margin-left: auto;
+	display: none;
 }
 .relationQuestion {
 	display: none !important;
 }
 .hiddenQuestion {
 	display: none !important;
+}
+@media (max-width: 360px) {
+	#buttons button{
+		float: none;
+		width: 100%;
+		margin: 10px auto;
+	}
 }
 @media (max-width: 600px) {
 	.blurb td{

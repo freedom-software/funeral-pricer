@@ -30,8 +30,13 @@
 		</section>
 		<hr>
 		<section id='buttons'>
-			<button onClick='genSummary();' style='display:none;'></button>
-			<button onClick='location.reload();'></button>
+			<div>
+				<button id='resetButton' onClick='location.reload();'></button>
+				<button id='calculateButton' class="btnRight" onClick='genSummary();'></button>
+			</div>
+			<div>
+				<button id='emailButton' class="btnRight" onClick='emailApprox();'></button>
+			</div>
 		</section>
 		<section id='summary'>
 		</section>

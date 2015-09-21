@@ -1,8 +1,10 @@
 //global variables
 var reflowTimer;		//Variable containing the timer for reflows
 var accounts = {};		//Object containg the various accounts and their amounts.
+var totals = {};		//Object containing the account totals
+var result = {sum:0,approximation:0};		//Object containing the end figures of the calcualtions
 var elements = {};		//Object containing the various element references
-var getElems = ['questions','progress_bar','summary','buttons','services','disbursements','title','mainHead'];		//Collection of elements to be referenced under the elements object
+var getElems = ['questions','progress_bar','summary','buttons','services','disbursements','title','mainHead','calculateButton','resetButton','emailButton'];		//Collection of elements to be referenced under the elements object
 var answers = {};		//Object containg the question's number and the questions answer position in the options array of the question
 var positions = {};		//Object containing a library of question IDs and their position in the questions array
 var highlight_shadow = '0px -1px 15px 6px';		//Size of the shadow the highlighting of elements makes
@@ -49,10 +51,11 @@ function genSpacer(name) {
 
 //Adds the general text to the application
 function genText() {
-	elements.title.innerHTML = text.title;		//Fill in the title to the document head
-	elements.mainHead.innerHTML = text.mainHead;		//Fill in the Main header
-	elements.buttons.children[0].innerHTML = text.calculateButton;		//Fill in the calculate button
-	elements.buttons.children[1].innerHTML = text.resetButton;		//Fill in the reset button
+	elements.title.innerHTML = window.text.title;		//Fill in the title to the document head
+	elements.mainHead.innerHTML = window.text.mainHead;		//Fill in the Main header
+	elements.calculateButton.innerHTML = window.text.calculateButton;		//Fill in the calculate button
+	elements.resetButton.innerHTML = window.text.resetButton;		//Fill in the reset button
+	elements.emailButton.innerHTML = window.text.emailButton;		//Fill in the email button
 }
 
 //Generates the HTML for a question based on the ID supplied
@@ -216,7 +219,7 @@ function answer(ele) {
 		answerBlurb(true,ele);
 	}
 
-	//
+	//Loop through each question, updating their state based off the recent answer
 	var queries = elements.questions.children;
 	for (var i = 0; i <queries.length; i++) {		//For each of the questions
 		if(queries[i].nodeName == 'DIV') {
@@ -284,10 +287,10 @@ function progress() {
 	elements.progress_bar.style.background = "linear-gradient(to right, "+colors.progress2+" "+percent+"%, "+colors.progress1+" "+percent+"%)";
 
 	if(percent === 100) {		//If 100% of the questions are answered
-		showHideButton(0,'show');		//Show the calculation button
-		elements.buttons.children[0].style.boxShadow = highlight_shadow+' '+colors.button_highlight;		//Highlight the button
+		elements.calculateButton.style.display = 'block';		//Show the calculation button
+		elements.calculateButton.style.boxShadow = highlight_shadow+' '+colors.button_highlight;		//Highlight the button
 	}else{		//Else hide the calculation button
-		showHideButton(0,'hide');
+		elements.calculateButton.style.display = 'none';
 	}
 }
 
@@ -295,9 +298,11 @@ function progress() {
 function genSummary() {
 	disableQuestions();		//Disable all the questions so they can't be changed
 	elements.progress_bar.style.boxShadow = highlight_shadow+' '+colors.progress_highlight;		//Highlight the progress bar
-	elements.buttons.children[0].style.boxShadow = 'none';		//Remove the highlight on the calculate button
+	elements.calculateButton.style.boxShadow = 'none';		//Remove the highlight on the calculate button
 
 	accounts = {};		//Reset the accounts
+	totals = {};		//Reset the totals
+	result = {sum:0,approximation:0};		//Reset the result
 
 	//Add the fixed values to their accounts
 	for (var i = fixedCosts.length - 1; i >= 0; i--) {
@@ -335,34 +340,45 @@ function genSummary() {
 
 			var operator = formulas[formula].operator;			//Operator to use for formula
 
-			if(!accounts[account]){		//Add the account to the accounts object if it dosn't exist
-				accounts[account] = {};
+			if(!accounts[account]) accounts[account] = {}; //Add the account to the accounts object if it dosn't exist
+
+			var text;
+			if(formulas[formula]['text']) {
+				var text = formulas[formula]['text'];
+				text1 = question1.options[answer1-1].text;
+				text2 = question2.options[answer2-1].text;
+				text = text.replace('[value1]',text1);
+				text = text.replace('[value2]',text2);
 			}
-			accounts[account][formula] = varOperators[operator](value1,value2);		//Calculate result of formula and add to account
+			else{ text = formula; }
+
+			accounts[account][text] = varOperators[operator](value1,value2);		//Calculate result of formula and add to account
 		}
 	}
 	//Total accounts
-	var estimate = {};		//Create variable to contain the account totals
 	for(account in accounts) {
 		var total = 0;
 		for (item in accounts[account]) {
 			total += accounts[account][item];		//Add each account's item value to the total
 		};
-		estimate[account] = total;		//add the total to the esimate object
+		totals[account] = total;		//Add the total to the totals object
 	}
 
 	//Create sumation of accounts
-	result = 0;
-	for (account in estimate) {
-		result += estimate[account];		//Combine each account into a result variable
+	for (account in totals) {
+		result.sum += totals[account];		//Combine each account into a result variable
 	}
+	result.approximation = approx(result.sum);		//Attempt to convert to approximation
 
 	//Add result to progress bar
-	elements.progress_bar.innerHTML = text.total+': ';
+	elements.progress_bar.innerHTML = window.text.total + ': ';
 	var span = document.createElement('SPAN');
 	span.id = 'estimate';
-	span.innerHTML = approx(result);		//Add total estiamte to estimate element
+	span.innerHTML = result.approximation;		//Add total estiamte to estimate element
 	elements.progress_bar.appendChild(span);		//Add estimate to progress bar
+
+	elements.emailButton.style.display = 'block';		//Show the email button
+	scrollBottom();		//Scroll the window to the bottom of the page
 }
 
 //Function that shows or hides a button in the buttons divider
@@ -395,6 +411,33 @@ function scrollBottom() {
 		window.scrollTo(0,bottom);
 		document.body.style.height = document.documentElement.scrollHeight+"px";
 	}
+}
+
+function emailApprox() {
+	var body = "";
+	for (account in accounts) {
+		var subaccount = accounts[account]
+		body += "\n"+account;
+		for (query in subaccount){
+			body += "\n" + query + ': ' + subaccount[query];
+		}
+		body += "\nTotal: " + totals[account] + "\n";
+	};
+	body += "\n";
+	for (property in result) {
+		body +="\n" + property + ": " + result[property];
+	};
+	sendMail(null,null,text.emailSubject,body);
+}
+
+function sendMail(to,cc,subject,body) {
+	var link = "mailto:"
+		+((to) ? to : '')
+		+ "?"
+		+ ((cc) ? "cc=" + cc : '')
+		+ ((subject) ?"&subject=" + escape(subject) :'')
+		+ ((body) ? "&body=" + escape(body) : '');
+	window.open(link);
 }
 
 //Generates the HTML for the breadcrumb
