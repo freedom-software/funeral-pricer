@@ -178,15 +178,15 @@ window.questions = [		//Questions that will be displayed in the application
 				,value: 250
 			}
 			,{
-				text: ' 300 - 500'
+				text: '300 - 500'
 				,value: 400
 			}
 			,{
-				text: ' 400 - 600'
+				text: '400 - 600'
 				,value: 500
 			}
 			,{
-				text: ' 600 - 1000'
+				text: '600 - 1000'
 				,value: 800
 			}
 			,{

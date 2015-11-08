@@ -16,7 +16,7 @@ window.formulas = {		//Formulas that are calculated based on the value of the qu
 		,value2: 'newsSize'
 		,operator: '*'
 		,account: 'disbursements'
-		,text: '[value1] Newspapers of [value2] Size.'
+		,text: '[value1] Newspapers of [value2] Size'
 	}
 	,catering: {
 		value1: 'guests'
