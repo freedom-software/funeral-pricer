@@ -447,7 +447,6 @@ function sendMail(to,cc,subject,body) {
 
 	link += extras.join("&");
 
-	console.log(link);
 	window.open(link);
 }
 
