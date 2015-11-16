@@ -439,12 +439,15 @@ function emailApprox() {
 
 //Redirects the window object to the browser's mail handler
 function sendMail(to,cc,subject,body) {
-	var link = "mailto:"
-		+ ((to) ? to : '')
-		+ "?"
-		+ ((cc) ? "cc=" + cc : '')
-		+ ((subject) ?"&subject=" + escape(subject) :'')
-		+ ((body) ? "&body=" + escape(body) : '');
+	var link = "mailto:"+ ((to) ? to : '')+ "?";
+	var extras = [];
+	if(cc) extras.push("cc=" + cc);
+	if(subject) extras.push("subject=" + escape(subject));
+	if(body) extras.push("body=" + escape(body));
+
+	link += extras.join("&");
+
+	console.log(link);
 	window.open(link);
 }
 
